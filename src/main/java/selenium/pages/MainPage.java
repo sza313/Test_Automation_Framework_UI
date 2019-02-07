@@ -24,4 +24,18 @@ public class MainPage extends MainPageObjects {
         }
 
     }
+
+    public boolean clickToSubmenuItem(String submenuName){
+        submenuName = submenuName.toLowerCase();
+
+        switch (submenuName){
+            case "simple_form_demo":
+                Assert.assertTrue("Could not click to "+submenuName, clickToElement(this.simpleFormDemoSubmenuItem));
+                return true;
+            default:
+                Assert.fail("Could not found the requested item: "+submenuName);
+                return false;
+        }
+
+    }
 }

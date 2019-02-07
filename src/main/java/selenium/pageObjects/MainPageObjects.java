@@ -15,4 +15,7 @@ public class MainPageObjects extends DriverUtil {
     @FindBy(xpath = "//ul[@class='nav navbar-nav']//a[contains(text(),'Input Forms')]")
     protected WebElement inputFormsMenuItem;
 
+    @FindBy(xpath = "//a[text()='Simple Form Demo']")
+    protected WebElement simpleFormDemoSubmenuItem;
+
 }

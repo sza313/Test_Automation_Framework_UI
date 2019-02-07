@@ -24,9 +24,18 @@ public class StepDef_MainPage extends DriverUtil {
         driver.get(url);
     }
 
+    @Given("This step will fail")
+    public void thisStepWillFail(){
+        Assert.assertTrue("This test should present a failed scenario", false);
+    }
+
     @When("Click to '(.*)' menu item$")
     public void clickToMenuItem(String menuName){
         Assert.assertTrue("Could not click to "+menuName+" menu", mainPage.clickToMenuItem(menuName));
     }
 
+    @When("Click to '(.*)' submenu item$")
+    public void clickToSubmenuItem(String submenuName){
+        Assert.assertTrue("Could not click to "+submenuName+" menu", mainPage.clickToSubmenuItem(submenuName));
+    }
 }
