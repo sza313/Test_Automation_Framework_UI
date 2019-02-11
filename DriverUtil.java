@@ -1,5 +1,6 @@
 package selenium.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -84,8 +85,11 @@ public class DriverUtil {
         return true;
     }
 
-    // clearField method is clearing a textbox field by pushing the backspace button until the field is empty
-
+    /** clearField method is clearing a textbox field by pushing the backspace button
+     * until the field is empty
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
     protected boolean clearField(WebElement textBox){
         try {
             Log.info("Clearing data from the field with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")+" NAME=" + textBox.getAttribute("name"));
@@ -94,6 +98,63 @@ public class DriverUtil {
                 textBox.sendKeys(Keys.BACK_SPACE);
             }
         }catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /** writeRandomAlphabeticString method is writing a random alphabetic string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomAlphabeticString(WebElement textBox, int length){
+        try {
+            Log.info("Writing alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(RandomStringUtils.randomAlphabetic(length));
+        }
+        catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /** writeRandomNumericString method is writing a random numeric string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomNumericString(WebElement textBox, int length){
+        try {
+            Log.info("Writing numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(RandomStringUtils.randomNumeric(length));
+            }
+        catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /** writeRandomAlphanumericString method is writing a random alphanumberic string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomAlphanumericString(WebElement textBox, int length){
+        try {
+            Log.info("Writing alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(RandomStringUtils.randomAlphanumeric(length));
+        }
+        catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
