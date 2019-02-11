@@ -89,10 +89,9 @@ public class DriverUtil {
     protected boolean clearField(WebElement textBox){
         try {
             Log.info("Clearing data from the field with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")+" NAME=" + textBox.getAttribute("name"));
-            WebElement myBox = driver.findElement(By.id("name"));
-            String inputText = myBox.getAttribute("value");
+            String inputText = textBox.getAttribute("value");
             for(int i = 0; i < inputText.length(); i++){
-                myBox.sendKeys(Keys.BACK_SPACE);
+                textBox.sendKeys(Keys.BACK_SPACE);
             }
         }catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
@@ -101,4 +100,5 @@ public class DriverUtil {
         }
         return true;
     }
+
 }
