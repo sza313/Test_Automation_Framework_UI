@@ -86,4 +86,16 @@ public class DriverUtil {
         }
         return true;
     }
+
+    public boolean writeIntoTextbox(WebElement textBox, String text){
+        try {
+            Log.info("Writing into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(text);
+        }catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
