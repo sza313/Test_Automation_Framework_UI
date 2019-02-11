@@ -86,12 +86,11 @@ public class DriverUtil {
 
     // clearField method is clearing a textbox field by pushing the backspace button until the field is empty
 
-    protected boolean clearField(WebElement textBox, String text){
+    protected boolean clearField(WebElement textBox){
         try {
             Log.info("Clearing data from the field with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")+" NAME=" + textBox.getAttribute("name"));
             WebElement myBox = driver.findElement(By.id("name"));
-            myBox.sendKeys(text);
-            String inputText = driver.findElement(By.id("name")).getAttribute("value");
+            String inputText = myBox.getAttribute("value");
             for(int i = 0; i < inputText.length(); i++){
                 myBox.sendKeys(Keys.BACK_SPACE);
             }
