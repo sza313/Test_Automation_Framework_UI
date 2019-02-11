@@ -1,11 +1,13 @@
 package selenium.utils;
 
+import com.sun.tools.javac.comp.Todo;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -44,14 +46,22 @@ public class DriverUtil {
 
         switch (browser){
             case "firefox":
-                //todo
-                Log.info("Firefox browser is opening.");
+                System.setProperty("webdriver.gecko.driver","./src/main/resources/geckodriver.exe");
+                driver= new FirefoxDriver();
+                Log.info("Firefox driver is opening.");
                 driver.manage().window().maximize();
                 break;
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening.");
+                driver.manage().window().maximize();
+                break;
+        //TODO: debug this (won't find dropdown element)
+            case "IE":
+                System.setProperty("webdriver.ie.driver","./src/main/resources/IEDriverServer.exe");
+                driver= new InternetExplorerDriver();
+                Log.info("IE driver is opening.");
                 driver.manage().window().maximize();
                 break;
             default:
