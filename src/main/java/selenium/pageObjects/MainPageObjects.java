@@ -18,4 +18,7 @@ public class MainPageObjects extends DriverUtil {
     @FindBy(xpath = "//a[text()='Simple Form Demo']")
     protected WebElement simpleFormDemoSubmenuItem;
 
+    @FindBy(id = "site-name")
+    protected WebElement siteName;
+
 }
