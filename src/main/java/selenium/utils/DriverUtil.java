@@ -99,7 +99,8 @@ public class DriverUtil {
     //Params:
     //WebElement element:unique identifier of the element
      public boolean drawBorder(WebElement element) {
-        if (driver instanceof JavascriptExecutor) {
+         Log.info("Drawing border around the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
+         if (driver instanceof JavascriptExecutor) {
             ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
         }
         return element.getAttribute("style").contains("solid red");
