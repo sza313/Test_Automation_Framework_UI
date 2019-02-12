@@ -1,10 +1,7 @@
 package selenium.utils;
 
-import com.sun.tools.javac.comp.Todo;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -95,5 +92,16 @@ public class DriverUtil {
             return false;
         }
         return true;
+    }
+
+
+    // Draws a red border around the found element.
+    //Params:
+    //WebElement element:unique identifier of the element
+     public boolean drawBorder(WebElement element) {
+        if (driver instanceof JavascriptExecutor) {
+            ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
+        }
+        return element.getAttribute("style").contains("solid red");
     }
 }
