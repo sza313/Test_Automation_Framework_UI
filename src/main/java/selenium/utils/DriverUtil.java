@@ -18,7 +18,7 @@ public class DriverUtil {
     public static WebDriver driver;
     protected static Properties properties = new Properties();
 
-    public DriverUtil(){
+    public DriverUtil() {
 
     }
 
@@ -42,7 +42,7 @@ public class DriverUtil {
             browser = properties.getProperty("browser");
         }
 
-        switch (browser){
+        switch (browser) {
             case "firefox":
                 //todo
                 Log.info("Firefox browser is opening.");
@@ -75,11 +75,11 @@ public class DriverUtil {
         }
     }
 
-    protected boolean clickToElement(WebElement element){
+    protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
+            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
             element.click();
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Log.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
@@ -87,11 +87,15 @@ public class DriverUtil {
         return true;
     }
 
-    public boolean writeIntoTextbox(WebElement textBox, String text){
+
+    /**
+     * Writes a string into an input field. String can be specified by the tester.
+     */
+    public boolean writeIntoTextbox(WebElement textBox, String text) {
         try {
-            Log.info("Writing into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            Log.info("Writing into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
