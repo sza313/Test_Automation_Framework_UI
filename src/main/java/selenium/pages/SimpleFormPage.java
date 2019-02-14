@@ -12,7 +12,7 @@ public class SimpleFormPage extends SimpleFormPageObjects {
     public boolean writeToSimpleFormTextBox(String textBoxName, String text) {
         switch (textBoxName) {
             case "Message":
-                Assert.assertTrue("Could not write to " + textBoxName + " textbox.", writeIntoTextbox(this.messageTextBox, text));
+                Assert.assertTrue("Could not write to " + textBoxName + " textbox.", writeIntoTextBox(this.messageTextBox, text));
                 return true;
             default:
                 Assert.fail("Could not found the requested item: " + textBoxName + " textbox.");

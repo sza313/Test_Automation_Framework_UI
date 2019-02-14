@@ -90,16 +90,19 @@ public class DriverUtil {
 
     /**
      * Writes a string into an input field. String can be specified by the tester.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * String text: text to be entered to the textbox
      */
-    public boolean writeIntoTextbox(WebElement textBox, String text) {
+    public boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
-            Log.info("Writing into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            Log.info("Writing text '" +text+"' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
-        return true;
+        return text.equals(textBox.getAttribute("value"));
     }
 }
