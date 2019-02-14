@@ -218,8 +218,7 @@ public class DriverUtil {
         return true;
     }
 
-    /** clearDataFromField method is deleting the data from a field
-     * and then checks for the length of the field to make sure it is empty
+    /** dragAndDropWebelement method is dragging a WebElement and dropping it into another WebElement
      * Params:
      * WebElement draggable: unique ID or path to the element we want to drag
      * WebElement droppable: unique ID or path to the element in which we want to drop the draggable element
@@ -240,12 +239,13 @@ public class DriverUtil {
         return true;
     }
 
-    /** clearDataFromField method is deleting the data from a field
-     * and then checks for the length of the field to make sure it is empty
+    /** waitingForElementToBeVisible method is enabling to wait for a certain WebElement
+     * for a certain number of seconds
      * Params:
-     * WebElement textBox: unique ID or path to the textbox
+     * WebElement element: unique ID or path to the WebElement we are waiting for to be visible
+     * int seconds: number of seconds we are waiting before throwing an exception
      */
-    public boolean waitingforElementToBeVisible(WebElement element, int seconds) {
+    public boolean waitingForElementToBeVisible(WebElement element, int seconds) {
         try {
             Log.info("Waiting for the following element to be visible: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class")  + " , NAME=" + element.getAttribute("name"));
             WebDriverWait wait = new WebDriverWait(driver, seconds);
