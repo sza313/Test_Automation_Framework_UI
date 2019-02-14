@@ -11,6 +11,11 @@ public class MainPage extends MainPageObjects {
         super(driver);
     }
 
+    /**clickToMenuItem method calls the clickToElement method and gives the target menu element.
+     *
+     * @param menuName: This identifies the menu name which will be clicked
+     * @return with a boolean to get the navigation status
+     */
     public boolean clickToMenuItem(String menuName){
         menuName = menuName.toLowerCase();
 
@@ -25,6 +30,11 @@ public class MainPage extends MainPageObjects {
 
     }
 
+    /**clickToSubmenuItem method calls the clickToElement method and gives the target menu element.
+     *
+     * @param submenuName: This identifies the submenu name which will be clicked
+     * @return with a boolean to get the navigation status
+     */
     public boolean clickToSubmenuItem(String submenuName){
         submenuName = submenuName.toLowerCase();
 
