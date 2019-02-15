@@ -88,25 +88,7 @@ public class DriverUtil {
         return true;
     }
 
-    /** clearField method is clearing a textbox field by pushing the backspace button
-     * until the field is empty
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     */
-    protected boolean clearField(WebElement textBox){
-        try {
-            Log.info("Clearing data from the field with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")+" NAME=" + textBox.getAttribute("name"));
-            String inputText = textBox.getAttribute("value");
-            for(int i = 0; i < inputText.length(); i++){
-                textBox.sendKeys(Keys.BACK_SPACE);
-            }
-        }catch (NoSuchElementException e){
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+
 
     /** writeRandomAlphabeticString method is writing a random alphabetic string into a textbox
      * Number of characters can be specified by the user.
@@ -164,7 +146,45 @@ public class DriverUtil {
         }
         return true;
     }
-    /** clickButton method is clicking on a certain button on the apage
+
+    /** clearField method is clearing a textbox field by pushing the backspace button
+     * until the field is empty
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean clearFieldWithBackspace(WebElement textBox){
+        try {
+            Log.info("Clearing data from the field with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")+" NAME=" + textBox.getAttribute("name"));
+            String inputText = textBox.getAttribute("value");
+            for(int i = 0; i < inputText.length(); i++){
+                textBox.sendKeys(Keys.BACK_SPACE);
+            }
+        }catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /** clearDataFromField method is deleting the data from a field
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    public boolean clearDataFromField(WebElement textBox) {
+        try {
+            Log.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
+            textBox.clear();
+        }
+        catch (NoSuchElementException e){
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /** clickButton method is clicking on a certain button on the page
      * Params:
      * WebElement button: unique ID or path to the button
      */
@@ -180,8 +200,28 @@ public class DriverUtil {
         }
         return true;
     }
+
+    /** validateString method is printing number of digits appearing so that
+     * it can be compared to the number specified in the feature
+     * Params:
+     * WebElement message: unique ID or path to the displayed message
+     */
+    public boolean validateString(WebElement message){
+        try {
+            Log.info("Get displayed text from the following element and validate its length. ID=" + message.getAttribute("id") + " , CLASS=" + message.getAttribute("class")  + " , NAME=" + message.getAttribute("name"));
+            System.out.println("Number of digits in the displayed text is: " + message.getText().length());
+        }
+        catch (NoSuchElementException e){
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
     /** autoSuggestionField method is writing a text into an
-     * autosuggestive field and selects the first result
+     * autosuggestive field and selects the first option
      * Params:
      * WebElement textBox: unique ID or path to the textbox
      * String text: text entered to which we want to find autosuggestion
@@ -199,24 +239,7 @@ public class DriverUtil {
             }
             return true;
     }
-    /** clearDataFromField method is deleting the data from a field
-     * and then checks for the length of the field to make sure it is empty
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     */
-    public boolean clearDataFromField(WebElement textBox) {
-        try {
-            Log.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
-            textBox.clear();
-            textBox.getAttribute("value");
-        }
-        catch (NoSuchElementException e){
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+
 
     /** dragAndDropWebelement method is dragging a WebElement and dropping it into another WebElement
      * Params:
@@ -258,4 +281,6 @@ public class DriverUtil {
         }
         return true;
     }
+
+
 }
