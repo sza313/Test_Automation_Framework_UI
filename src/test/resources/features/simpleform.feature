@@ -1,6 +1,7 @@
 Feature: Writing To Textbox
 
   @Sample
+  @SimpleForm
   Scenario: Writing string into message textbox on the simple forms page
     Given Open site
     When Click to 'Input_Forms' menu item

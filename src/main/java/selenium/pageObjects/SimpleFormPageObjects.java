@@ -12,7 +12,7 @@ public class SimpleFormPageObjects extends DriverUtil {
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(id = "user-message")
+    @FindBy(xpath = "//input[@id='user-message']")
     protected WebElement messageTextBox;
 
     @FindBy(xpath = "//form[@id='get-input']//button[text()='Show Message']")

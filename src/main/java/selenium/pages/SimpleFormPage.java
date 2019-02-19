@@ -36,6 +36,8 @@ public class SimpleFormPage extends SimpleFormPageObjects {
         switch (pageName) {
             case "Simple_Form":
                 return driver.getTitle().equals("Selenium Easy Demo - Simple Form to Automate using Selenium");
+            case "Checkbox":
+                return driver.getTitle().equals("Selenium Easy - Checkbox demo for automation using selenium");
             default:
                 Assert.fail("Could not get the title of the page: " +pageName+ " .");
                 return false;

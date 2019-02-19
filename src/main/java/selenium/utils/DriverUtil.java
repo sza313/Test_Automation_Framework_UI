@@ -96,7 +96,7 @@ public class DriverUtil {
      */
     protected boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
-            Log.info("Writing text '" +text+"' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            Log.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested textbox.");
@@ -114,9 +114,9 @@ public class DriverUtil {
      */
     protected boolean compareString(WebElement elementWithText, String expectedText) {
         try {
-            Log.info("Comparing text '" +expectedText+"' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
+            Log.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
             String actualText;
-            if(elementWithText.getText()==null){
+            if (elementWithText.getText() == null) {
                 actualText = elementWithText.getAttribute("value");
             } else {
                 actualText = elementWithText.getText();
@@ -127,5 +127,25 @@ public class DriverUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Sets the value of a checkbox to a required one. The value can be specified by the tester.
+     * Params:
+     * WebElement checkbox: unique ID or path to the checkbox
+     * boolean checkboxValueToSet: the value we want to set the checkbox to
+     */
+    protected boolean setCheckboxValue(WebElement checkbox, boolean checkboxValueToSet) {
+        try {
+            Log.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: ID=" + checkbox.getAttribute("id") + " , CLASS=" + checkbox.getAttribute("class") + " , VALUE=" + checkbox.getAttribute("value"));
+            if (checkboxValueToSet != checkbox.isSelected()) {
+                checkbox.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested checkbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return checkboxValueToSet == checkbox.isSelected();
     }
 }

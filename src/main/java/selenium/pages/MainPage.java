@@ -32,6 +32,9 @@ public class MainPage extends MainPageObjects {
             case "simple_form_demo":
                 Assert.assertTrue("Could not click to "+submenuName, clickToElement(this.simpleFormDemoSubmenuItem));
                 return true;
+            case "checkbox_demo":
+                Assert.assertTrue("Could not click to "+submenuName, clickToElement(this.checkboxDemoSubmenuItem));
+                return true;
             default:
                 Assert.fail("Could not find the requested item: "+submenuName);
                 return false;
