@@ -15,7 +15,7 @@ public class SimpleFormPageObjects extends DriverUtil {
     @FindBy(id = "user-message")
     protected WebElement messageTextBox;
 
-    @FindBy(xpath = "//form[id='get-input']//button[text()='Show Message']")
+    @FindBy(xpath = "//form[@id='get-input']//button[text()='Show Message']")
     protected WebElement showMessageButton;
 
     @FindBy(id = "display")

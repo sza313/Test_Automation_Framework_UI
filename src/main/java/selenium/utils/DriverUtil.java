@@ -94,7 +94,7 @@ public class DriverUtil {
      * WebElement textBox: unique ID or path to the textbox
      * String text: text to be entered to the textbox
      */
-    public boolean writeIntoTextBox(WebElement textBox, String text) {
+    protected boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
             Log.info("Writing text '" +text+"' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
@@ -104,5 +104,28 @@ public class DriverUtil {
             return false;
         }
         return text.equals(textBox.getAttribute("value"));
+    }
+
+    /**
+     * Compares a string to the text of a webelement. Returns true if the two strings are the same.
+     * Params:
+     * WebElement elementWithText: unique ID or path to a webelement that has text
+     * String expectedText: the string to be compared to the text of the webelement
+     */
+    protected boolean compareString(WebElement elementWithText, String expectedText) {
+        try {
+            Log.info("Comparing text '" +expectedText+"' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
+            String actualText;
+            if(elementWithText.getText()==null){
+                actualText = elementWithText.getAttribute("value");
+            } else {
+                actualText = elementWithText.getText();
+            }
+            return actualText.equals(expectedText);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

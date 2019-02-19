@@ -15,10 +15,40 @@ public class SimpleFormPage extends SimpleFormPageObjects {
                 Assert.assertTrue("Could not write to " + textBoxName + " textbox.", writeIntoTextBox(this.messageTextBox, text));
                 return true;
             default:
-                Assert.fail("Could not found the requested item: " + textBoxName + " textbox.");
+                Assert.fail("Could not find the requested item: " + textBoxName + " textbox.");
                 return false;
         }
     }
 
 
+    public boolean clickOnShowMessageButton(String buttonName) {
+        switch (buttonName) {
+            case "Show_Message":
+                Assert.assertTrue("Could not click on " + buttonName + " button.", clickToElement(this.showMessageButton));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + buttonName + " button.");
+                return false;
+        }
+    }
+
+    public boolean validatePageTitle(String pageName) {
+        switch (pageName) {
+            case "Simple_Form":
+                return driver.getTitle().equals("Selenium Easy Demo - Simple Form to Automate using Selenium");
+            default:
+                Assert.fail("Could not get the title of the page: " +pageName+ " .");
+                return false;
+        }
+    }
+
+    public boolean validateUserMessage(String expectedMessage,String displayName) {
+        switch (displayName) {
+            case "User_Message_Display":
+                return compareString(this.userMessageDisplay, expectedMessage);
+            default:
+                Assert.fail("Could not find the requested item: the text of " +displayName+ " .");
+                return false;
+        }
+    }
 }
