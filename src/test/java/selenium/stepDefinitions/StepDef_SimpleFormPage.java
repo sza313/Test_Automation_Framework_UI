@@ -22,7 +22,7 @@ public class StepDef_SimpleFormPage extends DriverUtil {
 
     @Then("The '(.*)' page opens")
     public void validateThatSimpleFormPageOpens(String pageName) {
-        Assert.assertTrue("The title of the page is not '" + pageName+ "'.", simpleFormPage.validatePageTitle(pageName));
+        Assert.assertTrue("The title of the page is not correct.", simpleFormPage.validatePageTitle(pageName));
     }
 
     @Then("The same '(.*)' shows up at the '(.*)' section on the simple form page")

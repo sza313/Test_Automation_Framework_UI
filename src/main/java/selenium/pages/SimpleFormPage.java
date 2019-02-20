@@ -38,6 +38,8 @@ public class SimpleFormPage extends SimpleFormPageObjects {
                 return driver.getTitle().equals("Selenium Easy Demo - Simple Form to Automate using Selenium");
             case "Checkbox":
                 return driver.getTitle().equals("Selenium Easy - Checkbox demo for automation using selenium");
+            case "Range_Sliders":
+                return driver.getTitle().equals("Selenium Easy - Drag and Drop Range Sliders");
             default:
                 Assert.fail("Could not get the title of the page: " +pageName+ " .");
                 return false;

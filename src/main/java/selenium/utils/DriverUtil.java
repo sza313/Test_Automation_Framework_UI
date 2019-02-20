@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -147,5 +148,37 @@ public class DriverUtil {
             return false;
         }
         return checkboxValueToSet == checkbox.isSelected();
+    }
+
+    /**
+     * Slides the handle of a range slider to a required value. The value can be specified by the tester.
+     * Params:
+     * WebElement rangeSlider: unique ID or path to the range slider
+     * int percentageValue: an integer between 0 and 100; the value (in percentage of the length of the range slider) we want to slide the handle to
+     */
+    protected boolean moveRangeSliderToValue(WebElement rangeSlider, int percentageValue) {
+        try {
+            Log.info("Setting to " + percentageValue + "% the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
+            if (percentageValue < 0 || percentageValue > 100) {
+                throw new IllegalArgumentException();
+            } else {
+                int sliderWidth = rangeSlider.getSize().getWidth();
+                Actions action = new Actions(driver);
+                action.moveToElement(rangeSlider)
+                        .dragAndDropBy(rangeSlider, (sliderWidth * percentageValue / 100)- (sliderWidth/2), 0)
+                        .build()
+                        .perform();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested range slider.");
+            e.printStackTrace();
+            return false;
+        } catch (IllegalArgumentException ex) {
+            Log.error("The requested value is out of range.");
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
