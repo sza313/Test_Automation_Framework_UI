@@ -114,7 +114,7 @@ public class DriverUtil {
         try {
             Log.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
             String actualText;
-            if (elementWithText.getText() == null) {
+            if (elementWithText.getText() == null || elementWithText.getText().isEmpty()) {
                 actualText = elementWithText.getAttribute("value");
             } else {
                 actualText = elementWithText.getText();

@@ -13,10 +13,10 @@ public class RangeSlidersPage extends RangeSlidersPageObjects {
         int valueToSet = Integer.valueOf(value);
         switch (sliderName) {
             case "Top_Left_Slider":
-                Assert.assertTrue("Could not move the handle of the slider: "+sliderName+" to the requested value.", moveRangeSliderToValue(this.topLeftSlider, valueToSet));
+                Assert.assertTrue("Could not move the handle of the slider: " + sliderName + " to the requested value.", moveRangeSliderToValue(this.topLeftSlider, valueToSet));
                 return true;
             default:
-                Assert.fail("Could not find the requested item: " +sliderName+ " .");
+                Assert.fail("Could not find the requested item: " + sliderName + " .");
                 return false;
         }
     }
@@ -26,10 +26,14 @@ public class RangeSlidersPage extends RangeSlidersPageObjects {
         switch (sliderOutputName) {
             case "Top_Left_Slider_Output":
                 int actualOutputValue = Integer.valueOf(this.topLeftSliderOutput.getAttribute("value"));
-                return actualOutputValue==expectedOutputValue;
+                return actualOutputValue == expectedOutputValue;
             default:
-                Assert.fail("Could not find the requested item: " +sliderOutputName+ " .");
+                Assert.fail("Could not find the requested item: " + sliderOutputName + " .");
                 return false;
         }
+    }
+
+    public boolean validateRangeSlidersPageTitle() {
+        return driver.getTitle().equals("Selenium Easy - Drag and Drop Range Sliders");
     }
 }

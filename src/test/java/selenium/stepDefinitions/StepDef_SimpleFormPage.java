@@ -20,13 +20,13 @@ public class StepDef_SimpleFormPage extends DriverUtil {
         Assert.assertTrue("Could not click on " + buttonName+ " button", simpleFormPage.clickOnShowMessageButton(buttonName));
     }
 
-    @Then("The '(.*)' page opens")
-    public void validateThatSimpleFormPageOpens(String pageName) {
-        Assert.assertTrue("The title of the page is not correct.", simpleFormPage.validatePageTitle(pageName));
+    @Then("The simple form page opens")
+    public void validateSimpleFormPageOpens() {
+        Assert.assertTrue("The title of the page is not correct.", simpleFormPage.validateSimpleFormPageTitle());
     }
 
-    @Then("The same '(.*)' shows up at the '(.*)' section on the simple form page")
-    public void validateThatCorrectMessageShowsUp(String expectedMessage, String displayName){
-        Assert.assertTrue("The displayed user message is not '" + expectedMessage+ "'.", simpleFormPage.validateUserMessage(expectedMessage, displayName));
+    @Then("The same '(.*)' shows up at the user message display section on the simple form page")
+    public void validateThatCorrectMessageShowsUp(String expectedMessage){
+        Assert.assertTrue("The displayed user message is not '" + expectedMessage+ "'.", simpleFormPage.validateUserMessage(expectedMessage));
 }
 }

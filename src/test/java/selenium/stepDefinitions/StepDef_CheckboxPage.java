@@ -20,4 +20,8 @@ public class StepDef_CheckboxPage extends DriverUtil {
         Assert.assertTrue("The expected message '" + message + "' did not show up.", checkboxPage.validateSuccessMessage(message));
     }
 
+    @Then("The checkbox page opens")
+    public void validateCheckboxPageOpens() {
+        Assert.assertTrue("The title of the page is not correct.", checkboxPage.validateCheckboxPageTitle());
+    }
 }
