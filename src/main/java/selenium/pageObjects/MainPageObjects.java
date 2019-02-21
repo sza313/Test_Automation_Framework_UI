@@ -26,5 +26,8 @@ public class MainPageObjects extends DriverUtil {
 
     @FindBy(xpath = "//a[text()='Drag & Drop Sliders']")
     protected WebElement dragAndDropSlidersSubmenuItem;
+  
+    @FindBy(id = "site-name")
+    protected WebElement siteName;
 
 }
