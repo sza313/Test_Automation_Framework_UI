@@ -10,7 +10,7 @@ public class StepDef_RangeSlidersPage extends DriverUtil {
 
     private RangeSlidersPage rangeSlidersPage = new RangeSlidersPage(driver);
 
-    @When("I set the value of the '(.*)' to '(.*)'% on the range slider page")
+    @When("I set the value of the '(.*)' to '(.*)' on the range slider page")
     public void moveSlider(String sliderName, String value){
         Assert.assertTrue("Could not move the handle of the slider: "+sliderName+" to the requested value", rangeSlidersPage.moveSliderToValue(sliderName, value));
     }

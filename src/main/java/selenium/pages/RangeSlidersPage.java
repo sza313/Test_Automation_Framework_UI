@@ -10,10 +10,10 @@ public class RangeSlidersPage extends RangeSlidersPageObjects {
     }
 
     public boolean moveSliderToValue(String sliderName, String value) {
-        int percentageValue = Integer.valueOf(value);
+        int valueToSet = Integer.valueOf(value);
         switch (sliderName) {
             case "Top_Left_Slider":
-                Assert.assertTrue("Could not move the handle of the slider: "+sliderName+" to the requested value.", moveRangeSliderToValue(this.topLeftSlider, percentageValue));
+                Assert.assertTrue("Could not move the handle of the slider: "+sliderName+" to the requested value.", moveRangeSliderToValue(this.topLeftSlider, valueToSet));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " +sliderName+ " .");

@@ -1,9 +1,6 @@
 package selenium.utils;
 
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -154,20 +151,26 @@ public class DriverUtil {
      * Slides the handle of a range slider to a required value. The value can be specified by the tester.
      * Params:
      * WebElement rangeSlider: unique ID or path to the range slider
-     * int percentageValue: an integer between 0 and 100; the value (in percentage of the length of the range slider) we want to slide the handle to
+     * int valueToSet: the value we want to slide the handle to
      */
-    protected boolean moveRangeSliderToValue(WebElement rangeSlider, int percentageValue) {
+    protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
         try {
-            Log.info("Setting to " + percentageValue + "% the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
-            if (percentageValue < 0 || percentageValue > 100) {
+            Log.info("Setting to " + valueToSet + " the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
+            int minValue = Integer.valueOf(rangeSlider.getAttribute("min"));
+            int maxValue = Integer.valueOf(rangeSlider.getAttribute("max"));
+            if (valueToSet < minValue || valueToSet > maxValue) {
                 throw new IllegalArgumentException();
             } else {
-                int sliderWidth = rangeSlider.getSize().getWidth();
-                Actions action = new Actions(driver);
-                action.moveToElement(rangeSlider)
-                        .dragAndDropBy(rangeSlider, (sliderWidth * percentageValue / 100)- (sliderWidth/2), 0)
-                        .build()
-                        .perform();
+                int initialValue = Integer.valueOf(rangeSlider.getAttribute("value"));
+                if (initialValue < valueToSet) {
+                    for (int i = 0; i < valueToSet - initialValue; i++) {
+                        rangeSlider.sendKeys(Keys.ARROW_RIGHT);
+                    }
+                } else {
+                    for (int i = 0; i < initialValue - valueToSet; i++) {
+                        rangeSlider.sendKeys(Keys.ARROW_LEFT);
+                    }
+                }
             }
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested range slider.");
@@ -178,7 +181,6 @@ public class DriverUtil {
             ex.printStackTrace();
             return false;
         }
-
-        return true;
+        return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
 }
