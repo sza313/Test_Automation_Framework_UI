@@ -23,8 +23,11 @@ public class MainPage extends MainPageObjects {
             case "input_forms":
                 Assert.assertTrue("Could not click to " + menuName, clickToElement(this.inputFormsMenuItem));
                 return true;
+            case "progress_bars":
+                Assert.assertTrue("Could not click to "+menuName, clickToElement(this.progressBarsMenuItem));
+                return true;
             default:
-                Assert.fail("Could not found the requested item: " + menuName);
+                Assert.fail("Could not find the requested item: " + menuName);
                 return false;
         }
 
@@ -42,8 +45,14 @@ public class MainPage extends MainPageObjects {
             case "simple_form_demo":
                 Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.simpleFormDemoSubmenuItem));
                 return true;
+            case "checkbox_demo":
+                Assert.assertTrue("Could not click to "+submenuName, clickToElement(this.checkboxDemoSubmenuItem));
+                return true;
+            case "drag_&_drop_sliders":
+                Assert.assertTrue("Could not click to "+submenuName, clickToElement(this.dragAndDropSlidersSubmenuItem));
+                return true;
             default:
-                Assert.fail("Could not found the requested item: " + submenuName);
+                Assert.fail("Could not find the requested item: " + submenuName);
                 return false;
         }
 
