@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class DriverUtil {
     protected static WebDriver driver;
@@ -79,6 +80,7 @@ public class DriverUtil {
                 driver.manage().window().maximize();
                 break;
         }
+        driver.manage().timeouts().implicitlyWait(Integer.parseInt(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
     /**readPropertiesFile opens the Config.properties file and save the values
@@ -102,6 +104,7 @@ public class DriverUtil {
      */
     protected boolean clickToElement(WebElement element){
         try {
+
             Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             element.click();
         } catch (NoSuchElementException e) {
@@ -140,7 +143,7 @@ public class DriverUtil {
         try {
             Log.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
             String actualText;
-            if (elementWithText.getText() == null || elementWithText.getText().isEmpty()) {
+            if (elementWithText.getText() == null || elementWithText.getText().equals("")) {
                 actualText = elementWithText.getAttribute("value");
             } else {
                 actualText = elementWithText.getText();

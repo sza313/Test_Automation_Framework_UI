@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "selenium/stepDefinitions",
         plugin = { "pretty", "html:target/test_result/html-result","json:target/test_result/test-report.json","junit:target/test_result/result.xml" },
-        tags = {"@Sample"},
+        tags = {"@Telekom"},
         monochrome = true)
 public class TestRunner_Sample {
 
