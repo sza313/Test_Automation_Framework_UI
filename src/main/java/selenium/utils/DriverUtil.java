@@ -52,34 +52,35 @@ public class DriverUtil {
             browser = properties.getProperty("browser");
         }
 
+        browser = browser.toLowerCase();
+
         //Select the correct browser type, chrome is the default one
         switch (browser) {
             case "firefox":
                 System.setProperty("webdriver.gecko.driver","./src/main/resources/geckodriver.exe");
                 driver= new FirefoxDriver();
                 Log.info("Firefox driver is opening.");
-                driver.manage().window().maximize();
                 break;
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening.");
-                driver.manage().window().maximize();
                 break;
         //TODO: debug this (won't find dropdown element)
-            case "IE":
+            case "ie":
                 System.setProperty("webdriver.ie.driver","./src/main/resources/IEDriverServer.exe");
                 driver= new InternetExplorerDriver();
                 Log.info("IE driver is opening.");
-                driver.manage().window().maximize();
+
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening by default.");
-                driver.manage().window().maximize();
                 break;
         }
+        driver.manage().window().setSize(new Dimension(1920,1080));
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
