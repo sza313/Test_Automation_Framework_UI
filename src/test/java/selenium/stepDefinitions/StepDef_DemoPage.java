@@ -13,17 +13,17 @@ public class StepDef_DemoPage extends DriverUtil{
 
     @When("^User clicks to the '(.*)' menu item$")
     public void userClicksToTheComputersMenuItem(String menuName) throws Throwable {
-            Assert.assertTrue("Could not click to the Computers menu item.", demoPage.clickToMenu(menuName));
+            Assert.assertTrue("Could not click to the "+menuName +" menu item.", demoPage.clickToMenu(menuName));
     }
 
     @And("^User clicks to the '(.*)' submenu item$")
     public void userClicksToTheDesktopsSubmenuItem(String subMenuName) throws Throwable {
-            Assert.assertTrue("Could not click to the Desktops menu item.",demoPage.clickToSubmenu(subMenuName));
+            Assert.assertTrue("Could not click to the "+subMenuName +" menu item.",demoPage.clickToSubmenu(subMenuName));
     }
 
     @Then("^User is on the '(.*)' page$")
     public void userIsOnTheDesktopsPage(String title) throws Throwable {
-        Assert.assertTrue("User is not on the Desktops page",demoPage.userIsOnTheRightPage(title));
+        Assert.assertTrue("User is not on the "+title+" page",demoPage.userIsOnTheRightPage(title));
     }
 
     @When("^User clicks to Add to cart button$")
@@ -41,8 +41,8 @@ public class StepDef_DemoPage extends DriverUtil{
         Thread.sleep(seconds*1000);
     }
 
-    @Then("^Item added to the cart successfully$")
-    public void itemAddedToTheCartSuccessfully() throws Throwable {
-        Assert.assertTrue("Product not added to the cart",demoPage.isAddedToCart());
+    @Then("^'(.*)' Item added to the cart successfully$")
+    public void itemAddedToTheCartSuccessfully(String number) throws Throwable {
+        Assert.assertTrue("Product not added to the cart",demoPage.isAddedToCart(number));
     }
 }

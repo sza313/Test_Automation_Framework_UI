@@ -1,7 +1,7 @@
 package selenium.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import selenium.pageObjects.DemoPageObjects;
 import selenium.utils.Log;
 
@@ -14,9 +14,12 @@ public class DemoPage extends DemoPageObjects{
                 Log.info("Clicking to the Computers menu item.");
                 return clickToElement(this.computersMenuItem);
             case "Electronics":
-                Log.info("Clicking to the cart menu item.");
+                Log.info("Clicking to the Electronics item.");
                 return clickToElement(this.electronicsMenuItem);
-            case "cart":
+            case "Jewelry":
+                Log.info("Clicking to the Jewelry menu item.");
+                return clickToElement(this.jewelryMenuItem);
+            case "Cart":
                 Log.info("Clicking to the cart menu item.");
                 return clickToElement(this.cart);
             default:
@@ -33,6 +36,12 @@ public class DemoPage extends DemoPageObjects{
             case "Camera":
                 Log.info("Clicking to the Camera menu item.");
                 return clickToElement(this.cameraMenuItem);
+            case "Cell phones":
+                Log.info("Clicking to the Cell phones menu item.");
+                return clickToElement(this.cellPhonesMenuItem);
+            case "":
+                Log.info("Do not need to select submenu.");
+                return true;
             default:
                 Log.error("Could not click to the "+submenuName+" submenu item.");
                 return false;
@@ -60,6 +69,16 @@ public class DemoPage extends DemoPageObjects{
             case "Build your own expensive computer":
                 Log.info("Selecting the following product: "+productName);
                 return clickToElement(this.expensivePC);
+            case "Black and White Diamond Heart":
+                Log.info("Selecting the following product: "+productName);
+                return clickToElement(this.blackAndWhite);
+            case "Create Your Own Jewelry":
+                Log.info("Selecting the following product: "+productName);
+                 clickToElement(this.createYourOwn);
+                 writeIntoTextBox(driver.findElement(By.id("product_attribute_71_10_16")),"20");
+            case "Smartphone":
+                Log.info("Selecting the following product: "+productName);
+                return clickToElement(this.smartPhone);
             default:
                 Log.error("Could not find the following product: "+productName);
                 return false;
@@ -67,13 +86,13 @@ public class DemoPage extends DemoPageObjects{
 
     }
 
-    public boolean isAddedToCart() {
+    public boolean isAddedToCart(String number) {
         Log.info("Check the notification text");
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return compareString(this.notificationBar,"(1)");
+        return compareString(this.notificationBar,"("+number+")");
     }
 }
