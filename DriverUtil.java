@@ -5,14 +5,17 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.security.Key;
 import java.util.Properties;
 
 public class DriverUtil {
@@ -62,7 +65,6 @@ public class DriverUtil {
                 driver.manage().window().maximize();
                 break;
         }
-
     }
 
     //Locate and read data from properties file
@@ -97,16 +99,18 @@ public class DriverUtil {
      * int length: number of characters to be entered
      */
     public boolean writeRandomAlphabeticString(WebElement textBox, int length){
+        String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
         try {
             Log.info("Writing alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
-            textBox.sendKeys(RandomStringUtils.randomAlphabetic(length));
+
+            textBox.sendKeys(randomAlphabeticString);
         }
         catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
-        return true;
+        return randomAlphabeticString.equals(textBox.getAttribute("value"));
     }
 
     /** writeRandomNumericString method is writing a random numeric string into a textbox
@@ -116,16 +120,17 @@ public class DriverUtil {
      * int length: number of characters to be entered
      */
     public boolean writeRandomNumericString(WebElement textBox, int length){
+        String randomNumericString = RandomStringUtils.randomNumeric(length);
         try {
             Log.info("Writing numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
-            textBox.sendKeys(RandomStringUtils.randomNumeric(length));
+            textBox.sendKeys(randomNumericString);
             }
         catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
-        return true;
+        return randomNumericString.equals(textBox.getAttribute("value"));
     }
 
     /** writeRandomAlphanumericString method is writing a random alphanumberic string into a textbox
@@ -135,16 +140,41 @@ public class DriverUtil {
      * int length: number of characters to be entered
      */
     public boolean writeRandomAlphanumericString(WebElement textBox, int length){
+        String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
         try {
             Log.info("Writing alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
-            textBox.sendKeys(RandomStringUtils.randomAlphanumeric(length));
+            textBox.sendKeys(randomAlphanumericString);
         }
         catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
-        return true;
+        return randomAlphanumericString.equals(textBox.getAttribute("value"));
+    }
+
+    /** validateString method is printing number of digits appearing so that
+     * it can be compared to the number specified in the feature
+     * Params:
+     * WebElement message: unique ID or path to the displayed message
+     * String expectedMessage: the actual message we wrote into the Message form field
+     */
+    public boolean validateString(WebElement message, String expectedMessage){
+        String actualMessage;
+        try {
+            Log.info("Validating that text " + expectedMessage + " equals to the following element: "  + message.getAttribute("id") + " , CLASS=" + message.getAttribute("class")  + " , NAME=" + message.getAttribute("name"));
+            if (message.getText() == null || message.getText().isEmpty()) {
+                actualMessage = message.getAttribute("value");
+            } else {
+                actualMessage = message.getText();
+            }
+        }
+        catch (NoSuchElementException e){
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return actualMessage.equals(expectedMessage);
     }
 
     /** clearField method is clearing a textbox field by pushing the backspace button
@@ -184,14 +214,14 @@ public class DriverUtil {
         return true;
     }
 
-    /** clickButton method is clicking on a certain button on the page
+    /** validateFieldIsEmpty method is checking if the certain textbox is empty
      * Params:
-     * WebElement button: unique ID or path to the button
+     * WebElement textBox: unique ID or path to the textbox
      */
-    public boolean clickButton(WebElement button){
+    public boolean validateFieldIsEmpty(WebElement message) {
         try {
-            Log.info("Writing alphanumeric string into the following textbox. ID=" + button.getAttribute("id") + " , CLASS=" + button.getAttribute("class")  + " , NAME=" + button.getAttribute("name"));
-            button.click();
+            Log.info("Checking if the following element is empty. ID=" + message.getAttribute("id") + " , CLASS=" + message.getAttribute("class")  + " , NAME=" + message.getAttribute("name"));
+            message.getText().isEmpty();
         }
         catch (NoSuchElementException e){
             Log.error("Could not find the requested textbox.");
@@ -201,36 +231,18 @@ public class DriverUtil {
         return true;
     }
 
-    /** validateString method is printing number of digits appearing so that
-     * it can be compared to the number specified in the feature
-     * Params:
-     * WebElement message: unique ID or path to the displayed message
-     */
-    public boolean validateString(WebElement message){
-        try {
-            Log.info("Get displayed text from the following element and validate its length. ID=" + message.getAttribute("id") + " , CLASS=" + message.getAttribute("class")  + " , NAME=" + message.getAttribute("name"));
-            System.out.println("Number of digits in the displayed text is: " + message.getText().length());
-        }
-        catch (NoSuchElementException e){
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-
     /** autoSuggestionField method is writing a text into an
      * autosuggestive field and selects the first option
      * Params:
-     * WebElement textBox: unique ID or path to the textbox
+     * WebElement dropdown: unique ID or path to the dropdown textbox
      * String text: text entered to which we want to find autosuggestion
      */
-    public boolean autoSuggestionField(WebElement textBox, String text) {
+    public boolean autoSuggestionField(WebElement dropdown, String text) {
             try {
-                Log.info("Writing text " + text + " into the following textbox and selecting auto suggestion. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class")  + " , NAME=" + textBox.getAttribute("name"));
-                textBox.sendKeys(text);
-                textBox.sendKeys(Keys.ENTER);
+                Log.info("Writing text " + text + " into the following textbox and selecting auto suggestion. ID=" + dropdown.getAttribute("id") + " , CLASS=" + dropdown.getAttribute("class")  + " , NAME=" + dropdown.getAttribute("name"));
+                dropdown.sendKeys(Keys.ENTER);
+                dropdown.sendKeys(text);
+                dropdown.sendKeys(Keys.ENTER);
             }
             catch (NoSuchElementException e){
                 Log.error("Could not find the requested textbox.");
@@ -240,7 +252,6 @@ public class DriverUtil {
             return true;
     }
 
-
     /** dragAndDropWebelement method is dragging a WebElement and dropping it into another WebElement
      * Params:
      * WebElement draggable: unique ID or path to the element we want to drag
@@ -249,10 +260,8 @@ public class DriverUtil {
     public boolean dragAndDropWebelement(WebElement draggable, WebElement droppable) {
         try {
             Log.info("Dragging and dropping the following element: ID=" + draggable.getAttribute("id") + " , CLASS=" + draggable.getAttribute("class")  + " , NAME=" + draggable.getAttribute("name") + " into element ID= " + droppable.getAttribute("id") + " , CLASS=" + draggable.getAttribute("class")  + " , NAME=" + draggable.getAttribute("name"));
-            Actions action = new Actions(driver);
-            WebElement source = draggable;
-            WebElement target = droppable;
-            action.dragAndDrop(source, target).build().perform();
+            Actions drag = new Actions(driver);
+            drag.dragAndDrop(draggable, droppable).build().perform();
         }
         catch (NoSuchElementException e){
             Log.error("Could not find the requested elements.");
@@ -281,6 +290,4 @@ public class DriverUtil {
         }
         return true;
     }
-
-
 }
