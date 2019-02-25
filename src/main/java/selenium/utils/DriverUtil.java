@@ -76,7 +76,7 @@ public class DriverUtil {
                 break;
         }
         driver.manage().window().setSize(new Dimension(1920,1080));
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
