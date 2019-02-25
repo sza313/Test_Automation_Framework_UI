@@ -21,9 +21,9 @@ public class StepDef_DemoPage extends DriverUtil{
             Assert.assertTrue("Could not click to the Desktops menu item.",demoPage.clickToSubmenu(subMenuName));
     }
 
-    @Then("^User is on the Desktops page$")
-    public void userIsOnTheDesktopsPage() throws Throwable {
-        Assert.assertTrue("User is not on the Desktops page",demoPage.userIsOnTheRightPage());
+    @Then("^User is on the '(.*)' page$")
+    public void userIsOnTheDesktopsPage(String title) throws Throwable {
+        Assert.assertTrue("User is not on the Desktops page",demoPage.userIsOnTheRightPage(title));
     }
 
     @When("^User clicks to Add to cart button$")

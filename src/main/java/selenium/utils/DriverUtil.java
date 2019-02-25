@@ -7,9 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -26,7 +23,6 @@ public class DriverUtil {
     public DriverUtil(WebDriver driver) {
         DriverUtil.driver = driver;
     }
-
 
     /**createNewDriver calls two method to open a browser
      *
@@ -98,14 +94,13 @@ public class DriverUtil {
         }
     }
 
-    /**cliclToElement method clicks to a webelement
+    /**clickToElement method clicks to a webelement
      *
      * @param element: Data came from the Page files, it identifies the target
      * @return with a boolean to get the status of the click
      */
     protected boolean clickToElement(WebElement element){
         try {
-
             Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             element.click();
         } catch (NoSuchElementException e) {
@@ -217,7 +212,7 @@ public class DriverUtil {
      // Draws a red border around the found element.
      //Params:
      //WebElement element:unique identifier of the element
-     public boolean drawBorder(WebElement element) {
+     protected boolean drawBorder(WebElement element) {
          Log.info("Drawing border around the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
          if (driver instanceof JavascriptExecutor) {
             ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
