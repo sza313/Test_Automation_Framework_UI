@@ -7,13 +7,16 @@ package selenium.pageObjects;
         import selenium.utils.DriverUtil;
 
 public class MainPageObjects extends DriverUtil {
-    public MainPageObjects (WebDriver driver){
+    public MainPageObjects(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//ul[@class='nav navbar-nav']//a[contains(text(),'Input Forms')]")
     protected WebElement inputFormsMenuItem;
+
+    @FindBy(xpath = "//ul[contains(@class, 'navbar-nav')]//a[contains(text(),'Progress Bars')]")
+    protected WebElement progressBarsMenuItem;
 
     @FindBy(xpath = "//a[text()='Simple Form Demo']")
     protected WebElement simpleFormDemoSubmenuItem;
@@ -26,4 +29,13 @@ public class MainPageObjects extends DriverUtil {
 
     @FindBy(xpath = "//a[text()='Drag and Drop']")
     protected WebElement dragAndDropSubmenuItem;
+    @FindBy(xpath = "//a[text()='Checkbox Demo']")
+    protected WebElement checkboxDemoSubmenuItem;
+
+    @FindBy(xpath = "//a[text()='Drag & Drop Sliders']")
+    protected WebElement dragAndDropSlidersSubmenuItem;
+
+    @FindBy(id = "site-name")
+    protected WebElement siteName;
+
 }
