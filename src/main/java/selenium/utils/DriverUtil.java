@@ -121,9 +121,8 @@ public class DriverUtil {
     protected boolean scrollToElement(WebElement element){
         try {
             Log.info("Scrolling to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element);
-            actions.perform();
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].scrollIntoView();",element);
             return true;
         }catch (NoSuchElementException e){
             Log.error("Could not find the requested element.");
