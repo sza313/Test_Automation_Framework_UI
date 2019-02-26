@@ -7,6 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -109,6 +112,24 @@ public class DriverUtil {
             return false;
         }
         return true;
+    }
+
+    /**scrollToElement method scrolling until the element is not visible
+     *@param element: Data came from the Page files, it identifies the target
+     *@Return with a boolean to get the status of the scroll
+     */
+    protected boolean scrollToElement(WebElement element){
+        try {
+            Log.info("Scrolling to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element);
+            actions.perform();
+            return true;
+        }catch (NoSuchElementException e){
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**

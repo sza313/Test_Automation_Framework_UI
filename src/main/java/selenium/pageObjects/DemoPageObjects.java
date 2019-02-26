@@ -31,7 +31,7 @@ public class DemoPageObjects extends DriverUtil{
     @FindBy(xpath = "//div[@class='sub-category-item']//a[contains(text(),'Cell phones')]")
     protected WebElement cellPhonesMenuItem;
 
-    @FindBy(id = "topcartlink")
+    @FindBy(xpath = "//a[text()='Shopping cart']")
     protected WebElement cart;
 
     @FindBy(xpath = "//*[@class='page-title']/h1")

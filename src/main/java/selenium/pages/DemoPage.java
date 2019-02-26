@@ -21,6 +21,7 @@ public class DemoPage extends DemoPageObjects{
                 return clickToElement(this.jewelryMenuItem);
             case "Cart":
                 Log.info("Clicking to the cart menu item.");
+                scrollToElement(this.cart);
                 return clickToElement(this.cart);
             default:
                 Log.error("Could not click to the "+menuName+" menu item.");
