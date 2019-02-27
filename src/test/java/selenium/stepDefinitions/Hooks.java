@@ -8,12 +8,16 @@ import org.openqa.selenium.TakesScreenshot;
 import selenium.utils.DriverUtil;
 import selenium.utils.Log;
 
+import java.util.concurrent.TimeUnit;
+
 public class Hooks extends DriverUtil {
 
     @Before
     public void beforeScenario(){
         Log.startLog();
         createNewDriver();
+        driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
     @After

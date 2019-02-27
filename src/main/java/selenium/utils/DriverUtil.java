@@ -10,9 +10,14 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+
+
 
 public class DriverUtil {
     protected static WebDriver driver;
@@ -131,6 +136,23 @@ public class DriverUtil {
     }
 
     /**
+     * Clear the input field.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean clearTextBox(WebElement textBox) {
+        try {
+            Log.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.clear();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Compares a string to the text of a webelement. Returns true if the two strings are the same.
      * Params:
      * WebElement elementWithText: unique ID or path to a webelement that has text
@@ -220,4 +242,28 @@ public class DriverUtil {
         }
         return element.getAttribute("style").contains("solid red");
     }
+
+    /**
+     * waitForPageLoaded method waits until the new page completely loaded.
+     * @param
+     * @return with a boolean to get the navigation status
+     */
+    public boolean waitForPageLoaded() {
+        ExpectedCondition<Boolean> expectation =(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
+                }
+            });
+        try {
+            Thread.sleep(1500); //Wait for starting to load the new page
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            wait.until(expectation);
+            return true;
+        } catch (Throwable error) {
+            return false;
+        }
+
+    }
+
+
 }
