@@ -11,66 +11,14 @@ public class PhpLoginPage extends PhpLoginPageObjects {
     }
 
     /**
-     * clearLoginElement method calls the clearTextBox method and gives the target menu element.
+     * loginProcess method calls the login method that starts a commom login/password/submit procedure.
      *
-     * @param loginElement: This identifies the text box which will be cleared
+     * @param : email represent the user's email address, password is of the user's password
      * @return with a boolean to get the navigation status
      */
-    public boolean clearLoginElement(String loginElement) {
-
-        switch (loginElement) {
-            case "Email":
-                Assert.assertTrue("Could not click to " + loginElement, clearTextBox(this.inputEmail));
-                return true;
-            case "Password":
-                Assert.assertTrue("Could not click to " + loginElement, clearTextBox(this.inputPassword));
-                return true;
-            default:
-                Assert.fail("Could not find the requested item: " + loginElement);
-                return false;
-        }
-
-    }
-
-    /**
-     * sendLoginText method calls the writeIntoTextBox method to write login text to the loginElement.
-     *
-     * @param loginElement: This identifies the text box which will be cleared
-     * @param text:         This should be read from property file
-     * @return with a boolean to get the navigation status
-     */
-    public boolean sendLoginText(String loginElement, String text) {
-
-        switch (loginElement) {
-            case "Email":
-                Assert.assertTrue("Could not click to " + loginElement, writeIntoTextBox(this.inputEmail, text));
-                return true;
-            case "Password":
-                Assert.assertTrue("Could not click to " + loginElement, writeIntoTextBox(this.inputPassword, text));
-                return true;
-            default:
-                Assert.fail("Could not find the requested item: " + loginElement);
-                return false;
-        }
-
-    }
-
-    /**
-     * clickLoginItem method calls the clickToElement method and gives the target login element.
-     *
-     * @param login: This identifies the element which will be clicked
-     * @return with a boolean to get the navigation status
-     */
-    public boolean clickLoginItem(String login) {
-
-        switch (login) {
-            case "Login":
-                Assert.assertTrue("Could not click to " + login, clickToElement(this.loginItem));
-                return true;
-            default:
-                Assert.fail("Could not find the requested item: " + login);
-                return false;
-        }
+    public boolean loginProcess(String email, String password ) {
+        Assert.assertTrue("Login process was not successful! ",login(email,password,this.inputEmail,this.inputPassword,this.loginItem));
+        return true;
     }
 
     /**

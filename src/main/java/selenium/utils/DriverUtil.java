@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class DriverUtil {
@@ -62,28 +62,35 @@ public class DriverUtil {
                 System.setProperty("webdriver.gecko.driver","./src/main/resources/geckodriver.exe");
                 driver= new FirefoxDriver();
                 Log.info("Firefox driver is opening.");
-                driver.manage().window().maximize();
                 break;
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening.");
-                driver.manage().window().maximize();
                 break;
         //TODO: debug this (won't find dropdown element)
             case "IE":
                 System.setProperty("webdriver.ie.driver","./src/main/resources/IEDriverServer.exe");
                 driver= new InternetExplorerDriver();
                 Log.info("IE driver is opening.");
-                driver.manage().window().maximize();
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening by default.");
-                driver.manage().window().maximize();
                 break;
         }
+        driverConfig();
+    }
+
+    /**driverConfig set up driver related configs
+     *
+     * Params: Do not have any input params. You can set the timeout in the Config.properties file.
+     */
+    private void driverConfig() {
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
     /**readPropertiesFile opens the Config.properties file and save the values
@@ -110,7 +117,7 @@ public class DriverUtil {
             Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             element.click();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            Log.error("Could not find the requested element to click.");
             e.printStackTrace();
             return false;
         }
@@ -128,7 +135,7 @@ public class DriverUtil {
             Log.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            Log.error("Could not find the requested textbox to write.");
             e.printStackTrace();
             return false;
         }
@@ -145,7 +152,7 @@ public class DriverUtil {
             Log.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.clear();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            Log.error("Could not find the requested textbox to clear.");
             e.printStackTrace();
             return false;
         }
@@ -241,6 +248,25 @@ public class DriverUtil {
             ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
         }
         return element.getAttribute("style").contains("solid red");
+    }
+
+
+    /**
+     * login method executes a common login process. The value can be specified by the tester.
+     *
+     * @param : login represent the user's email address
+     * @param : pw represent the user's password
+     * @param : loginElement is the login webelement
+     * @param : pwElement is the webelement for password
+     * @param : submitElement is the submit button
+     * @return with a boolean to get the navigation status
+     */
+    public boolean login(String login, String pw, WebElement loginElement, WebElement pwElement, WebElement submitElement){
+        return clearTextBox(loginElement) &&
+        clearTextBox(pwElement) &&
+        writeIntoTextBox(loginElement,login) &&
+        writeIntoTextBox(pwElement,pw) &&
+        clickToElement(submitElement);
     }
 
     /**

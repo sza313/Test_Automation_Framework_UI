@@ -16,8 +16,6 @@ public class Hooks extends DriverUtil {
     public void beforeScenario(){
         Log.startLog();
         createNewDriver();
-        driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
     @After
