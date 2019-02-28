@@ -43,9 +43,22 @@ public class StepDef_MainPage extends DriverUtil {
 
     @Then("Draw border around '(.*)'")
     public void drawBorderAroundTheElement(String elementName) {
-        Assert.assertTrue("Could not draw border to "+elementName+" menu",mainPage.drawBorderAroundElement(elementName));
+        Assert.assertTrue("Could not draw border to " + elementName + " menu", mainPage.drawBorderAroundElement(elementName));
 
     }
 
+    @When("Click with visualization to '(.*)' menu item")
+    public void clickWithVisualizationToMenuItem(String menuName) {
+        Assert.assertTrue("Could not click to " + menuName + " menu with visualization", mainPage.clickToMenuItemWhitVisualization(menuName));
+    }
 
+    @Then( "A red border around '(.*)' menu item appears")
+    public void validateRedBorderAppears(String menuName) {
+        Assert.assertTrue("Couldn't draw border around " + menuName + " menu item.", mainPage.validateRedBorderAppears(menuName));
+}
+
+    @Then("'(.*)' submenu item becomes visible")
+    public  void validateSubmenuItemIsVisible(String submenuName) {
+        Assert.assertTrue(submenuName + " submenu item is not visible.", mainPage.validateSubmenuItemIsVisible(submenuName));
+    }
 }

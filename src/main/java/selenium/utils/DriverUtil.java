@@ -220,4 +220,21 @@ public class DriverUtil {
         }
         return element.getAttribute("style").contains("solid red");
     }
+
+    /**Draws a red border around the clicked element.
+     * Params:
+     * Webelement element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithVisualization(WebElement element){
+        try {
+            Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            drawBorder(element);
+            element.click();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
