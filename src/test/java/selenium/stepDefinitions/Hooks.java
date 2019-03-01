@@ -8,6 +8,8 @@ import org.openqa.selenium.TakesScreenshot;
 import selenium.utils.DriverUtil;
 import selenium.utils.Log;
 
+import java.util.concurrent.TimeUnit;
+
 public class Hooks extends DriverUtil {
 
     @Before
