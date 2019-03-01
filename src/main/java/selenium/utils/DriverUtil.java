@@ -1,5 +1,6 @@
 package selenium.utils;
 
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -239,10 +240,10 @@ public class DriverUtil {
         return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
   
-     // Draws a red border around the found element.
+     //Draws a red border around the found element.
      //Params:
      //WebElement element:unique identifier of the element
-     public boolean drawBorder(WebElement element) {
+     protected boolean drawBorder(WebElement element) {
          Log.info("Drawing border around the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
          if (driver instanceof JavascriptExecutor) {
             ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
@@ -250,42 +251,24 @@ public class DriverUtil {
         return element.getAttribute("style").contains("solid red");
     }
 
-
-    /**
-     * login method executes a common login process. The value can be specified by the tester.
-     *
-     * @param : login represent the user's email address
-     * @param : pw represent the user's password
-     * @param : loginElement is the login webelement
-     * @param : pwElement is the webelement for password
-     * @param : submitElement is the submit button
-     * @return with a boolean to get the navigation status
-     */
-    public boolean login(String login, String pw, WebElement loginElement, WebElement pwElement, WebElement submitElement){
-        return clearTextBox(loginElement) &&
-        clearTextBox(pwElement) &&
-        writeIntoTextBox(loginElement,login) &&
-        writeIntoTextBox(pwElement,pw) &&
-        clickToElement(submitElement);
-    }
-
     /**
      * waitForPageLoaded method waits until the new page completely loaded.
-     * @param
      * @return with a boolean to get the navigation status
      */
-    public boolean waitForPageLoaded() {
+    protected boolean waitForPageLoaded() {
         ExpectedCondition<Boolean> expectation =(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
                 return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
                 }
             });
         try {
-            Thread.sleep(1500); //Wait for starting to load the new page
-            WebDriverWait wait = new WebDriverWait(driver, 10);
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver,timeout);
             wait.until(expectation);
             return true;
         } catch (Throwable error) {
+            Assert.fail("Could not wait until the maximum timout: "+ properties.getProperty("timeout"));
+            error.printStackTrace();
             return false;
         }
 

@@ -10,7 +10,7 @@ public class StepDef_PhpLoginPage extends DriverUtil {
 
     @When("Login to the PhpTravels page$")
     public void loginToPhpTravelPage() throws Throwable{
-        Assert.assertTrue("The login process was not successful",phpLoginPage.loginProcess(properties.getProperty("Email_php"),properties.getProperty("Password_php")));
+        Assert.assertTrue("The login process was not successful",phpLoginPage.login());
     }
 
     @When("Wait for My Account page is loaded$")
