@@ -262,6 +262,7 @@ public class DriverUtil {
                 }
             });
         try {
+            Thread.sleep(1500); //Wait to start the loading. It is not accidentally here!
             Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
             WebDriverWait wait = new WebDriverWait(driver,timeout);
             wait.until(expectation);
