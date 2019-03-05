@@ -10,6 +10,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -27,8 +30,9 @@ public class DriverUtil {
     }
 
 
-    /**createNewDriver calls two method to open a browser
-     *
+    /**
+     * createNewDriver calls two method to open a browser
+     * <p>
      * Params: Do not have any input params.
      */
     protected void createNewDriver() {
@@ -36,8 +40,9 @@ public class DriverUtil {
         chooseBrowser();
     }
 
-    /** chooseBrowser method creates a new webdriver, get data from system argument or config file to get the required browser type.
-     *
+    /**
+     * chooseBrowser method creates a new webdriver, get data from system argument or config file to get the required browser type.
+     * <p>
      * Params: Do not have any input params.
      */
     private void chooseBrowser() {
@@ -54,8 +59,8 @@ public class DriverUtil {
         //Select the correct browser type, chrome is the default one
         switch (browser) {
             case "firefox":
-                System.setProperty("webdriver.gecko.driver","./src/main/resources/geckodriver.exe");
-                driver= new FirefoxDriver();
+                System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
+                driver = new FirefoxDriver();
                 Log.info("Firefox driver is opening.");
                 driver.manage().window().maximize();
                 break;
@@ -65,10 +70,10 @@ public class DriverUtil {
                 Log.info("Chrome browser is opening.");
                 driver.manage().window().maximize();
                 break;
-        //TODO: debug this (won't find dropdown element)
+            //TODO: debug this (won't find dropdown element)
             case "IE":
-                System.setProperty("webdriver.ie.driver","./src/main/resources/IEDriverServer.exe");
-                driver= new InternetExplorerDriver();
+                System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
+                driver = new InternetExplorerDriver();
                 Log.info("IE driver is opening.");
                 driver.manage().window().maximize();
                 break;
@@ -81,8 +86,9 @@ public class DriverUtil {
         }
     }
 
-    /**readPropertiesFile opens the Config.properties file and save the values
-     *
+    /**
+     * readPropertiesFile opens the Config.properties file and save the values
+     * <p>
      * Params: Do not have any input params.
      */
     private void readPropertiesFile() {
@@ -95,12 +101,13 @@ public class DriverUtil {
         }
     }
 
-    /**cliclToElement method clicks to a webelement
+    /**
+     * cliclToElement method clicks to a webelement
      *
      * @param element: Data came from the Page files, it identifies the target
      * @return with a boolean to get the status of the click
      */
-    protected boolean clickToElement(WebElement element){
+    protected boolean clickToElement(WebElement element) {
         try {
             Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             element.click();
@@ -209,23 +216,24 @@ public class DriverUtil {
         }
         return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
-  
-     // Draws a red border around the found element.
-     //Params:
-     //WebElement element:unique identifier of the element
-     public boolean drawBorder(WebElement element) {
-         Log.info("Drawing border around the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
-         if (driver instanceof JavascriptExecutor) {
-            ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
+
+    // Draws a red border around the found element.
+    //Params:
+    //WebElement element:unique identifier of the element
+    public boolean drawBorder(WebElement element) {
+        Log.info("Drawing border around the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
+        if (driver instanceof JavascriptExecutor) {
+            ((JavascriptExecutor) driver).executeScript("arguments [0].style.border='solid red'", element);
         }
         return element.getAttribute("style").contains("solid red");
     }
 
-    /**Draws a red border around the clicked element.
+    /**
+     * Draws a red border around the clicked element.
      * Params:
      * Webelement element: unique ID or path to the element
      */
-    protected boolean clickToElementWithVisualization(WebElement element){
+    protected boolean clickToElementWithVisualization(WebElement element) {
         try {
             Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             drawBorder(element);
@@ -236,5 +244,25 @@ public class DriverUtil {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Waits for page to load/reload.
+     */
+    protected boolean waitForPageToLoad() {
+        try {
+            Log.info("Waiting for the page to load.");
+            WebDriverWait wait = new WebDriverWait(driver, 30);
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                }
+            });
+            return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+        } catch (TimeoutException e) {
+            Log.error("Could not wait for the page to load.");
+            e.printStackTrace();
+            return false;
+        }
     }
 }
