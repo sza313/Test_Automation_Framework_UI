@@ -30,4 +30,6 @@ public class MainPageObjects extends DriverUtil {
     @FindBy(id = "site-name")
     protected WebElement siteName;
 
+    @FindBy(xpath = "//h4[text()='Tutorials Menu']")
+    protected WebElement tutorialsMenuTitle;
 }

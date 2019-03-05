@@ -63,13 +63,13 @@ public class StepDef_MainPage extends DriverUtil {
         Assert.assertTrue(submenuName + " submenu item is not visible.", mainPage.validateSubmenuItemIsVisible(submenuName));
     }
 
-    @When("Click with javascript to {string} menu item")
-    public void clickWithJavascriptToInput_FormsMenuItem(String menuName) {
-        Assert.assertTrue("Could not click with javascript to " + menuName + " menu", mainPage.clickToMenuItemWithJS(menuName));
+    @When("Click with javascript to '(.*)' element")
+    public void clickWithJavascriptToElement(String elementName) {
+        Assert.assertTrue("Could not click with javascript to " + elementName + " element", mainPage.clickToElementWithJS(elementName));
     }
 
-    @When("Click with javascript to {string} submenu item")
-    public void clickWithJavascriptToSimple_Form_DemoSubmenuItem(String submenuName) {
-        Assert.assertTrue("Could not click with javascript to " + submenuName + " menu", mainPage.clickToSubmenuItemWithJS(submenuName));
+    @When("Scroll to the '(.*)' webelement on main page")
+    public void scrollToWebelement(String elementName) {
+        Assert.assertTrue("Could not scroll to " + elementName + " element", mainPage.scrollToElementOnMainPage(elementName));
     }
 }

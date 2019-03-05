@@ -282,4 +282,21 @@ public class DriverUtil {
         }
         return true;
     }
+
+    /**
+     * Scrolls to a webelement.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean scrollToElement(WebElement element) {
+        try {
+            Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
