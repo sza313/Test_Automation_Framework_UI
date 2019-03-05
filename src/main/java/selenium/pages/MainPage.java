@@ -129,4 +129,15 @@ public class MainPage extends MainPageObjects {
                 return false;
         }
     }
+
+    public boolean scrollToElementWithOffsetOnMainPage(String elementName, int xOffset, int yOffset) {
+        switch (elementName) {
+            case "Tutorials_Menu":
+                Assert.assertTrue("Could not scroll to " + elementName + " element with the requested offset", scrollToElementWithOffset(this.tutorialsMenuTitle, xOffset, yOffset));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + elementName);
+                return false;
+        }
+    }
 }

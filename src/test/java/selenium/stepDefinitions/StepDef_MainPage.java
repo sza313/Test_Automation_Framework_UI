@@ -72,4 +72,9 @@ public class StepDef_MainPage extends DriverUtil {
     public void scrollToWebelement(String elementName) {
         Assert.assertTrue("Could not scroll to " + elementName + " element", mainPage.scrollToElementOnMainPage(elementName));
     }
+
+    @When("Scroll to the '(.*)' webelement with '(.*)' px offset along the x axis and '(.*)' px offset along the y axis")
+    public void scrollToElementWithOffsetOnMainPage(String elementName, int xOffset, int yOffset) {
+        Assert.assertTrue("Could not scroll to " + elementName + " element with the requested offsets: X="+ xOffset+ ", Y=" + yOffset, mainPage.scrollToElementWithOffsetOnMainPage(elementName, xOffset, yOffset));
+    }
 }

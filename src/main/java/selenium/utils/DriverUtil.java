@@ -299,4 +299,23 @@ public class DriverUtil {
         }
         return true;
     }
+
+    /**
+     * Scrolls to a webelement with an offset along the x and y axes. The degree of offset can be specified by the tester.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     * int xOffset: degree of offset along the x axis in pixels. Positive values will scroll to the right, while negative values scroll to the left.
+     * int yOffset: degree of offset along the y axis in pixels. Positive values will scroll down, while negative values scroll up.
+     */
+    protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
+        try {
+            Log.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();" + "window.scrollBy(arguments[1],arguments[2]);", element, xOffset, yOffset);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

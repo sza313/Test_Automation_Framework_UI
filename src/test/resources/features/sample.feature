@@ -20,3 +20,8 @@ Feature: Sample feature
     Given Open site
     When Scroll to the 'Tutorials_Menu' webelement on main page
 
+    @Sample
+    @ScrollWithOffset
+      Scenario: Scroll to webelement with offset
+      Given Open site
+      When Scroll to the 'Tutorials_Menu' webelement with '0' px offset along the x axis and '-150' px offset along the y axis
