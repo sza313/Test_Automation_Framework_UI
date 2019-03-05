@@ -12,8 +12,14 @@ public class PhpHotelsPageObjects extends DriverUtil {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//*[@id='select2-drop']/div/input")
+    @FindBy(xpath = "//*[@id='s2id_autogen8']/a/span[1]")
     protected WebElement searchByItem;
+
+    @FindBy(xpath = "//*[@id='select2-drop']/div/input")
+    protected WebElement searchByInputItem;
+
+    @FindBy(xpath = "//ul[@class='select2-results']//span[@class='select2-match']")
+    protected WebElement searchByResultItem;
 
     @FindBy(xpath = "//*[@id='dpd1']/div/input")
     protected WebElement checkInItem;
@@ -21,7 +27,7 @@ public class PhpHotelsPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='dpd2']/div/input")
     protected WebElement checkOutItem;
 
-    @FindBy(xpath = "//*[@id='travellersInput']")
+    @FindBy(xpath = "//div[@id='hotels']//input[@id='travellersInput']")
     protected WebElement adultChildItem;
 
     @FindBy(xpath = "//*[@id='hotels']/form/div[5]/button")

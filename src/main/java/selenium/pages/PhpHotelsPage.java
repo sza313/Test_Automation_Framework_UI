@@ -2,6 +2,8 @@ package selenium.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.pageObjects.PhpHotelsPageObjects;
 import selenium.pageObjects.PhpLoginPageObjects;
 
@@ -16,7 +18,7 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
      * @param menuName: This identifies the menu name which will be clicked
      * @return with a boolean to get the navigation status
      */
-    public boolean clickToMenuItem(String menuName){
+    public boolean clickToMenuItem(String menuName) {
 
         switch (menuName) {
             case "Search by":
@@ -61,10 +63,37 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
 
     }
 
+    public boolean clickToSearchResultItem(String pos){
+
+        switch (pos) {
+            case "first":
+                Assert.assertTrue("Could not click to " + pos, clickToElement(this.searchByResultItem));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + pos);
+                return false;
+        }
+
+    }
+
+    public boolean clickToIncreaseItem(int number) {
+        if(number>=1) {
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver,timeout);
+            for (int i = 0; i < number; i++) {
+                Assert.assertTrue("Could not increase the item", clickToElement(this.childPlusButton));
+                wait.until(ExpectedConditions.elementToBeClickable(this.childPlusButton));
+            }
+            return true;
+        }
+            Assert.fail("The number is not suitable to increase Item");
+            return false;
+    }
+
     public boolean writeToSimpleFormTextBox(String textBoxName, String text) {
         switch (textBoxName) {
             case "searchBy":
-                Assert.assertTrue("Could not write to " + textBoxName + " textbox.", writeIntoTextBox(this.searchByItem, text));
+                Assert.assertTrue("Could not write to " + textBoxName + " textbox.", writeIntoTextBox(this.searchByInputItem, text));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + textBoxName + " textbox.");
