@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 public class DriverUtil {
@@ -318,4 +319,28 @@ public class DriverUtil {
         }
         return true;
     }
+
+    /**
+     * Clicks to any number of webelements.
+     * Params:
+     * List<Webelemnt> elementList: list of elements to be clicked
+     */
+    protected boolean clickToMultipleElements(List<WebElement> elementList) {
+        try {
+            Log.info("Clicking with javascript to the following elements: ");
+            for (WebElement element : elementList) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            }
+            for (WebElement element : elementList) {
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    
 }
