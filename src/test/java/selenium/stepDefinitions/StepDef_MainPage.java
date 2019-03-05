@@ -1,5 +1,6 @@
 package selenium.stepDefinitions;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -60,5 +61,15 @@ public class StepDef_MainPage extends DriverUtil {
     @Then("'(.*)' submenu item becomes visible")
     public  void validateSubmenuItemIsVisible(String submenuName) {
         Assert.assertTrue(submenuName + " submenu item is not visible.", mainPage.validateSubmenuItemIsVisible(submenuName));
+    }
+
+    @When("Click with javascript to {string} menu item")
+    public void clickWithJavascriptToInput_FormsMenuItem(String menuName) {
+        Assert.assertTrue("Could not click with javascript to " + menuName + " menu", mainPage.clickToMenuItemWithJS(menuName));
+    }
+
+    @When("Click with javascript to {string} submenu item")
+    public void clickWithJavascriptToSimple_Form_DemoSubmenuItem(String submenuName) {
+        Assert.assertTrue("Could not click with javascript to " + submenuName + " menu", mainPage.clickToSubmenuItemWithJS(submenuName));
     }
 }

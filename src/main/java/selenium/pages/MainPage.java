@@ -102,4 +102,26 @@ public class MainPage extends MainPageObjects {
                 return false;
         }
     }
+
+    public boolean clickToMenuItemWithJS(String menuName) {
+        switch (menuName) {
+            case "Input_Forms":
+                Assert.assertTrue("Could not click with javascript to " + menuName, clickToElementWithJS(this.inputFormsMenuItem));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + menuName);
+                return false;
+        }
+    }
+
+    public boolean clickToSubmenuItemWithJS(String submenuName) {
+        switch (submenuName) {
+            case "Simple_Form_Demo":
+                Assert.assertTrue("Could not click with javascript to " + submenuName, clickToElementWithJS(this.simpleFormDemoSubmenuItem));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + submenuName);
+                return false;
+        }
+    }
 }

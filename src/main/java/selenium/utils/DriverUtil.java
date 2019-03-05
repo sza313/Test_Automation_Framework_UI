@@ -265,4 +265,21 @@ public class DriverUtil {
             return false;
         }
     }
+
+    /**
+     * Clicks to a webelement with javascript.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithJS(WebElement element) {
+        try {
+            Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments [0].click();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
