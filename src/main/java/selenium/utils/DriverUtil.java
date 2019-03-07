@@ -322,11 +322,11 @@ public class DriverUtil {
     /**
      * Clicks to any number of webelements.
      * Params:
-     * List<Webelemnt> elementList: list of elements to be clicked
+     * WebElement... elements: unique ID or path to the elements to be clicked
      */
     protected boolean clickToMultipleElements(WebElement... elements) {
         try {
-            Log.info("Clicking with javascript to the following elements: ");
+            Log.info("Clicking to the following elements: ");
             for (WebElement element : elements) {
                 Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
                 element.click();
@@ -339,5 +339,24 @@ public class DriverUtil {
         return true;
     }
 
-
+    /**
+     * Draws a red border around and clicks to any number of webelements .
+     * Params:
+     * WebElement... elements: unique ID or path to the elements to be clicked
+     */
+    protected boolean clickToMultipleElementsWithVisualization(WebElement... elements) {
+        try {
+            Log.info("Clicking with visualization to the following elements: ");
+            for (WebElement element : elements) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                drawBorder(element);
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
