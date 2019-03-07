@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
 public class DriverUtil {
@@ -110,7 +109,7 @@ public class DriverUtil {
      */
     protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             element.click();
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested element.");
@@ -253,7 +252,7 @@ public class DriverUtil {
     protected boolean waitForPageToLoad() {
         try {
             Log.info("Waiting for the page to load.");
-            WebDriverWait wait = new WebDriverWait(driver, 30);
+            WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
                     return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
@@ -275,7 +274,7 @@ public class DriverUtil {
     protected boolean clickToElementWithJS(WebElement element) {
         try {
             Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            ((JavascriptExecutor) driver).executeScript("arguments [0].click();", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested element.");
             e.printStackTrace();
@@ -289,7 +288,7 @@ public class DriverUtil {
      * Params:
      * Webelemnt element: unique ID or path to the element
      */
-    protected boolean scrollToElement(WebElement element) {
+    protected boolean scrollToElementWithJS(WebElement element) {
         try {
             Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
@@ -325,13 +324,11 @@ public class DriverUtil {
      * Params:
      * List<Webelemnt> elementList: list of elements to be clicked
      */
-    protected boolean clickToMultipleElements(List<WebElement> elementList) {
+    protected boolean clickToMultipleElements(WebElement... elements) {
         try {
             Log.info("Clicking with javascript to the following elements: ");
-            for (WebElement element : elementList) {
+            for (WebElement element : elements) {
                 Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            }
-            for (WebElement element : elementList) {
                 element.click();
             }
         } catch (NoSuchElementException e) {
@@ -342,5 +339,5 @@ public class DriverUtil {
         return true;
     }
 
-    
+
 }

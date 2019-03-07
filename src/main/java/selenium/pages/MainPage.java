@@ -27,6 +27,9 @@ public class MainPage extends MainPageObjects {
             case "progress_bars":
                 Assert.assertTrue("Could not click to " + menuName, clickToElement(this.progressBarsMenuItem));
                 return true;
+            case "date_pickers":
+                Assert.assertTrue("Could not click to " + menuName, clickToElement(this.datePickersMenuItem));
+                return true;
             default:
                 Assert.fail("Could not find the requested item: " + menuName);
                 return false;
@@ -52,6 +55,9 @@ public class MainPage extends MainPageObjects {
                 return true;
             case "drag_&_drop_sliders":
                 Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.dragAndDropSlidersSubmenuItem));
+                return true;
+            case "bootstrap_date_picker":
+                Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.bootstrapDatePickerSubmenuItem));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + submenuName);
@@ -122,7 +128,7 @@ public class MainPage extends MainPageObjects {
     public boolean scrollToElementOnMainPage(String elementName) {
         switch (elementName) {
             case "Tutorials_Menu":
-                Assert.assertTrue("Could not scroll to " + elementName + " element", scrollToElement(this.tutorialsMenuTitle));
+                Assert.assertTrue("Could not scroll to " + elementName + " element", scrollToElementWithJS(this.tutorialsMenuTitle));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + elementName);
