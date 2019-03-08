@@ -1,7 +1,8 @@
 package selenium.stepDefinitions;
 
-import cucumber.api.java.en.When;
 import org.junit.Assert;
+
+import cucumber.api.java.en.When;
 import selenium.pages.PhpTravelPage;
 import selenium.utils.DriverUtil;
 

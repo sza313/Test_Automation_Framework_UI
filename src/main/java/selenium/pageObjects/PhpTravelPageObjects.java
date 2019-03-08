@@ -1,10 +1,11 @@
 package selenium.pageObjects;
 
-import selenium.utils.DriverUtil;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import selenium.utils.DriverUtil;
 
 public class PhpTravelPageObjects extends DriverUtil {
     public PhpTravelPageObjects(WebDriver driver) {

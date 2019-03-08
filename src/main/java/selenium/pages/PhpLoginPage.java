@@ -2,7 +2,7 @@ package selenium.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
 import selenium.pageObjects.PhpLoginPageObjects;
 
 public class PhpLoginPage extends PhpLoginPageObjects {

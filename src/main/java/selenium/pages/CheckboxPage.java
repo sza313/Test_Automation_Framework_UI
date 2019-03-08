@@ -2,6 +2,7 @@ package selenium.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+
 import selenium.pageObjects.CheckboxPageObjects;
 
 public class CheckboxPage extends CheckboxPageObjects {
