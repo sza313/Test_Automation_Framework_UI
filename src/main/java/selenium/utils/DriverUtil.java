@@ -279,6 +279,7 @@ public class DriverUtil {
             Log.info("Waiting for the page to load.");
             WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
             wait.until(new ExpectedCondition<Boolean>() {
+                @Override
                 public Boolean apply(WebDriver driver) {
                     return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
                 }
@@ -391,6 +392,7 @@ public class DriverUtil {
      */
     protected boolean waitForPageLoaded() {
         ExpectedCondition<Boolean> expectation =(new ExpectedCondition<Boolean>() {
+            @Override
             public Boolean apply(WebDriver driver) {
                 return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
                 }
