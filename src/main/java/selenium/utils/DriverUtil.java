@@ -31,10 +31,10 @@ public class DriverUtil {
     public DriverUtil(WebDriver driver) {
         DriverUtil.driver = driver;
     }
-
-
-    /**createNewDriver calls two method to open a browser
-     *
+      
+    /**
+     * createNewDriver calls two method to open a browser
+     * <p>
      * Params: Do not have any input params.
      */
     protected void createNewDriver() {
@@ -42,8 +42,9 @@ public class DriverUtil {
         chooseBrowser();
     }
 
-    /** chooseBrowser method creates a new webdriver, get data from system argument or config file to get the required browser type.
-     *
+    /**
+     * chooseBrowser method creates a new webdriver, get data from system argument or config file to get the required browser type.
+     * <p>
      * Params: Do not have any input params.
      */
     private void chooseBrowser() {
@@ -60,8 +61,8 @@ public class DriverUtil {
         //Select the correct browser type, chrome is the default one
         switch (browser) {
             case "firefox":
-                System.setProperty("webdriver.gecko.driver","./src/main/resources/geckodriver.exe");
-                driver= new FirefoxDriver();
+                System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
+                driver = new FirefoxDriver();
                 Log.info("Firefox driver is opening.");
                 break;
             case "chrome":
@@ -69,10 +70,10 @@ public class DriverUtil {
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening.");
                 break;
-        //TODO: debug this (won't find dropdown element)
+            //TODO: debug this (won't find dropdown element)
             case "IE":
-                System.setProperty("webdriver.ie.driver","./src/main/resources/IEDriverServer.exe");
-                driver= new InternetExplorerDriver();
+                System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
+                driver = new InternetExplorerDriver();
                 Log.info("IE driver is opening.");
                 break;
             default:
@@ -94,8 +95,9 @@ public class DriverUtil {
         driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
-    /**readPropertiesFile opens the Config.properties file and save the values
-     *
+    /**
+     * readPropertiesFile opens the Config.properties file and save the values
+     * <p>
      * Params: Do not have any input params.
      */
     private void readPropertiesFile() {
@@ -108,14 +110,15 @@ public class DriverUtil {
         }
     }
 
-    /**cliclToElement method clicks to a webelement
+    /**
+     * cliclToElement method clicks to a webelement
      *
      * @param element: Data came from the Page files, it identifies the target
      * @return with a boolean to get the status of the click
      */
-    protected boolean clickToElement(WebElement element){
+    protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             element.click();
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested element to click.");
@@ -240,17 +243,149 @@ public class DriverUtil {
         return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
   
-     //Draws a red border around the found element.
-     //Params:
-     //WebElement element:unique identifier of the element
-     protected boolean drawBorder(WebElement element) {
-         Log.info("Drawing border around the following element. ID="+element.getAttribute("id")+" , CLASS="+element.getAttribute("class")+" TEXT="+element.getText());
-         if (driver instanceof JavascriptExecutor) {
-            ((JavascriptExecutor)driver).executeScript("arguments [0].style.border='solid red'",element);
+    // Draws a red border around the found element.
+    //Params:
+    //WebElement element:unique identifier of the element
+    public boolean drawBorder(WebElement element) {
+        Log.info("Drawing border around the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
+        if (driver instanceof JavascriptExecutor) {
+            ((JavascriptExecutor) driver).executeScript("arguments [0].style.border='solid red'", element);
         }
         return element.getAttribute("style").contains("solid red");
     }
 
+    /**
+     * Draws a red border around the clicked element.
+     * Params:
+     * Webelement element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithVisualization(WebElement element) {
+        try {
+            Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            drawBorder(element);
+            element.click();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Waits for page to load/reload.
+     */
+    protected boolean waitForPageToLoad() {
+        try {
+            Log.info("Waiting for the page to load.");
+            WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                }
+            });
+            return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+        } catch (TimeoutException e) {
+            Log.error("Could not wait for the page to load.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Clicks to a webelement with javascript.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithJS(WebElement element) {
+        try {
+            Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Scrolls to a webelement.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean scrollToElementWithJS(WebElement element) {
+        try {
+            Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Scrolls to a webelement with an offset along the x and y axes. The degree of offset can be specified by the tester.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     * int xOffset: degree of offset along the x axis in pixels. Positive values will scroll to the right, while negative values scroll to the left.
+     * int yOffset: degree of offset along the y axis in pixels. Positive values will scroll down, while negative values scroll up.
+     */
+    protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
+        try {
+            Log.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();" + "window.scrollBy(arguments[1],arguments[2]);", element, xOffset, yOffset);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Clicks to any number of webelements.
+     * Params:
+     * WebElement... elements: unique ID or path to the elements to be clicked
+     */
+    protected boolean clickToMultipleElements(WebElement... elements) {
+        try {
+            Log.info("Clicking to the following elements: ");
+            for (WebElement element : elements) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Draws a red border around and clicks to any number of webelements .
+     * Params:
+     * WebElement... elements: unique ID or path to the elements to be clicked
+     */
+    protected boolean clickToMultipleElementsWithVisualization(WebElement... elements) {
+        try {
+            Log.info("Clicking with visualization to the following elements: ");
+            for (WebElement element : elements) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                drawBorder(element);
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * waitForPageLoaded method waits until the new page completely loaded.
      * @return with a boolean to get the navigation status
@@ -274,6 +409,5 @@ public class DriverUtil {
         }
 
     }
-
 
 }
