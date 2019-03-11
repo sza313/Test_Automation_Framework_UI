@@ -1,7 +1,7 @@
 Feature: PhpTravelBooking
 
   @Travel
-  Scenario: Book a travel on PhpTravelsPage
+  Scenario Outline: Book a travel on PhpTravelsPage
     #Login
     Given Open site
     When Click to 'MY ACCOUNT' menu item on PhpTravels
@@ -22,3 +22,16 @@ Feature: PhpTravelBooking
     And Increase child numbers by 2
     Then Click to 'SEARCH' menu item on Hotels page
     And Wait for SEARCH page is loaded
+    Then I set the value of the 'STAR GRADE' checkbox to '4' on the checkbox page
+    And Filter for price range from <lower> to <higher>
+    And I set the value of the 'PROPERTY TYPES' checkbox to 'Hotel' on the checkbox page
+    And I set the value of the 'Amenities' checkbox to 'Airport Transport' on the checkbox page
+    And I set the value of the 'Amenities' checkbox to 'Restaurant' on the checkbox page
+    And I set the value of the 'Amenities' checkbox to ''WI-FI internet' on the checkbox page
+    And Search for the filters
+    Then Wait for SEARCH page is loaded
+
+    Examples:
+    | lower  | higher |
+    |  50    |  200   |
+
