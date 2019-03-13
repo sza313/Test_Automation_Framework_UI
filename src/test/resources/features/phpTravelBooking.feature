@@ -23,16 +23,16 @@ Feature: PhpTravelBooking
     Then Click to 'SEARCH' menu item on Hotels page
     And Wait for SEARCH page is loaded
     Then I set the value of the 'STAR GRADE' section's '4 star' checkbox to 'true' on the Search Result page
-    And I set the value of the 'Left Slider' to '50' on the Search Result page
-    And I set the value of the 'Right Slider' to '200' on the Search Result page
+   # And I set the value of the 'Left Slider' to '70' on the Search Result page
+   # And I set the value of the 'Right Slider' to '200' on the Search Result page
     And I set the value of the 'PROPERTY TYPES' section's 'Hotel' checkbox to 'true' on the Search Result page
     And I set the value of the 'AMENITIES' section's 'Airport Transport' checkbox to 'true' on the Search Result page
     And I set the value of the 'AMENITIES' section's 'Restaurant' checkbox to 'true' on the Search Result page
-    And I set the value of the 'AMENITIES' section's 'WI-FI internet' checkbox to 'true' on the Search Result page
+    And I set the value of the 'AMENITIES' section's 'WI-FI Internet' checkbox to 'true' on the Search Result page
     And Click to 'SEARCH' item
     Then Wait for SEARCH page is loaded
 
     Examples:
     | lower  | higher |
-    |  50    |  200   |
+    |  70    |  200   |
 

@@ -12,19 +12,19 @@ public class PhpSearchResPageObjects extends DriverUtil {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//*[@id='collapse1']/div[1]/div/div[1]/div/ins")
+    @FindBy(xpath = "//*[@class='rating']/div[1]/div/ins")
     protected WebElement starGrade1;
 
-    @FindBy(xpath = "//*[@id='collapse1']/div[1]/div/div[3]/div/ins")
+    @FindBy(xpath = "//*[@class='rating']/div[3]/div/ins")
     protected WebElement starGrade2;
 
-    @FindBy(xpath = "//*[@id='collapse1']/div[1]/div/div[5]/div/ins")
+    @FindBy(xpath = "//*[@class='rating']/div[5]/div/ins")
     protected WebElement starGrade3;
 
-    @FindBy(xpath = "//*[@class='rating']//input[@id='4']/ins")
+    @FindBy(xpath = "//*[@class='rating']/div[7]/div/ins")
     protected WebElement starGrade4;
 
-    @FindBy(xpath = "//*[@id='collapse1']/div[1]/div/div[9]/div/ins")
+    @FindBy(xpath = "//*[@class='rating']/div[9]/div/ins")
     protected WebElement starGrade5;
 
     @FindBy(xpath = "//*[@id='sl2']")

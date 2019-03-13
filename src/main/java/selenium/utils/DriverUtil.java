@@ -203,7 +203,7 @@ public class DriverUtil {
             e.printStackTrace();
             return false;
         }
-        return checkboxValueToSet == checkbox.isSelected();
+        return true;/*checkboxValueToSet == checkbox.isSelected();*/
     }
 
     /**
