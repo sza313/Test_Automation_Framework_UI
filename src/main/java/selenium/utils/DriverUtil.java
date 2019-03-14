@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
@@ -215,12 +216,12 @@ public class DriverUtil {
     protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
         try {
             Log.info("Setting to " + valueToSet + " the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
-            int minValue = Integer.valueOf(rangeSlider.getAttribute("min"));
-            int maxValue = Integer.valueOf(rangeSlider.getAttribute("max"));
+            int minValue = Integer.valueOf(rangeSlider.getAttribute("min").trim());
+            int maxValue = Integer.valueOf(rangeSlider.getAttribute("max").trim());
             if (valueToSet < minValue || valueToSet > maxValue) {
                 throw new IllegalArgumentException();
             } else {
-                int initialValue = Integer.valueOf(rangeSlider.getAttribute("value"));
+                int initialValue = Integer.valueOf(rangeSlider.getAttribute("value").trim());
                 if (initialValue < valueToSet) {
                     for (int i = 0; i < valueToSet - initialValue; i++) {
                         rangeSlider.sendKeys(Keys.ARROW_RIGHT);
@@ -408,6 +409,20 @@ public class DriverUtil {
             return false;
         }
 
+    }
+
+    protected boolean waitUntilElementVisible(WebElement element) {
+        try {
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
+            WebElement webelement = wait.until(
+                    ExpectedConditions.visibilityOf(element));
+            return true;
+        } catch (Throwable error) {
+            Assert.fail("Could not wait until the maximum timout: " + properties.getProperty("timeout"));
+            error.printStackTrace();
+            return false;
+        }
     }
 
 }

@@ -45,6 +45,8 @@ public class PhpSearchResPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='searchform']")
     protected WebElement searchButton;
 
+    @FindBy(xpath = "//*[@id='body-section']/div[5]/div/div[3]/div[1]/div/table/tbody/tr[8]/td/div[3]/a/button\n")
+    protected WebElement testing2Hotel;
 
 
 }

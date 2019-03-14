@@ -9,11 +9,11 @@ Feature: PhpTravelBooking
     When Login to the PhpTravels page
     And Wait for My Account page is loaded
 
-    #Hotel booking
+    #Hotel search
     Then Click to 'HOTELS' menu item on MyAccount page
     And Wait for HOTELS page is loaded
     Then Click to 'Search by' menu item on Hotels page
-    Then Write 'New York' to the 'searchBy' box
+    Then Write 'Melbourne' to the 'searchBy' box
     And Click the 'first' search result
     Then Click to 'Check in' menu item on Hotels page
     And Click 'next Friday' in the calendar
@@ -31,6 +31,17 @@ Feature: PhpTravelBooking
     And I set the value of the 'AMENITIES' section's 'WI-FI Internet' checkbox to 'true' on the Search Result page
     And Click to 'SEARCH' item
     Then Wait for SEARCH page is loaded
+    And Click to 'Testing2 Hotel' item
+    Then Wait for Testing2 Hotel page is loaded
+
+    #Hotel booking
+    Then I set the value of the 'STANDARD ROOM' checkbox to 'true' on the Testing2 Hotel page
+    And Click to 'BOOK NOW' button
+    And Wait for Confirmation page is loaded
+    Then Click to 'CONFIRM THIS BOOKING' button on Confirmation page
+    And Wait for Preliminary page is loaded
+    And Wait until 'Invoice' element is visible
+    And Wait for Invoice page is loaded
 
     Examples:
     | lower  | higher |

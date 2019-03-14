@@ -2,6 +2,7 @@ package selenium.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import selenium.pageObjects.PhpSearchResPageObjects;
 
 public class PhpSearchResPage extends PhpSearchResPageObjects {
@@ -80,6 +81,11 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
         switch (itemName) {
             case "SEARCH":
                 Assert.assertTrue("Could not click to " + itemName, clickToElement(this.searchButton));
+                return true;
+            case "Testing2 Hotel":
+                Actions actions=new Actions(driver);
+                actions.moveToElement(this.testing2Hotel).build().perform();
+                Assert.assertTrue("Could not click to " + itemName, clickToElement(this.testing2Hotel));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + itemName);

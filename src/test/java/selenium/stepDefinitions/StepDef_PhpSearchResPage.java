@@ -26,4 +26,9 @@ public class StepDef_PhpSearchResPage extends DriverUtil {
         Assert.assertTrue("Could not click to " + itemName + " item", phpSearchResPage.clickToItem(itemName));
     }
 
+    @Then("Wait for Testing2 Hotel page is loaded$")
+    public void waitForPageLoading() {
+        Assert.assertTrue("The Testing2 Hotel page is not loaded " , waitForPageLoaded());
+    }
+
 }
