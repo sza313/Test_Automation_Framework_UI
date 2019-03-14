@@ -396,43 +396,4 @@ public class DriverUtil {
         }
         return element.getAttribute("style").contains("solid red");
     }
-
-    /**
-     * dragAndDropWebelement method is dragging a WebElement and dropping it into another WebElement
-     * Params:
-     * WebElement draggable: unique ID or path to the element we want to drag
-     * WebElement droppable: unique ID or path to the element in which we want to drop the draggable element
-     */
-    protected boolean dragAndDropWebelement(WebElement draggable, WebElement droppable) {
-        try {
-            Log.info("Dragging and dropping the following element: ID=" + draggable.getAttribute("id") + " , CLASS=" + draggable.getAttribute("class") + " , NAME=" + draggable.getAttribute("name") + " into element ID= " + droppable.getAttribute("id") + " , CLASS=" + draggable.getAttribute("class") + " , NAME=" + draggable.getAttribute("name"));
-            Actions drag = new Actions(driver);
-            drag.dragAndDrop(draggable, droppable).build().perform();
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested elements.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * waitingForElementToBeVisible method is enabling to wait for a certain WebElement
-     * for a certain number of seconds
-     * Params:
-     * WebElement element: unique ID or path to the WebElement we are waiting for to be visible
-     * int seconds: number of seconds we are waiting before throwing an exception
-     */
-    protected boolean waitingForElementToBeVisible(WebElement element, int seconds) {
-        try {
-            Log.info("Waiting for the following element to be visible: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " , NAME=" + element.getAttribute("name"));
-            WebDriverWait wait = new WebDriverWait(driver, seconds);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("element")));
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 }
