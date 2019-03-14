@@ -315,12 +315,9 @@ public class DriverUtil {
      * WebElement sum: unique ID or path to the element on page displaying the sum of the numbers
      */
     protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
-        String number1String = number1.getAttribute("value");
-        int number1Int = Integer.parseInt(number1String);
-        String number2String = number2.getAttribute("value");
-        int number2Int = Integer.parseInt(number2String);
-        String displayValueString = sum.getText();
-        int displayValue = Integer.parseInt(displayValueString);
+        int number1Int = Integer.parseInt(number1.getAttribute("value"));
+        int number2Int = Integer.parseInt(number2.getAttribute("value"));
+        int displayValue = Integer.parseInt(sum.getText());
         try {
             Log.info("Checking the result of two numbers in the following WebElement. ID=" + sum.getAttribute("id") + " , CLASS=" + sum.getAttribute("class") + " , NAME=" + sum.getAttribute("name"));
             int expectedSum = number1Int + number2Int;
