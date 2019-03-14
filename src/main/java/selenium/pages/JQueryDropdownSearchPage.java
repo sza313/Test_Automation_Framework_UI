@@ -10,18 +10,41 @@ public class JQueryDropdownSearchPage extends JQueryDropdownSearchPageObjects {
         super(driver);
     }
 
-    public boolean writeIntoFieldAndSelectAutosuggestion (String dropDown, String text) {
-        switch (dropDown) {
-            case "Dropdown":
-                Assert.assertTrue("Could not write to " + dropDown + " dropDown field.", autoSuggestionField(this.selectCountryField, text));
+    public boolean clickOnSelectCountryField(String dropdown) {
+        switch (dropdown) {
+            case "Select_country":
+                Assert.assertTrue("Could not click on " + dropdown + " dropdown field.", clickToElement(this.selectCountryField));
                 return true;
             default:
-                Assert.fail("Could not find the requested item: " + dropDown);
+                Assert.fail("Could not find the requested element: " + dropdown);
                 return false;
         }
     }
 
-    public boolean validateChosenItemInDropdown(String chosenText) {
-        return validateString(this.selectCountryJapan, chosenText);
+    public boolean writeCountryInSearchField(String searchField, String country) {
+        switch (searchField) {
+            case "Search_country":
+                Assert.assertTrue("Could not write into " + searchField + " field.", writeIntoTextBox(this.searchField, country));
+                return true;
+            default:
+                Assert.fail("Could not find the requested element: " + searchField);
+                return false;
+        }
+    }
+
+    public boolean selectDropdownListItem(String result) {
+        switch (result) {
+            case "Result":
+                Assert.assertTrue("Could not click on the following country: " + result, clickToElement(resultCountry));
+                return true;
+            default:
+                Assert.fail("Could not find the requested element: " + result);
+                return false;
+        }
+    }
+
+    public boolean validateChosenCountry(String country) {
+            return compareString(this.displayedCountry, country);
     }
 }
+

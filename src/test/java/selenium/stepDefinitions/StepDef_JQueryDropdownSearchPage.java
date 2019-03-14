@@ -10,13 +10,23 @@ public class StepDef_JQueryDropdownSearchPage extends DriverUtil {
 
     private JQueryDropdownSearchPage jQueryDropdownSearchPage = new JQueryDropdownSearchPage(driver);
 
-    @And("I start to type '(.*)' to the Select country '(.*)' field and hit enter$")
-    public void enterCharacters(String text, String dropDown) {
-        Assert.assertTrue("Could not write to " + dropDown + " dropdown field", jQueryDropdownSearchPage.writeIntoFieldAndSelectAutosuggestion(dropDown, text));
+    @And("Click to '(.*)' dropdown field$")
+    public void clickToSelectCountryDropdownField(String dropdownField) {
+        Assert.assertTrue("Could not click to " + dropdownField + " field.", jQueryDropdownSearchPage.clickOnSelectCountryField(dropdownField));
     }
 
-    @Then("Appropriate '(.*)' is selected in the '(.*)' field$")
-    public void appropriateCountryIsSelectedInTheDropdownField(String chosenText, String dropdown) {
-        Assert.assertTrue("Could not write to dropdown field", jQueryDropdownSearchPage.validateChosenItemInDropdown(chosenText));
+    @And("Write a '(.*)' into '(.*)' field$")
+    public void writeACountryIntoSearchCountryField(String country, String searchField) {
+        Assert.assertTrue("Could not write into " + searchField + " field.", jQueryDropdownSearchPage.writeCountryInSearchField(searchField, country));
+    }
+
+    @And("Click on '(.*)'$")
+    public void clickOnResult(String result) {
+        Assert.assertTrue("Could not select from " + result + " dropdown list.", jQueryDropdownSearchPage.selectDropdownListItem(result));
+    }
+
+    @Then("The correct '(.*)' is selected in the list$")
+    public void validateIfCorrectCountryIsSelected(String country) {
+        Assert.assertTrue("Could not select from " + country + " dropdown list.", jQueryDropdownSearchPage.validateChosenCountry(country));
     }
 }

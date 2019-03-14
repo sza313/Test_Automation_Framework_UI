@@ -13,9 +13,15 @@ public class JQueryDropdownSearchPageObjects extends DriverUtil {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//select[@id='country']")
+    @FindBy(xpath = "//span[@aria-labelledby='select2-country-container']")
     protected WebElement selectCountryField;
 
+    @FindBy(xpath = "//span[@class='select2-search select2-search--dropdown']//input[@type='search']")
+    protected WebElement searchField;
+
+    @FindBy(xpath = "//li[@class='select2-results__option select2-results__option--highlighted']")
+    protected WebElement resultCountry;
+
     @FindBy(xpath = "//span[@id='select2-country-container']")
-    protected WebElement selectCountryJapan;
+    protected WebElement displayedCountry;
 }
