@@ -69,7 +69,12 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
         int valueToSet = Integer.valueOf(value);
         switch (sliderName) {
             case "Left Slider":
-                Assert.assertTrue("Could not move the handle of the slider: " + sliderName + " to the requested value.", moveRangeSliderToValue(this.priceRange, valueToSet));
+                scrollToElementWithJS(this.leftPricericeRange);
+                Assert.assertTrue("Could not move the handle of the slider: " + sliderName + " to the requested value.", moveSliderToValue(this.leftPricericeRange, valueToSet));
+                return true;
+            case "Right Slider":
+                scrollToElementWithJS(this.rightPricericeRange);
+                Assert.assertTrue("Could not move the handle of the slider: " + sliderName + " to the requested value.", moveSliderToValue(this.rightPricericeRange, valueToSet));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + sliderName + " .");

@@ -43,5 +43,16 @@ public class PhpMyAccountPage extends PhpMyAccountPageObjects {
 
     }
 
+    public boolean waitForElementClickable(String element) {
+        switch (element) {
+            case "HOTELS":
+                Assert.assertTrue("Element is not visible: " + element, waitUntilElementClickable(this.hotelsItem));
+                return true;
+            default:
+                Assert.fail("Could not find the requested item: " + element);
+                return false;
+        }
+    }
+
 
 }

@@ -23,8 +23,8 @@ Feature: PhpTravelBooking
     Then Click to 'SEARCH' menu item on Hotels page
     And Wait for SEARCH page is loaded
     Then I set the value of the 'STAR GRADE' section's '4 star' checkbox to 'true' on the Search Result page
-   # And I set the value of the 'Left Slider' to '70' on the Search Result page
-   # And I set the value of the 'Right Slider' to '200' on the Search Result page
+    And I change the value of the 'Left Slider' with '<lower>' on the Search Result page
+    And I change the value of the 'Right Slider' with '<higher>' on the Search Result page
     And I set the value of the 'PROPERTY TYPES' section's 'Hotel' checkbox to 'true' on the Search Result page
     And I set the value of the 'AMENITIES' section's 'Airport Transport' checkbox to 'true' on the Search Result page
     And I set the value of the 'AMENITIES' section's 'Restaurant' checkbox to 'true' on the Search Result page
@@ -45,5 +45,5 @@ Feature: PhpTravelBooking
 
     Examples:
     | lower  | higher |
-    |  70    |  200   |
+    |  40    |  -40   |
 

@@ -27,8 +27,11 @@ public class PhpSearchResPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@class='rating']/div[9]/div/ins")
     protected WebElement starGrade5;
 
-    @FindBy(xpath = "//*[@id='sl2']")
-    protected WebElement priceRange;
+    @FindBy(xpath = "//*[@id='collapse2']/div/div/div[1]/div[2]")
+    protected WebElement leftPricericeRange;
+
+    @FindBy(xpath = "//*[@id='collapse2']/div/div/div[1]/div[3]")
+    protected WebElement rightPricericeRange;
 
     @FindBy(xpath = "//*[@id='collapse3']/div[1]/div[4]/div/ins")
     protected WebElement propertyHotel;

@@ -20,4 +20,9 @@ public class stepDef_PhpMyAccountPage extends DriverUtil {
     public void waitForPageLoading() {
         Assert.assertTrue("The HOTELS page is not loaded " , waitForPageLoaded());
     }
+
+    @And("Wait until '(.*)' element is clickable on MyAccount page$")
+    public void waitForOneElementVisible(String element) {
+        Assert.assertTrue("The Invoice element is not visible " , phpMyAccountPage.waitForElementClickable(element));
+    }
 }

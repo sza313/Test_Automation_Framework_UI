@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -243,6 +244,32 @@ public class DriverUtil {
         }
         return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
+
+    /**
+     * Slides the handle of a slider with the required offset value from the original position. The value can be specified by the tester.
+     * Params:
+     * WebElement slider: unique ID or path to the lef or right limit slider
+     * int valueToSet: The offset value in pixel with which we want to move the slider. Positive means right direction, negative means left direction.
+     */
+    protected boolean moveSliderToValue(WebElement slider, int valueToSet) {
+        try {
+            Actions action = new Actions(driver);
+            action.clickAndHold(slider).build().perform();
+            action.dragAndDropBy(slider,valueToSet,0).build().perform();
+            Thread.sleep(1000);
+            //System.out.println("The slider is in position: "+slider.getAttribute("style"));
+            return true;
+        }catch (NoSuchElementException e) {
+            Log.error("Could not find the requested range slider.");
+            e.printStackTrace();
+            return false;
+        }catch (InterruptedException e) {
+            Log.error("The time limit exceeded");
+            e.printStackTrace();
+            return false;
+        }
+
+    }
   
     // Draws a red border around the found element.
     //Params:
@@ -411,6 +438,11 @@ public class DriverUtil {
 
     }
 
+    /**
+     * Wait until the webelement will be visible.
+     * Params:
+     * Webelemnt element: unique ID or path to the element that should be visible
+     */
     protected boolean waitUntilElementVisible(WebElement element) {
         try {
             Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
@@ -425,4 +457,23 @@ public class DriverUtil {
         }
     }
 
+    /**
+     * Wait until the webelement will be clickable.
+     * Params:
+     * Webelemnt element: unique ID or path to the element that should be clickable
+     */
+    protected boolean waitUntilElementClickable(WebElement element) {
+        try {
+            Thread.sleep(5000); //Have to wait until next page started to load
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
+            WebElement webelement = wait.until(
+                    ExpectedConditions.elementToBeClickable(element));
+            return true;
+        } catch (Throwable error) {
+            Assert.fail("Could not wait until the maximum timout: " + properties.getProperty("timeout"));
+            error.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -15,7 +15,10 @@ public class PhpMyAccountPageObjects extends DriverUtil {
     @FindBy(xpath = "//ul[@class='nav navbar-nav go-right']/li[1]/a")
     protected WebElement homeItem;
 
-    @FindBy(xpath = "//ul[@class='nav navbar-nav go-right']/li[2]/a/span")
+   // @FindBy(xpath = "//ul[@class='nav navbar-nav go-right']/li[2]/a/span")
+   // protected WebElement hotelsItem;
+
+    @FindBy(xpath = "/html/body/nav/div/div[2]/ul[1]/li[2]/a/span")
     protected WebElement hotelsItem;
 
     @FindBy(xpath = "//ul[@class='nav navbar-nav go-right']/li[3]/a/span")

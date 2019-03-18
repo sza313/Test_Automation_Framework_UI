@@ -16,7 +16,7 @@ public class StepDef_PhpSearchResPage extends DriverUtil {
         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, phpSearchResPage.clickCheckbox(sectionName,checkboxName, toCheck));
     }
 
-    @Then("I set the value of the '(.*)' to '(.*)' on the Search Result page$")
+    @Then("I change the value of the '(.*)' with '(.*)' on the Search Result page$")
     public void setSliderToValue(String sliderName ,String value) {
         Assert.assertTrue("Could not move the handle of the slider: " + sliderName + " to the requested value", phpSearchResPage.moveSliderToValue(sliderName, value));
     }
