@@ -1,5 +1,6 @@
 package selenium.utils;
 
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -10,11 +11,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
 
 public class DriverUtil {
     protected static WebDriver driver;
@@ -27,7 +32,7 @@ public class DriverUtil {
     public DriverUtil() {
     }
 
-    /**
+  /**
      * createNewDriver calls two method to open a browser
      * <p>
      * Params: Do not have any input params.
@@ -59,31 +64,38 @@ public class DriverUtil {
                 System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
                 driver = new FirefoxDriver();
                 Log.info("Firefox driver is opening.");
-                driver.manage().window().maximize();
                 break;
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening.");
-                driver.manage().window().maximize();
                 break;
             //TODO: debug this (won't find dropdown element)
             case "IE":
                 System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
                 driver = new InternetExplorerDriver();
                 Log.info("IE driver is opening.");
-                driver.manage().window().maximize();
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
                 Log.info("Chrome browser is opening by default.");
-                driver.manage().window().maximize();
                 break;
         }
+        driverConfig();
     }
 
-    /**
+    /**driverConfig set up driver related configs
+     *
+     * Params: Do not have any input params. You can set the timeout in the Config.properties file.
+     */
+    private void driverConfig() {
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
+    }
+
+     /**
      * readPropertiesFile opens the Config.properties file and save the values
      * <p>
      * Params: Do not have any input params.
@@ -106,10 +118,10 @@ public class DriverUtil {
      */
     protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             element.click();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            Log.error("Could not find the requested element to click.");
             e.printStackTrace();
             return false;
         }
@@ -127,11 +139,28 @@ public class DriverUtil {
             Log.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            Log.error("Could not find the requested textbox to write.");
             e.printStackTrace();
             return false;
         }
         return text.equals(textBox.getAttribute("value"));
+    }
+
+    /**
+     * Clear the input field.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean clearTextBox(WebElement textBox) {
+        try {
+            Log.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.clear();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox to clear.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -385,7 +414,7 @@ public class DriverUtil {
         }
         return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
     }
-
+  
     // Draws a red border around the found element.
     //Params:
     //WebElement element:unique identifier of the element
@@ -396,4 +425,160 @@ public class DriverUtil {
         }
         return element.getAttribute("style").contains("solid red");
     }
+
+    /**
+     * Draws a red border around the clicked element.
+     * Params:
+     * Webelement element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithVisualization(WebElement element) {
+        try {
+            Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            drawBorder(element);
+            element.click();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Waits for page to load/reload.
+     */
+    protected boolean waitForPageToLoad() {
+        try {
+            Log.info("Waiting for the page to load.");
+            WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
+            wait.until(new ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                }
+            });
+            return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+        } catch (TimeoutException e) {
+            Log.error("Could not wait for the page to load.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Clicks to a webelement with javascript.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean clickToElementWithJS(WebElement element) {
+        try {
+            Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Scrolls to a webelement.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     */
+    protected boolean scrollToElementWithJS(WebElement element) {
+        try {
+            Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Scrolls to a webelement with an offset along the x and y axes. The degree of offset can be specified by the tester.
+     * Params:
+     * Webelemnt element: unique ID or path to the element
+     * int xOffset: degree of offset along the x axis in pixels. Positive values will scroll to the right, while negative values scroll to the left.
+     * int yOffset: degree of offset along the y axis in pixels. Positive values will scroll down, while negative values scroll up.
+     */
+    protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
+        try {
+            Log.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();" + "window.scrollBy(arguments[1],arguments[2]);", element, xOffset, yOffset);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Clicks to any number of webelements.
+     * Params:
+     * WebElement... elements: unique ID or path to the elements to be clicked
+     */
+    protected boolean clickToMultipleElements(WebElement... elements) {
+        try {
+            Log.info("Clicking to the following elements: ");
+            for (WebElement element : elements) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Draws a red border around and clicks to any number of webelements .
+     * Params:
+     * WebElement... elements: unique ID or path to the elements to be clicked
+     */
+    protected boolean clickToMultipleElementsWithVisualization(WebElement... elements) {
+        try {
+            Log.info("Clicking with visualization to the following elements: ");
+            for (WebElement element : elements) {
+                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                drawBorder(element);
+                element.click();
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * waitForPageLoaded method waits until the new page completely loaded.
+     * @return with a boolean to get the navigation status
+     */
+    protected boolean waitForPageLoaded() {
+        ExpectedCondition<Boolean> expectation =(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
+                }
+            });
+        try {
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver,timeout);
+            wait.until(expectation);
+            return true;
+        } catch (Throwable error) {
+            Assert.fail("Could not wait until the maximum timout: "+ properties.getProperty("timeout"));
+            error.printStackTrace();
+            return false;
+        }
+
+    }
+
 }
