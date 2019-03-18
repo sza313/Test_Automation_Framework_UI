@@ -5,13 +5,14 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
@@ -24,15 +25,14 @@ public class DriverUtil {
     protected static WebDriver driver;
     protected static Properties properties = new Properties();
 
-    public DriverUtil() {
-
-    }
-
     public DriverUtil(WebDriver driver) {
         DriverUtil.driver = driver;
     }
-      
-    /**
+
+    public DriverUtil() {
+    }
+
+  /**
      * createNewDriver calls two method to open a browser
      * <p>
      * Params: Do not have any input params.
@@ -95,7 +95,7 @@ public class DriverUtil {
         driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
     }
 
-    /**
+     /**
      * readPropertiesFile opens the Config.properties file and save the values
      * <p>
      * Params: Do not have any input params.
@@ -181,6 +181,178 @@ public class DriverUtil {
             return actualText.equals(expectedText);
         } catch (NoSuchElementException e) {
             Log.error("Could not find the requested element.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * writeRandomAlphabeticString method is writing a random alphabetic string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomAlphabeticString(WebElement textBox, int length) {
+        String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
+        try {
+            Log.info("Writing random alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+
+            textBox.sendKeys(randomAlphabeticString);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return randomAlphabeticString.equals(textBox.getAttribute("value"));
+    }
+
+    /**
+     * writeRandomNumericString method is writing a random numeric string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomNumericString(WebElement textBox, int length) {
+        String randomNumericString = RandomStringUtils.randomNumeric(length);
+        try {
+            Log.info("Writing random numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(randomNumericString);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return randomNumericString.equals(textBox.getAttribute("value"));
+    }
+
+    /**
+     * writeRandomAlphanumericString method is writing a random alphanumberic string into a textbox
+     * Number of characters can be specified by the user.
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     * int length: number of characters to be entered
+     */
+    public boolean writeRandomAlphanumericString(WebElement textBox, int length) {
+        String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
+        try {
+            Log.info("Writing random alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.sendKeys(randomAlphanumericString);
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return randomAlphanumericString.equals(textBox.getAttribute("value"));
+    }
+
+    /**
+     * createRandomAlphabeticString method is generating a random alphabetic string.
+     * Number of characters can be specified by the user.
+     * Params:
+     * int length: number of characters to be entered
+     */
+    protected String createRandomAlphabeticString(int length) {
+        String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
+        return randomAlphabeticString;
+    }
+
+    /**
+     * createRandomNumericString method is generating a random numeric string.
+     * Number of characters can be specified by the user.
+     * Params:
+     * int length: number of characters to be entered
+     */
+    protected String createRandomNumericString(int length) {
+        String randomNumericString = RandomStringUtils.randomNumeric(length);
+        return randomNumericString;
+    }
+
+    /**
+     * createRandomAlphanumericString method is generating a random alphanumeric string.
+     * Number of characters can be specified by the user.
+     * Params:
+     * int length: number of characters to be entered
+     */
+    protected String createRandomAlphanumericString(int length) {
+        String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
+        return randomAlphanumericString;
+    }
+
+    /**
+     * clearField method is clearing a textbox field by pushing the backspace button
+     * until the field is empty
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean clearFieldWithBackspace(WebElement textBox) {
+        try {
+            Log.info("Clearing data from the following textbox with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " NAME=" + textBox.getAttribute("name"));
+            String inputText = textBox.getAttribute("value");
+            for (int i = 0; i < inputText.length(); i++) {
+                textBox.sendKeys(Keys.BACK_SPACE);
+            }
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * clearDataFromField method is deleting the data from a field
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean clearDataFromField(WebElement textBox) {
+        try {
+            Log.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.clear();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * validateFieldIsEmpty method is checking if the certain textbox is empty
+     * Params:
+     * WebElement textBox: unique ID or path to the textbox
+     */
+    protected boolean validateFieldIsEmpty(WebElement textBox) {
+        try {
+            Log.info("Checking if the following element is empty. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            textBox.getText().isEmpty();
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested textbox.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * validateIfSumIsCorrect method is checking if the sum of two numbers entered in textboxes
+     * are correctly calculated on a page
+     * Params:
+     * WebElement number1: unique ID or path to the textbox of the first number
+     * WebElement number2: unique ID or path to the textbox of the second number
+     * WebElement sum: unique ID or path to the element on page displaying the sum of the numbers
+     */
+    protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
+        int number1Int = Integer.parseInt(number1.getAttribute("value"));
+        int number2Int = Integer.parseInt(number2.getAttribute("value"));
+        int displayValue = Integer.parseInt(sum.getText());
+        try {
+            Log.info("Checking the result of two numbers in the following WebElement. ID=" + sum.getAttribute("id") + " , CLASS=" + sum.getAttribute("class") + " , NAME=" + sum.getAttribute("name"));
+            int expectedSum = number1Int + number2Int;
+            return expectedSum == displayValue;
+        } catch (NoSuchElementException e) {
+            Log.error("Could not find the requested WebElement.");
             e.printStackTrace();
             return false;
         }

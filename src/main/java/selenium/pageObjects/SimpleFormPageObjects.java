@@ -18,6 +18,21 @@ public class SimpleFormPageObjects extends DriverUtil {
     @FindBy(xpath = "//form[@id='get-input']//button[text()='Show Message']")
     protected WebElement showMessageButton;
 
-    @FindBy(id = "display")
-    protected WebElement userMessageDisplay;
+    @FindBy(xpath = "//input[@id='user-message']")
+    protected WebElement enterMessageField;
+
+    @FindBy(xpath = "//span[@id='display']")
+    protected WebElement displayedMessage;
+
+    @FindBy(xpath = "//input[@id='sum1']")
+    protected WebElement number1Field;
+
+    @FindBy(xpath = "//input[@id='sum2']")
+    protected WebElement number2Field;
+
+    @FindBy(xpath = "//button[contains(text(),'Get Total')]")
+    protected WebElement getTotalButton;
+
+    @FindBy(id="displayvalue")
+    protected WebElement displaySum;
 }
