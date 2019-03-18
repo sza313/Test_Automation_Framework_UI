@@ -6,8 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import selenium.utils.DriverUtil;
 
-public class PhpTesting2HotelPageObjects extends DriverUtil {
-    public PhpTesting2HotelPageObjects(WebDriver driver) {
+public class PhpTestingHotelPageObjects extends DriverUtil {
+    public PhpTestingHotelPageObjects(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }

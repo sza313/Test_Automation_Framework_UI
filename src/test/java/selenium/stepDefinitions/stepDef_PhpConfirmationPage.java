@@ -3,7 +3,6 @@ package selenium.stepDefinitions;
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
 import selenium.pages.PhpConfirmationPage;
-import selenium.pages.PhpTesting2HotelPage;
 import selenium.utils.DriverUtil;
 
 public class stepDef_PhpConfirmationPage extends DriverUtil {

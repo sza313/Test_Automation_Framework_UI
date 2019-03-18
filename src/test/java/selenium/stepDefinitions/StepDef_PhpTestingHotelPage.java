@@ -2,12 +2,11 @@ package selenium.stepDefinitions;
 
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
-import selenium.pages.PhpSearchResPage;
-import selenium.pages.PhpTesting2HotelPage;
+import selenium.pages.PhpTestingHotelPage;
 import selenium.utils.DriverUtil;
 
-public class StepDef_PhpTesting2HotelPage extends DriverUtil {
-    private PhpTesting2HotelPage phpTesting2HotelPage = new PhpTesting2HotelPage(driver);
+public class StepDef_PhpTestingHotelPage extends DriverUtil {
+    private PhpTestingHotelPage phpTesting2HotelPage = new PhpTestingHotelPage(driver);
 
     @Then("I set the value of the '(.*)' checkbox to '(.*)' on the Testing2 Hotel page$")
     public void setCheckboxValue(String checkboxName, String checkboxValueToSet) {

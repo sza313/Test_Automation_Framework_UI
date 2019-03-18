@@ -50,7 +50,8 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
     public boolean clickToCalendarItem(String date){
 
         switch (date) {
-            case "next Friday":
+            case "next month Friday":
+                Assert.assertTrue("Could not click to " + date, clickToElement(this.nextMonthItem1));
                 Assert.assertTrue("Could not click to " + date, clickToElement(this.nextFridayItem));
                 return true;
             case "one week later":

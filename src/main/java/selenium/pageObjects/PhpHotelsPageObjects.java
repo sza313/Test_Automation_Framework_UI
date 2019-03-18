@@ -33,10 +33,16 @@ public class PhpHotelsPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='hotels']/form/div[5]/button")
     protected WebElement searchButton;
 
-    @FindBy(xpath = "/html/body/div[9]/div[1]/table/tbody/tr[3]/td[6]")
+    @FindBy(xpath = "/html/body/div[9]/div[1]/table/thead/tr[1]/th[3]")
+    protected WebElement nextMonthItem1;
+
+    @FindBy(xpath = "/html/body/div[9]/div[1]/table/tbody/tr[2]/td[6]")
     protected WebElement nextFridayItem;
 
-    @FindBy(xpath = "/html/body/div[10]/div[1]/table/tbody/tr[4]/td[6]")
+    @FindBy(xpath = "/html/body/div[10]/div[1]/table/thead/tr[1]/th[3]")
+    protected WebElement nextMonthItem2;
+
+    @FindBy(xpath = "/html/body/div[10]/div[1]/table/tbody/tr[3]/td[6]")
     protected WebElement oneWeekLaterItem;
 
     @FindBy(xpath = "//*[@id='childPlusBtn']")

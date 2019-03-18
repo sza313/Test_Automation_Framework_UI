@@ -13,10 +13,10 @@ Feature: PhpTravelBooking
     Then Click to 'HOTELS' menu item on MyAccount page
     And Wait for HOTELS page is loaded
     Then Click to 'Search by' menu item on Hotels page
-    Then Write 'Melbourne' to the 'searchBy' box
+    Then Write 'Dubai' to the 'searchBy' box
     And Click the 'first' search result
     Then Click to 'Check in' menu item on Hotels page
-    And Click 'next Friday' in the calendar
+    And Click 'next month Friday' in the calendar
     And Click 'one week later' in the calendar
     Then Click to 'Adult child' menu item on Hotels page
     And Increase child numbers by 2

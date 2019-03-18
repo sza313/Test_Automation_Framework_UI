@@ -2,11 +2,10 @@ package selenium.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
-import selenium.pageObjects.PhpTesting2HotelPageObjects;
+import selenium.pageObjects.PhpTestingHotelPageObjects;
 
-public class PhpTesting2HotelPage extends PhpTesting2HotelPageObjects {
-    public PhpTesting2HotelPage(WebDriver driver) {
+public class PhpTestingHotelPage extends PhpTestingHotelPageObjects {
+    public PhpTestingHotelPage(WebDriver driver) {
         super(driver);
     }
 
