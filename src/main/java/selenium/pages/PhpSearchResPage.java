@@ -88,8 +88,7 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
                 Assert.assertTrue("Could not click to " + itemName, clickToElement(this.searchButton));
                 return true;
             case "Testing2 Hotel":
-                Actions actions=new Actions(driver);
-                actions.moveToElement(this.testing2Hotel).build().perform();
+                scrollToElementWithJS(this.testing2Hotel);
                 Assert.assertTrue("Could not click to " + itemName, clickToElement(this.testing2Hotel));
                 return true;
             default:
