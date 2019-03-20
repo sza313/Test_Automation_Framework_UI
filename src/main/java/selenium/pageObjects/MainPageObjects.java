@@ -21,6 +21,9 @@ public class MainPageObjects extends DriverUtil {
     @FindBy(xpath = "//ul[contains(@class, 'navbar-nav')]//a[contains(text(),'Progress Bars')]")
     protected WebElement progressBarsMenuItem;
 
+    @FindBy(xpath = "//ul[contains(@class, 'navbar-nav')]//a[contains(text(),'Alerts & Modals')]")
+    protected WebElement alertsAndModalsMenuItem;
+
     @FindBy(xpath = "//a[text()='Simple Form Demo']")
     protected WebElement simpleFormDemoSubmenuItem;
 
@@ -32,6 +35,9 @@ public class MainPageObjects extends DriverUtil {
 
     @FindBy(xpath = "//a[text()='Bootstrap Date Picker']")
     protected WebElement bootstrapDatePickerSubmenuItem;
+
+    @FindBy(xpath = "//a[text()='Bootstrap Alerts']")
+    protected WebElement bootstrapAlertsSubmenuItem;
   
     @FindBy(id = "site-name")
     protected WebElement siteName;

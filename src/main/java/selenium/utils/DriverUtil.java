@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.Properties;
 
 public class DriverUtil {
@@ -359,4 +360,5 @@ public class DriverUtil {
         }
         return true;
     }
+
 }

@@ -30,6 +30,9 @@ public class MainPage extends MainPageObjects {
             case "date_pickers":
                 Assert.assertTrue("Could not click to " + menuName, clickToElement(this.datePickersMenuItem));
                 return true;
+            case "alerts_&_modals":
+                Assert.assertTrue("Could not click to " + menuName, clickToElement(this.alertsAndModalsMenuItem));
+                return true;
             default:
                 Assert.fail("Could not find the requested item: " + menuName);
                 return false;
@@ -58,6 +61,9 @@ public class MainPage extends MainPageObjects {
                 return true;
             case "bootstrap_date_picker":
                 Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.bootstrapDatePickerSubmenuItem));
+                return true;
+            case "bootstrap_alerts":
+                Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.bootstrapAlertsSubmenuItem));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + submenuName);
