@@ -44,6 +44,6 @@ public class BootstrapAlertsPage extends BootstrapAlertsPageObjects {
     }
 
     public boolean validatAutoclosableAlertMessageDisappearsAfterGivenTime(String alertName, int seconds) {
-        
+        return true;
     }
 }
