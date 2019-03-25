@@ -54,8 +54,15 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
                 Assert.assertTrue("Could not click to " + date, clickToElement(this.nextMonthItem1));
                 Assert.assertTrue("Could not click to " + date, clickToElement(this.nextFridayItem));
                 return true;
+            case "next month Saturday":
+                Assert.assertTrue("Could not click to " + date, clickToElement(this.nextMonthItem1));
+                Assert.assertTrue("Could not click to " + date, clickToElement(this.nextSaturdayItem));
+                return true;
             case "one week later":
                 Assert.assertTrue("Could not click to "+date, clickToElement(this.oneWeekLaterItem));
+                return true;
+            case "one day later":
+                Assert.assertTrue("Could not click to "+date, clickToElement(this.oneDayLaterItem));
                 return true;
             default:
                 Assert.fail("Could not find the requested item: " + date);
@@ -78,7 +85,7 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
     }
 
     public boolean clickToIncreaseItem(int number) {
-        if(number>=1) {
+        if(number>=0) {
             Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
             WebDriverWait wait = new WebDriverWait(driver,timeout);
             for (int i = 0; i < number; i++) {

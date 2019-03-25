@@ -33,11 +33,23 @@ public class PhpSearchResPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='collapse2']/div/div/div[1]/div[3]")
     protected WebElement rightPricericeRange;
 
+    @FindBy(xpath = "//*[@id='collapse3']/div[1]/div[2]/div/ins")
+    protected WebElement propertyApartment;
+
     @FindBy(xpath = "//*[@id='collapse3']/div[1]/div[4]/div/ins")
     protected WebElement propertyHotel;
 
+    @FindBy(xpath = "//*[@id='collapse3']/div[1]/div[18]/div/ins")
+    protected WebElement propertyVilla;
+
     @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[2]/div/ins")
     protected WebElement amenitiesAirportTransport;
+
+    @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[4]/div/ins")
+    protected WebElement amenitiesBusinessCenter;
+
+    @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[10]/div/ins")
+    protected WebElement amenitiesLaundryService;
 
     @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[12]/div/ins")
     protected WebElement amenitiesRestaurant;
@@ -45,10 +57,22 @@ public class PhpSearchResPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[14]/div/ins")
     protected WebElement amenitiesWiFi;
 
+    @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[18]/div/ins")
+    protected WebElement amenitiesSwimmingPool;
+
+    @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[20]/div/ins")
+    protected WebElement amenitiesInsideParking;
+
+    @FindBy(xpath = "//*[@id='collapse4']/div[1]/div[24]/div/ins")
+    protected WebElement amenitiesFitnessCenter;
+
     @FindBy(xpath = "//*[@id='searchform']")
     protected WebElement searchButton;
 
-    @FindBy(xpath = "//*[@id=\"body-section\"]/div[5]/div/div[3]/div[1]/div/table/tbody/tr[8]/td/div[3]/a/button")
+    @FindBy(xpath = "//*[@id='body-section']/div[5]/div/div[3]/div[1]/div/table/tbody/tr[8]/td/div[3]/a/button")
+    protected WebElement testing1Hotel;
+
+    @FindBy(xpath = "//*[@id='body-section']/div[5]/div/div[3]/div[1]/div/table/tbody/tr[7]/td/div[3]/a/button")
     protected WebElement testing2Hotel;
 
 }

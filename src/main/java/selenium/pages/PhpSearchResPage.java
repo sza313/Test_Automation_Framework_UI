@@ -36,8 +36,14 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
                 }
             case "PROPERTY TYPES":
                 switch(checkboxName) {
+                    case ("Apartment"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.propertyApartment, checkboxValueToSet));
+                        return true;
                     case ("Hotel"):
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.propertyHotel, checkboxValueToSet));
+                        return true;
+                    case ("Villa"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.propertyVilla, checkboxValueToSet));
                         return true;
                     default:
                         Assert.fail("Could not find the requested item: " + checkboxName + ".");
@@ -48,11 +54,26 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
                     case ("Airport Transport"):
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesAirportTransport, checkboxValueToSet));
                         return true;
+                    case ("Business Center"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesBusinessCenter, checkboxValueToSet));
+                        return true;
+                    case ("Laundry Service"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesLaundryService, checkboxValueToSet));
+                        return true;
                     case ("Restaurant"):
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesRestaurant, checkboxValueToSet));
                         return true;
                     case ("WI-FI Internet"):
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesWiFi, checkboxValueToSet));
+                        return true;
+                    case ("Swimming Pool"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesSwimmingPool, checkboxValueToSet));
+                        return true;
+                    case ("Inside Parking"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesInsideParking, checkboxValueToSet));
+                        return true;
+                    case ("Fitness Center"):
+                        Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesFitnessCenter, checkboxValueToSet));
                         return true;
                     default:
                         Assert.fail("Could not find the requested item: " + checkboxName + ".");
@@ -86,6 +107,10 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
         switch (itemName) {
             case "SEARCH":
                 Assert.assertTrue("Could not click to " + itemName, clickToElement(this.searchButton));
+                return true;
+            case "Testing1 Hotel":
+                scrollToElementWithJS(this.testing1Hotel);
+                Assert.assertTrue("Could not click to " + itemName, clickToElement(this.testing1Hotel));
                 return true;
             case "Testing2 Hotel":
                 scrollToElementWithJS(this.testing2Hotel);

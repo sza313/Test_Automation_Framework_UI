@@ -13,25 +13,25 @@ Feature: PhpTravelBooking
     Then Click to 'HOTELS' menu item on MyAccount page
     And Wait for HOTELS page is loaded
     Then Click to 'Search by' menu item on Hotels page
-    Then Write 'Dubai' to the 'searchBy' box
+    Then Write '<city>' to the 'searchBy' box
     And Click the 'first' search result
     Then Click to 'Check in' menu item on Hotels page
-    And Click 'next month Friday' in the calendar
-    And Click 'one week later' in the calendar
+    And Click '<day from>' in the calendar
+    And Click '<day until>' in the calendar
     Then Click to 'Adult child' menu item on Hotels page
-    And Increase child numbers by 2
+    And Increase child numbers by <times>
     Then Click to 'SEARCH' menu item on Hotels page
     And Wait for SEARCH page is loaded
-    Then I set the value of the 'STAR GRADE' section's '4 star' checkbox to 'true' on the Search Result page
+    Then I set the value of the 'STAR GRADE' section's '<hotel rate>' checkbox to 'true' on the Search Result page
     And I change the value of the 'Left Slider' with '<lower>' on the Search Result page
     And I change the value of the 'Right Slider' with '<higher>' on the Search Result page
-    And I set the value of the 'PROPERTY TYPES' section's 'Hotel' checkbox to 'true' on the Search Result page
-    And I set the value of the 'AMENITIES' section's 'Airport Transport' checkbox to 'true' on the Search Result page
-    And I set the value of the 'AMENITIES' section's 'Restaurant' checkbox to 'true' on the Search Result page
-    And I set the value of the 'AMENITIES' section's 'WI-FI Internet' checkbox to 'true' on the Search Result page
+    And I set the value of the 'PROPERTY TYPES' section's '<property1>' checkbox to 'true' on the Search Result page
+    And I set the value of the 'AMENITIES' section's '<amenity1>' checkbox to 'true' on the Search Result page
+    And I set the value of the 'AMENITIES' section's '<amenity2>' checkbox to 'true' on the Search Result page
+    And I set the value of the 'AMENITIES' section's '<amenity3>' checkbox to 'true' on the Search Result page
     And Click to 'SEARCH' item
     Then Wait for SEARCH page is loaded
-    And Click to 'Testing2 Hotel' item
+    And Click to '<test hotel>' item
     Then Wait for Testing2 Hotel page is loaded
 
     #Hotel booking
@@ -44,6 +44,6 @@ Feature: PhpTravelBooking
     And Wait for Invoice page is loaded
 
     Examples:
-    | lower  | higher |
-    |  40    |  -40   |
-
+   |city   | day from           | day until      | times |hotel rate | lower | higher | property1    | amenity1          | amenity2        |amenity3      | test hotel     |
+   |Dubai  | next month Friday  | one week later | 2     |  4 star    |40    |  -40   | Hotel        | Airport Transport | Restaurant      |WI-FI Internet| Testing1 Hotel  |
+   |London | next month Saturday| one day later  | 0     |  5 star    |20    |  -10   | Apartment    | Business Center   | Laundry Service |Swimming Pool | Testing2 Hotel  |
