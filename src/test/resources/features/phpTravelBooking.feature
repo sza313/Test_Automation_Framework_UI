@@ -19,7 +19,8 @@ Feature: PhpTravelBooking
     And Click '<day from>' in the calendar
     And Click '<day until>' in the calendar
     Then Click to 'Adult child' menu item on Hotels page
-    And Increase child numbers by <times>
+    And Decrease adult numbers by <times1>
+    And Increase child numbers by <times2>
     Then Click to 'SEARCH' menu item on Hotels page
     And Wait for SEARCH page is loaded
     Then I set the value of the 'STAR GRADE' section's '<hotel rate>' checkbox to 'true' on the Search Result page
@@ -44,6 +45,7 @@ Feature: PhpTravelBooking
     And Wait for Invoice page is loaded
 
     Examples:
-   |city   | day from           | day until      | times |hotel rate | lower | higher | property1    | amenity1          | amenity2        |amenity3      | test hotel     |
-   |Dubai  | next month Friday  | one week later | 2     |  4 star    |40    |  -40   | Hotel        | Airport Transport | Restaurant      |WI-FI Internet| Testing1 Hotel  |
-   |London | next month Saturday| one day later  | 0     |  5 star    |20    |  -10   | Apartment    | Business Center   | Laundry Service |Swimming Pool | Testing2 Hotel  |
+   |city    | day from           | day until      | times1| times2 |hotel rate | lower | higher | property1   | amenity1          | amenity2        |amenity3      | test hotel     |
+   |Dubai   | next month Friday  | one week later | 0     |    2   |  4 star   |40     |  -40   | Hotel       | Airport Transport | Restaurant      |WI-FI Internet| Testing1 Hotel |
+   |London  | next month Saturday| one day later  | 0     |    0   |  5 star   |20     |  -30   | Apartment   | Business Center   | Laundry Service |Swimming Pool | Testing1 Hotel |
+   |New York| next month Friday  | one day later  | 1     |    3   |  3 star   |50     |  -60   | Villa       | Restaurant        | Inside Parking  |Fitness Center| Testing1 Hotel |

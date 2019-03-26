@@ -98,6 +98,20 @@ public class PhpHotelsPage extends PhpHotelsPageObjects {
             return false;
     }
 
+    public boolean clickToDecreaseItem(int number) {
+        if(number>=0) {
+            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
+            WebDriverWait wait = new WebDriverWait(driver,timeout);
+            for (int i = 0; i < number; i++) {
+                Assert.assertTrue("Could not decrease the item", clickToElement(this.adultMinusButton));
+                wait.until(ExpectedConditions.elementToBeClickable(this.adultMinusButton));
+            }
+            return true;
+        }
+        Assert.fail("The number is not suitable to decrease Item");
+        return false;
+    }
+
     public boolean writeToSimpleFormTextBox(String textBoxName, String text) {
         switch (textBoxName) {
             case "searchBy":

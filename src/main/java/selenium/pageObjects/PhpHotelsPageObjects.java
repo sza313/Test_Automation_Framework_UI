@@ -54,6 +54,12 @@ public class PhpHotelsPageObjects extends DriverUtil {
     @FindBy(xpath = "//*[@id='childPlusBtn']")
     protected WebElement childPlusButton;
 
+    @FindBy(xpath = "//*[@id='adultMinusBtn']")
+    protected WebElement adultMinusButton;
+
+    @FindBy(xpath = "//*[@id='adultPlusBtn']")
+    protected WebElement adultPlusButton;
+
     @FindBy(xpath = "//*[@id='childMinusBtn']")
     protected WebElement childMinusButton;
 

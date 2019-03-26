@@ -34,6 +34,11 @@ public class StepDef_PhpHotelsPage extends DriverUtil {
         Assert.assertTrue("Could not increase children number",phpHotelsPage.clickToIncreaseItem(number));
     }
 
+    @Then("Decrease adult numbers by (.*)$")
+    public void decreaseAdultNumber(int number) {
+        Assert.assertTrue("Could not increase adult number",phpHotelsPage.clickToDecreaseItem(number));
+    }
+
     @And("Wait for SEARCH page is loaded$")
     public void waitForPageLoading() {
         Assert.assertTrue("The SEARCH page is not loaded " , waitForPageLoaded());
