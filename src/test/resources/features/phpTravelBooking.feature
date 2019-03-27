@@ -33,7 +33,7 @@ Feature: PhpTravelBooking
     And Click to 'SEARCH' item
     Then Wait for SEARCH page is loaded
     And Click to '<test hotel>' item
-    Then Wait for Testing2 Hotel page is loaded
+    Then Wait for Testing Hotel page is loaded
 
     #Hotel booking
     Then I set the value of the 'STANDARD ROOM' checkbox to 'true' on the Testing2 Hotel page
