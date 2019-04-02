@@ -20,4 +20,5 @@ public class PhpLoginPageObjects  extends DriverUtil {
 
     @FindBy(xpath = "//*[@id='loginfrm']/button")
     protected WebElement loginItem;
+
 }

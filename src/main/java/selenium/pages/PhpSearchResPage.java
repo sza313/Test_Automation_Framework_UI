@@ -55,24 +55,31 @@ public class PhpSearchResPage extends PhpSearchResPageObjects {
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesAirportTransport, checkboxValueToSet));
                         return true;
                     case ("Business Center"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesBusinessCenter));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesBusinessCenter, checkboxValueToSet));
                         return true;
                     case ("Laundry Service"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesLaundryService));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesLaundryService, checkboxValueToSet));
                         return true;
                     case ("Restaurant"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesRestaurant));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesRestaurant, checkboxValueToSet));
                         return true;
                     case ("WI-FI Internet"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesWiFi));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesWiFi, checkboxValueToSet));
                         return true;
                     case ("Swimming Pool"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesSwimmingPool));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesSwimmingPool, checkboxValueToSet));
                         return true;
                     case ("Inside Parking"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesInsideParking));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesInsideParking, checkboxValueToSet));
                         return true;
                     case ("Fitness Center"):
+                        Assert.assertTrue("Could not scroll to element.", scrollToElementWithJS(this.amenitiesFitnessCenter));
                         Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.amenitiesFitnessCenter, checkboxValueToSet));
                         return true;
                     default:

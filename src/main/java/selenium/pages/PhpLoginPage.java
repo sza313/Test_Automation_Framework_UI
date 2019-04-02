@@ -23,6 +23,7 @@ public class PhpLoginPage extends PhpLoginPageObjects {
         Assert.assertTrue("Could not write into the email field.",writeIntoTextBox(this.inputEmail,username));
         String password = properties.getProperty("Password_php");
         Assert.assertTrue("Could not write into the email field.",writeIntoTextBox(this.inputPassword,password));
+        Assert.assertTrue("Could not scroll to element.",scrollToElementWithJS(this.loginItem));
 
         return clickToElement(this.loginItem);
     }
