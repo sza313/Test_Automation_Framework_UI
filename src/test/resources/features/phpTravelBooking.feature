@@ -47,5 +47,5 @@ Feature: PhpTravelBooking
     Examples:
    |city    | day from           | day until      | times1| times2 |hotel rate | lower | higher | property1   | amenity1          | amenity2        |amenity3      | test hotel     |
    |Dubai   | next month Friday  | one week later | 0     |    2   |  4 star   |40     |  -40   | Hotel       | Airport Transport | Restaurant      |WI-FI Internet| Testing1 Hotel |
-  # |London  | next month Saturday| one day later  | 0     |    0   |  5 star   |20     |  -30   | Apartment   | Business Center   | Laundry Service |Swimming Pool | Testing1 Hotel |
-  # |New York| next month Friday  | one day later  | 1     |    3   |  3 star   |50     |  -60   | Villa       | Restaurant        | Inside Parking  |Fitness Center| Testing1 Hotel |
+   |London  | next month Saturday| one day later  | 0     |    0   |  5 star   |20     |  -30   | Apartment   | Business Center   | Laundry Service |Swimming Pool | Testing1 Hotel |
+   |New York| next month Friday  | one day later  | 1     |    3   |  3 star   |50     |  -60   | Villa       | Restaurant        | Inside Parking  |Fitness Center| Testing1 Hotel |
