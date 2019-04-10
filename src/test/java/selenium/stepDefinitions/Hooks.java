@@ -15,8 +15,8 @@ public class Hooks extends DriverUtil {
 
     @Before
     public void beforeScenario() {
-        Log.startLog();
-        createNewDriver();
+//        Log.startLog();
+//        createNewDriver();
     }
 
     @After
