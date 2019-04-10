@@ -23,14 +23,15 @@ import java.util.concurrent.TimeUnit;
 
 
 public class DriverUtil {
-    protected static WebDriver driver;
+    protected WebDriver driver;
     protected static Properties properties = new Properties();
 
     public DriverUtil(WebDriver driver) {
-        DriverUtil.driver = driver;
+        this.driver = driver;
     }
 
     public DriverUtil() {
+        System.out.println("def constr.");
     }
 
   /**

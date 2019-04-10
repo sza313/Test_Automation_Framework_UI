@@ -16,11 +16,12 @@ public class JunitParallel {
 
 	@Test
 	public void test1() {
-		Main.main(new String[]{"--threads", "3",
+		Main.main(new String[]{"--threads", "1",
 				"-p", "json:target/test_result/test-report.json",
 				"-p", "html:target/test_result/html-result",
+				"-t","@fail",
 				"-g", "selenium/stepDefinitions",
-				"src/test/resources/features/delete.feature"});
+				"src/test/resources/features/"});
 	}
 
 }

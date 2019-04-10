@@ -7,18 +7,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import selenium.pages.MainPage;
+import selenium.parallelstepdefs.CucumberTestContext;
 import selenium.parallelstepdefs.DriverController;
 
 public class StepDef_MainPage {
     private final static Logger LOG = LogManager.getLogger();
     private MainPage mainPage;
     private DriverController driverController;
+    private CucumberTestContext testContext;
+
+    public StepDef_MainPage(CucumberTestContext testContext) {
+        this.testContext = testContext;
+        LOG.info("initialized.");
+    }
 
     @Given("Open site")
     public void openBrowser() {
         driverController = new DriverController();
         driverController.initializeWebDriver("chrome");
         mainPage = new MainPage(driverController.getWebDriver());
+        testContext.setWebDriver(driverController.getWebDriver());
 //        String url;
 //        if (System.getProperty("url") != null) {
 //            url = System.getProperty("url");

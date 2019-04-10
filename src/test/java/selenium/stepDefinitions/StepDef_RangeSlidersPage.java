@@ -2,13 +2,20 @@ package selenium.stepDefinitions;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import selenium.pages.RangeSlidersPage;
-import selenium.utils.DriverUtil;
+import selenium.parallelstepdefs.CucumberTestContext;
 
-public class StepDef_RangeSlidersPage extends DriverUtil {
+public class StepDef_RangeSlidersPage {
+    private final static Logger LOG = LogManager.getLogger();
+    private RangeSlidersPage rangeSlidersPage;
 
-    private RangeSlidersPage rangeSlidersPage = new RangeSlidersPage(driver);
+    public StepDef_RangeSlidersPage(CucumberTestContext testContext) {
+        rangeSlidersPage = new RangeSlidersPage(testContext.getWebDriver());
+        LOG.info("initialized.");
+    }
 
     @When("I set the value of the '(.*)' to '(.*)' on the range slider page")
     public void moveSlider(String sliderName, String value) {

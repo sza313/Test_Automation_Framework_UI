@@ -1,19 +1,26 @@
 package selenium.stepDefinitions;
 
 import cucumber.api.java.en.And;
-import selenium.pages.SimpleFormPage;
-import selenium.utils.DriverUtil;
 import cucumber.api.java.en.Then;
-import org.junit.Assert;
 import cucumber.api.java.en.When;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
+import selenium.pages.SimpleFormPage;
+import selenium.parallelstepdefs.CucumberTestContext;
 
-public class StepDef_SimpleFormPage extends DriverUtil {
+public class StepDef_SimpleFormPage {
+    private final static Logger LOG = LogManager.getLogger();
+    private SimpleFormPage simpleFormPage;// = new SimpleFormPage(driver);
 
-    private SimpleFormPage simpleFormPage = new SimpleFormPage(driver);
+    public StepDef_SimpleFormPage(CucumberTestContext testContext) {
+        simpleFormPage = new SimpleFormPage(testContext.getWebDriver());
+        LOG.info(getClass().getName() + " initialized.");
+    }
 
     @When("I write a '(.*)' to the '(.*)' textbox on the simple form page$")
     public void writeToSimpleFormTextBox(String text, String textBoxName) {
-        Assert.assertTrue("Could not write to "+textBoxName+" menu", simpleFormPage.writeToSimpleFormTextBox(textBoxName, text));
+        Assert.assertTrue("Could not write to " + textBoxName + " menu", simpleFormPage.writeToSimpleFormTextBox(textBoxName, text));
     }
 
     @And("Write (\\d+) random alphabetic characters in textbox '(.*)'$")
@@ -42,8 +49,8 @@ public class StepDef_SimpleFormPage extends DriverUtil {
     }
 
     @Then("The same '(.*)' shows up at the user message display section on the simple form page$")
-    public void validateThatCorrectMessageShowsUp(String expectedMessage){
-        Assert.assertTrue("The displayed user message is not '" + expectedMessage+ "'.", simpleFormPage.validateMessage(expectedMessage));
+    public void validateThatCorrectMessageShowsUp(String expectedMessage) {
+        Assert.assertTrue("The displayed user message is not '" + expectedMessage + "'.", simpleFormPage.validateMessage(expectedMessage));
     }
 
     @Then("The same string is shown in the displayed message")
@@ -53,12 +60,12 @@ public class StepDef_SimpleFormPage extends DriverUtil {
 
     @Then("'(.*)' section is empty$")
     public void displayedMessageIsEmpty(String displayedMessage) {
-            Assert.assertTrue("The following field is not empty: " + displayedMessage, simpleFormPage.checkDisplayedMessageIsEmpty());
+        Assert.assertTrue("The following field is not empty: " + displayedMessage, simpleFormPage.checkDisplayedMessageIsEmpty());
     }
 
     @When("I click on the '(.*)' button on the simple form page$")
     public void clickOnButton(String buttonName) {
-        Assert.assertTrue("Could not click on " + buttonName+ " button", simpleFormPage.clickOnButton(buttonName));
+        Assert.assertTrue("Could not click on " + buttonName + " button", simpleFormPage.clickOnButton(buttonName));
     }
 
     @Then("The simple form page opens")
