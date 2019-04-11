@@ -21,20 +21,21 @@ public class StepDef_MainPage {
         LOG.info("initialized.");
     }
 
+    @Given("Open site with {word}")
+    public void openBSiteWithBrowser(String browserType) {
+        driverController = new DriverController();
+        driverController.initializeWebDriver(browserType);
+        mainPage = new MainPage(driverController.getWebDriver());
+        testContext.setWebDriver(driverController.getWebDriver());
+    }
+
     @Given("Open site")
     public void openBrowser() {
         driverController = new DriverController();
-        driverController.initializeWebDriver("chrome");
+        driverController.initializeWebDriver("edge");
         mainPage = new MainPage(driverController.getWebDriver());
         testContext.setWebDriver(driverController.getWebDriver());
-//        String url;
-//        if (System.getProperty("url") != null) {
-//            url = System.getProperty("url");
-//        } else if (properties.getProperty("url") != null) {
-//            url = properties.getProperty("url");
-//        } else {
-//            url = "https://www.seleniumeasy.com/test/";
-//        }
+
         driverController.getWebDriver().get("https://www.seleniumeasy.com/test/");
     }
 

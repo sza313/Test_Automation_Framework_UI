@@ -2,6 +2,11 @@ Feature: Sample failing feature
 
   @Sample
     @Z
-  Scenario: Sample failing Scenario
-    Given Open site
+  Scenario Outline: Sample failing Scenario
+    Given Open site with <browser>
     And This step will fail
+    Examples:
+      | browser |
+      | chrome   |
+      | firefox  |
+      | edge  |

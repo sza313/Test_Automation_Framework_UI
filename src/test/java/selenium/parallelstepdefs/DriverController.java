@@ -19,13 +19,25 @@ public class DriverController {
     public void initializeWebDriver(String browserType) {
         LOG.info("Browser type is - " + browserType);
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.merge(DesiredCapabilities.chrome());
+        capabilities.merge(getBrowserCapability(browserType));
         try {
             webDriver = new RemoteWebDriver(new URL("http://localhost:5050/wd/hub"), capabilities);
         } catch (MalformedURLException e) {
             LOG.error("Could not initialize driver.");
             e.printStackTrace();
         }
+    }
+
+    private DesiredCapabilities getBrowserCapability(String browserType) {
+        DesiredCapabilities capability = null;
+        if ("firefox".equals(browserType)) {
+            capability = DesiredCapabilities.firefox();
+        } else if ("edge".equals(browserType)) {
+            capability = DesiredCapabilities.edge();
+        } else {
+            capability = DesiredCapabilities.chrome();
+        }
+        return capability;
     }
 
     public void cleanUpWebDriver() {

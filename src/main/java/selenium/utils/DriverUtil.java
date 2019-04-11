@@ -49,6 +49,7 @@ public class DriverUtil {
      * <p>
      * Params: Do not have any input params.
      */
+    @Deprecated
     private void chooseBrowser() {
 
         String browser;
