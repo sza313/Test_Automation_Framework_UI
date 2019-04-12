@@ -1,21 +1,22 @@
 package selenium.stepDefinitions;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.AfterStep;
-import cucumber.api.java.Before;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import selenium.utils.DriverUtil;
-import selenium.utils.Log;
 
-import java.util.concurrent.TimeUnit;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import selenium.utils.DriverCreator;
 
-public class Hooks extends DriverUtil {
+public class Hooks extends DriverCreator {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Before
     public void beforeScenario() {
-        Log.startLog();
+        LOGGER.info("Test is Starting...");
         createNewDriver();
     }
 
@@ -25,13 +26,8 @@ public class Hooks extends DriverUtil {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
         }
-        Log.endLog();
+        LOGGER.info("Test is Ending...");
         driver.quit();
     }
 
-    @AfterStep
-    public void createScreenshot(Scenario scenario) {
-        final byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
-        scenario.embed(screenshot,"image/png");
-    }
 }
