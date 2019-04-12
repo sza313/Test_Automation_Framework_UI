@@ -12,7 +12,7 @@ public class TestJunitParallel {
                 Main.run(new String[]{"--threads", "3",
                         "-p", "json:target/test_result/test-report.json",
                         "-p", "html:target/test_result/html-result",
-                        "-t", "@Sample",
+                        "-t", "@Z",
                         "-g", "selenium/stepDefinitions",
                         "src/test/resources/features/"},
                 Thread.currentThread().getContextClassLoader()));
