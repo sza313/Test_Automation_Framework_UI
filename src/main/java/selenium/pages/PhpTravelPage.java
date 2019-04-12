@@ -9,8 +9,7 @@ public class PhpTravelPage extends PhpTravelPageObjects {
     /**
      * clickToMenuItem method calls the clickToElement method and gives the target menu element.
      *
-     * @param menuName:
-     *            This identifies the menu name which will be clicked
+     * @param menuName: This identifies the menu name which will be clicked
      * @return with a boolean to get the navigation status
      */
     public void clickToMenuItem(String menuName) {
@@ -26,8 +25,7 @@ public class PhpTravelPage extends PhpTravelPageObjects {
     /**
      * clickToSubmenuItem method calls the clickToElement method and gives the target menu element.
      *
-     * @param submenuName:
-     *            This identifies the submenu name which will be clicked
+     * @param submenuName: This identifies the submenu name which will be clicked
      * @return with a boolean to get the navigation status
      */
     public void clickToSubmenuItem(String submenuName) {
