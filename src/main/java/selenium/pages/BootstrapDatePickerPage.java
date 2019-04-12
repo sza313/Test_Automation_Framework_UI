@@ -1,14 +1,15 @@
 package selenium.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.pageObjects.BootstrapDatePickerPageObjects;
-import selenium.utils.Log;
 
 public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
+    private final Logger LOG = LogManager.getLogger(getClass());
+
     public BootstrapDatePickerPage(WebDriver driver) {
         super(driver);
     }
@@ -75,7 +76,7 @@ public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
         for (WebElement day : this.dayList) {
             if (day.getText().equals(dayToSet)) {
                 if (day.getAttribute("class").equals("disabled disabled-date day")) {
-                    Log.error("The requested day is disabled.");
+                    LOG.error("The requested day is disabled.");
                     return false;
                 }
                 clickToElement(day);

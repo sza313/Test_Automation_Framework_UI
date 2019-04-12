@@ -11,7 +11,7 @@ import selenium.parallelstepdefs.CucumberTestContext;
 import selenium.parallelstepdefs.DriverController;
 
 public class StepDef_MainPage {
-    private final static Logger LOG = LogManager.getLogger();
+    private final Logger LOG = LogManager.getLogger(getClass());
     private MainPage mainPage;
     private DriverController driverController;
     private CucumberTestContext testContext;
@@ -32,7 +32,7 @@ public class StepDef_MainPage {
     @Given("Open site")
     public void openBrowser() {
         driverController = new DriverController();
-        driverController.initializeWebDriver("edge");
+        driverController.initializeWebDriver("");
         mainPage = new MainPage(driverController.getWebDriver());
         testContext.setWebDriver(driverController.getWebDriver());
 

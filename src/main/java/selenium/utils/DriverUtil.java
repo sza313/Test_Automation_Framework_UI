@@ -1,5 +1,7 @@
 package selenium.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class DriverUtil {
     protected WebDriver driver;
     protected static Properties properties = new Properties();
+    private final Logger LOG = LogManager.getLogger(getClass());
 
     public DriverUtil(WebDriver driver) {
         this.driver = driver;
@@ -66,23 +69,23 @@ public class DriverUtil {
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
                 driver = new FirefoxDriver();
-                Log.info("Firefox driver is opening.");
+                LOG.info("Firefox driver is opening.");
                 break;
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
-                Log.info("Chrome browser is opening.");
+                LOG.info("Chrome browser is opening.");
                 break;
             //TODO: debug this (won't find dropdown element)
             case "IE":
                 System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
                 driver = new InternetExplorerDriver();
-                Log.info("IE driver is opening.");
+                LOG.info("IE driver is opening.");
                 break;
             default:
                 System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
                 driver = new ChromeDriver();
-                Log.info("Chrome browser is opening by default.");
+                LOG.info("Chrome browser is opening by default.");
                 break;
         }
         driverConfig();
@@ -108,7 +111,7 @@ public class DriverUtil {
             InputStream input = new FileInputStream("./config/Config.properties");
             properties.load(input);
         } catch (Exception e) {
-            Log.error("Config.properties file not found!");
+            LOG.error("Config.properties file not found!");
             e.printStackTrace();
         }
     }
@@ -121,10 +124,10 @@ public class DriverUtil {
      */
     protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            LOG.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             element.click();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element to click.");
+            LOG.error("Could not find the requested element to click.");
             e.printStackTrace();
             return false;
         }
@@ -139,10 +142,10 @@ public class DriverUtil {
      */
     protected boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
-            Log.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox to write.");
+            LOG.error("Could not find the requested textbox to write.");
             e.printStackTrace();
             return false;
         }
@@ -156,10 +159,10 @@ public class DriverUtil {
      */
     protected boolean clearTextBox(WebElement textBox) {
         try {
-            Log.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.clear();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox to clear.");
+            LOG.error("Could not find the requested textbox to clear.");
             e.printStackTrace();
             return false;
         }
@@ -174,7 +177,7 @@ public class DriverUtil {
      */
     protected boolean compareString(WebElement elementWithText, String expectedText) {
         try {
-            Log.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
+            LOG.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
             String actualText;
             if (elementWithText.getText() == null || elementWithText.getText().isEmpty()) {
                 actualText = elementWithText.getAttribute("value");
@@ -183,7 +186,7 @@ public class DriverUtil {
             }
             return actualText.equals(expectedText);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -199,11 +202,11 @@ public class DriverUtil {
     public boolean writeRandomAlphabeticString(WebElement textBox, int length) {
         String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
         try {
-            Log.info("Writing random alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Writing random alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
 
             textBox.sendKeys(randomAlphabeticString);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -220,10 +223,10 @@ public class DriverUtil {
     public boolean writeRandomNumericString(WebElement textBox, int length) {
         String randomNumericString = RandomStringUtils.randomNumeric(length);
         try {
-            Log.info("Writing random numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Writing random numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(randomNumericString);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -240,10 +243,10 @@ public class DriverUtil {
     public boolean writeRandomAlphanumericString(WebElement textBox, int length) {
         String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
         try {
-            Log.info("Writing random alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Writing random alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(randomAlphanumericString);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -291,13 +294,13 @@ public class DriverUtil {
      */
     protected boolean clearFieldWithBackspace(WebElement textBox) {
         try {
-            Log.info("Clearing data from the following textbox with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " NAME=" + textBox.getAttribute("name"));
+            LOG.info("Clearing data from the following textbox with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " NAME=" + textBox.getAttribute("name"));
             String inputText = textBox.getAttribute("value");
             for (int i = 0; i < inputText.length(); i++) {
                 textBox.sendKeys(Keys.BACK_SPACE);
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -311,10 +314,10 @@ public class DriverUtil {
      */
     protected boolean clearDataFromField(WebElement textBox) {
         try {
-            Log.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.clear();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -328,10 +331,10 @@ public class DriverUtil {
      */
     protected boolean validateFieldIsEmpty(WebElement textBox) {
         try {
-            Log.info("Checking if the following element is empty. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOG.info("Checking if the following element is empty. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.getText().isEmpty();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
+            LOG.error("Could not find the requested textbox.");
             e.printStackTrace();
             return false;
         }
@@ -351,11 +354,11 @@ public class DriverUtil {
         int number2Int = Integer.parseInt(number2.getAttribute("value"));
         int displayValue = Integer.parseInt(sum.getText());
         try {
-            Log.info("Checking the result of two numbers in the following WebElement. ID=" + sum.getAttribute("id") + " , CLASS=" + sum.getAttribute("class") + " , NAME=" + sum.getAttribute("name"));
+            LOG.info("Checking the result of two numbers in the following WebElement. ID=" + sum.getAttribute("id") + " , CLASS=" + sum.getAttribute("class") + " , NAME=" + sum.getAttribute("name"));
             int expectedSum = number1Int + number2Int;
             return expectedSum == displayValue;
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested WebElement.");
+            LOG.error("Could not find the requested WebElement.");
             e.printStackTrace();
             return false;
         }
@@ -369,12 +372,12 @@ public class DriverUtil {
      */
     protected boolean setCheckboxValue(WebElement checkbox, boolean checkboxValueToSet) {
         try {
-            Log.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: ID=" + checkbox.getAttribute("id") + " , CLASS=" + checkbox.getAttribute("class") + " , VALUE=" + checkbox.getAttribute("value"));
+            LOG.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: ID=" + checkbox.getAttribute("id") + " , CLASS=" + checkbox.getAttribute("class") + " , VALUE=" + checkbox.getAttribute("value"));
             if (checkboxValueToSet != checkbox.isSelected()) {
                 checkbox.click();
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested checkbox.");
+            LOG.error("Could not find the requested checkbox.");
             e.printStackTrace();
             return false;
         }
@@ -389,7 +392,7 @@ public class DriverUtil {
      */
     protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
         try {
-            Log.info("Setting to " + valueToSet + " the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
+            LOG.info("Setting to " + valueToSet + " the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
             int minValue = Integer.valueOf(rangeSlider.getAttribute("min"));
             int maxValue = Integer.valueOf(rangeSlider.getAttribute("max"));
             if (valueToSet < minValue || valueToSet > maxValue) {
@@ -407,11 +410,11 @@ public class DriverUtil {
                 }
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested range slider.");
+            LOG.error("Could not find the requested range slider.");
             e.printStackTrace();
             return false;
         } catch (IllegalArgumentException ex) {
-            Log.error("The requested value is out of range.");
+            LOG.error("The requested value is out of range.");
             ex.printStackTrace();
             return false;
         }
@@ -422,7 +425,7 @@ public class DriverUtil {
     //Params:
     //WebElement element:unique identifier of the element
     public boolean drawBorder(WebElement element) {
-        Log.info("Drawing border around the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
+        LOG.info("Drawing border around the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
         if (driver instanceof JavascriptExecutor) {
             ((JavascriptExecutor) driver).executeScript("arguments [0].style.border='solid red'", element);
         }
@@ -436,11 +439,11 @@ public class DriverUtil {
      */
     protected boolean clickToElementWithVisualization(WebElement element) {
         try {
-            Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
+            LOG.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
             drawBorder(element);
             element.click();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -452,7 +455,7 @@ public class DriverUtil {
      */
     protected boolean waitForPageToLoad() {
         try {
-            Log.info("Waiting for the page to load.");
+            LOG.info("Waiting for the page to load.");
             WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
             wait.until(new ExpectedCondition<Boolean>() {
                 public Boolean apply(WebDriver driver) {
@@ -461,7 +464,7 @@ public class DriverUtil {
             });
             return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
         } catch (TimeoutException e) {
-            Log.error("Could not wait for the page to load.");
+            LOG.error("Could not wait for the page to load.");
             e.printStackTrace();
             return false;
         }
@@ -474,10 +477,10 @@ public class DriverUtil {
      */
     protected boolean clickToElementWithJS(WebElement element) {
         try {
-            Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            LOG.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -491,10 +494,10 @@ public class DriverUtil {
      */
     protected boolean scrollToElementWithJS(WebElement element) {
         try {
-            Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            LOG.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -510,10 +513,10 @@ public class DriverUtil {
      */
     protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
         try {
-            Log.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+            LOG.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();" + "window.scrollBy(arguments[1],arguments[2]);", element, xOffset, yOffset);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -527,13 +530,13 @@ public class DriverUtil {
      */
     protected boolean clickToMultipleElements(WebElement... elements) {
         try {
-            Log.info("Clicking to the following elements: ");
+            LOG.info("Clicking to the following elements: ");
             for (WebElement element : elements) {
-                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                LOG.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
                 element.click();
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
@@ -547,14 +550,14 @@ public class DriverUtil {
      */
     protected boolean clickToMultipleElementsWithVisualization(WebElement... elements) {
         try {
-            Log.info("Clicking with visualization to the following elements: ");
+            LOG.info("Clicking with visualization to the following elements: ");
             for (WebElement element : elements) {
-                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
+                LOG.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
                 drawBorder(element);
                 element.click();
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
+            LOG.error("Could not find the requested element.");
             e.printStackTrace();
             return false;
         }
