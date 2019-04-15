@@ -76,7 +76,7 @@ public class TestDataDrivenScenario {
     public void testRunCucumber() {
         Assert.assertEquals("There were test failures.", 0,
                 Main.run(new String[]{"--threads", "3",
-                                "-p", "json:target/test_result/test-report.json",
+                                "-p", "json:target/test_result/data-driven-test-report.json",
                                 "-p", "html:target/test_result/html-result",
                                 "-t", "@DataDriven",
                                 "-g", "selenium/stepDefinitions",
