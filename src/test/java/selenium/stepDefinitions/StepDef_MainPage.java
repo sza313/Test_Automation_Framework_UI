@@ -1,5 +1,6 @@
 package selenium.stepDefinitions;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -7,8 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import selenium.pages.MainPage;
-import selenium.parallelstepdefs.CucumberTestContext;
-import selenium.parallelstepdefs.DriverController;
+import selenium.parallel.context.CucumberTestContext;
+import selenium.parallel.drivercontroller.DriverController;
 
 public class StepDef_MainPage {
     private final Logger LOG = LogManager.getLogger(getClass());
@@ -22,11 +23,16 @@ public class StepDef_MainPage {
     }
 
     @Given("Open site with {word}")
-    public void openBSiteWithBrowser(String browserType) {
+    public void openSiteWithBrowser(String browserType) {
         driverController = new DriverController();
         driverController.initializeWebDriver(browserType);
         mainPage = new MainPage(driverController.getWebDriver());
         testContext.setWebDriver(driverController.getWebDriver());
+    }
+
+    @And("navigate to url {string}")
+    public void navigateToUrl(String url) {
+        driverController.getWebDriver().get(url);
     }
 
     @Given("Open site")

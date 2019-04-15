@@ -1,21 +1,15 @@
 package selenium.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
@@ -122,7 +116,7 @@ public class DriverUtil {
      * @param element: Data came from the Page files, it identifies the target
      * @return with a boolean to get the status of the click
      */
-    protected boolean clickToElement(WebElement element) {
+    public boolean clickToElement(WebElement element) {
         try {
             LOG.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
             element.click();
@@ -140,7 +134,7 @@ public class DriverUtil {
      * WebElement textBox: unique ID or path to the textbox
      * String text: text to be entered to the textbox
      */
-    protected boolean writeIntoTextBox(WebElement textBox, String text) {
+    public boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
             LOG.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
             textBox.sendKeys(text);
@@ -382,6 +376,12 @@ public class DriverUtil {
             return false;
         }
         return checkboxValueToSet == checkbox.isSelected();
+    }
+
+    public boolean selectFromDropDown(WebElement element, String input) {
+        Select stateDropDown = new Select(element);
+        stateDropDown.selectByVisibleText(input);
+        return true;
     }
 
     /**

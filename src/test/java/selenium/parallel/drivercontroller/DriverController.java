@@ -1,4 +1,4 @@
-package selenium.parallelstepdefs;
+package selenium.parallel.drivercontroller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

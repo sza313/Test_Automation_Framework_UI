@@ -14,7 +14,7 @@ public class TestJunitParallel {
                         "-p", "html:target/test_result/html-result",
                         "-t", "@Sample",
                         "-g", "selenium/stepDefinitions",
-                        "src/test/resources/features/"},
+                        "src/test/resources/features/basic"},
                 Thread.currentThread().getContextClassLoader()));
     }
 
