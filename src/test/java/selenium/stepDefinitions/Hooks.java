@@ -32,7 +32,9 @@ public class Hooks {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
         }
-        LOG.info("Attempting to close driver.");
-        driver.quit();
+        if (driver != null) {
+            LOG.info("Attempting to close driver.");
+            driver.quit();
+        }
     }
 }
