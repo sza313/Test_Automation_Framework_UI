@@ -17,25 +17,25 @@ public class StepDef_FormFillerPage {
         LOG.info(" initialized.");
     }
 
-    @When("enter {string} for first name")
+    @When("enter {word} for first name")
     public void enterFirstName(String input) {
 
         Assert.assertTrue("Unable to write first name field.", formFillerPage.writeIntoTextBox(formFillerPage.getFirstNameTextField(), input));
     }
 
-    @When("enter {string} for last name")
+    @When("enter {word} for last name")
     public void enterLastName(String input) {
 
         Assert.assertTrue("Unable to write last name field.", formFillerPage.writeIntoTextBox(formFillerPage.getLastNameTextField(), input));
     }
 
-    @When("enter {string} for email")
+    @When("enter {word} for email")
     public void enterEmail(String input) {
 
         Assert.assertTrue("Unable to write email field.", formFillerPage.writeIntoTextBox(formFillerPage.getEmailTextField(), input));
     }
 
-    @When("enter {string} for phone")
+    @When("enter {word} for phone")
     public void enterPhone(String input) {
 
         Assert.assertTrue("Unable to write phone field.", formFillerPage.writeIntoTextBox(formFillerPage.getPhoneTextField(), input));
@@ -59,19 +59,19 @@ public class StepDef_FormFillerPage {
         Assert.assertTrue("Unable to write state field.", formFillerPage.selectFromDropDown(formFillerPage.getStateSelect(), input));
     }
 
-    @When("enter {string} for zip")
+    @When("enter {word} for zip")
     public void enterZip(String input) {
 
         Assert.assertTrue("Unable to write city field.", formFillerPage.writeIntoTextBox(formFillerPage.getZipTextField(), input));
     }
 
-    @When("enter {string} for domain")
+    @When("enter {word} for domain")
     public void enterDomain(String input) {
 
         Assert.assertTrue("Unable to write domain field.", formFillerPage.writeIntoTextBox(formFillerPage.getWebsiteTextField(), input));
     }
 
-    @When("select radiobutton {string} for hosting")
+    @When("select radiobutton {word} for hosting")
     public void selectHostingRadioButton(String input) {
 
         Assert.assertTrue("Unable to select domain radio button.", formFillerPage.selectFromRadioButton(input));
