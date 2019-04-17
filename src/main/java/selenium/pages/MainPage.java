@@ -35,7 +35,6 @@ public class MainPage extends MainPageObjects {
      * clickToSubmenuItem method calls the clickToElement method and gives the target menu element.
      *
      * @param submenuName: This identifies the submenu name which will be clicked
-     * @return with a boolean to get the navigation status
      */
     public void clickToSubmenuItem(String submenuName) {
         submenuName = submenuName.toLowerCase();
@@ -144,7 +143,7 @@ public class MainPage extends MainPageObjects {
         Assert.assertTrue("This test is doomed to fail!", false);
     }
 
-    public void opensite() {
+    public void openSite() {
         String url;
         if (System.getProperty("url") != null) {
             url = System.getProperty("url");
@@ -155,6 +154,6 @@ public class MainPage extends MainPageObjects {
         }
         driver.get(url);
         Assert.assertTrue(String.format("Site: '%s' did not open", url), driver.getCurrentUrl()
-                                                                               .equals(url));
+                                                                               .startsWith(url));
     }
 }

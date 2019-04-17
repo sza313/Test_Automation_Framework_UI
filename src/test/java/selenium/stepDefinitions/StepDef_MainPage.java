@@ -11,7 +11,7 @@ public class StepDef_MainPage {
 
     @Given("Open site")
     public void openBrowser() {
-        mainPage.opensite();
+        mainPage.openSite();
     }
 
     @Given("This step will fail")
