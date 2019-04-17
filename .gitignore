@@ -1,9 +1,6 @@
 .idea
 target/
-<<<<<<< HEAD
 .classpath
 .project
 .settings
-=======
 *.iml
->>>>>>> 4ce03717423a40b017e0accbafc965e8a6ae4251
