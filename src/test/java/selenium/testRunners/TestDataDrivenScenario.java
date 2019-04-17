@@ -32,7 +32,6 @@ public class TestDataDrivenScenario {
                                 "-p", "json:target/test_result/data-driven-test-report.json",
                                 "-p", "html:target/test_result/html-result",
                                 "-t", "@DataDriven",
-                        "-d",
                                 "-g", "selenium/stepDefinitions",
                                 "src/test/resources/features/datadriven/generated-form-filler-outline.feature"},
                         Thread.currentThread().getContextClassLoader()));
