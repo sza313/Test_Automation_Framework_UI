@@ -1,10 +1,15 @@
 package selenium.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import selenium.pageObjects.PhpTravelPageObjects;
 
 public class PhpTravelPage extends PhpTravelPageObjects {
+
+    public PhpTravelPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     /**
      * clickToMenuItem method calls the clickToElement method and gives the target menu element.

@@ -5,6 +5,7 @@ import java.time.YearMonth;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
@@ -19,6 +20,10 @@ public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
     private static final String DAY_MONTH_YEAR_PATTERN = "d MMM uuuu";
     private static final String MONTH_OR_YEAR = "//span[text() = '%s']";
     private static final String DAY = "//td[text() = '%s']";
+
+    public BootstrapDatePickerPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public void validateBootstrapDatePickerPageTitle(String title) {
         Assert.assertTrue("Page title is not as expected.", comparePageTitle(title));

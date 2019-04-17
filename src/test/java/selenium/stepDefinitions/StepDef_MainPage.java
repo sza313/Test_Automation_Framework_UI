@@ -1,17 +1,47 @@
 package selenium.stepDefinitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import selenium.pages.MainPage;
+import selenium.parallel.context.CucumberTestContext;
+import selenium.parallel.drivercontroller.DriverController;
 
 public class StepDef_MainPage {
+    private final Logger LOG = LogManager.getLogger(getClass());
+    private MainPage mainPage;
+    private DriverController driverController;
+    private CucumberTestContext testContext;
 
-    private MainPage mainPage = new MainPage();
+    public StepDef_MainPage(CucumberTestContext testContext) {
+        this.testContext = testContext;
+        LOG.info("initialized.");
+    }
+
+    @Given("Open site with {word}")
+    public void openSiteWithBrowser(String browserType) {
+        driverController = new DriverController();
+        driverController.initializeWebDriver(browserType);
+        mainPage = new MainPage(driverController.getWebDriver());
+        testContext.setWebDriver(driverController.getWebDriver());
+
+    }
+
+    @And("navigate to url {string}")
+    public void navigateToUrl(String url) {
+        driverController.getWebDriver()
+                        .get(url);
+    }
 
     @Given("Open site")
     public void openBrowser() {
-        mainPage.openSite();
+        this.openSiteWithBrowser("");
+        driverController.getWebDriver()
+                        .get("https://www.seleniumeasy.com/test/");
     }
 
     @Given("This step will fail")

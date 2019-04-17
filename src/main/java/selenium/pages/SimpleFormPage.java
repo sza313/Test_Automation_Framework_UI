@@ -1,12 +1,17 @@
 package selenium.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import selenium.pageObjects.SimpleFormPageObjects;
 
 public class SimpleFormPage extends SimpleFormPageObjects {
 
     private String randomString = "";
+
+    public SimpleFormPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public void writeToSimpleFormTextBox(String textBoxName, String text) {
         switch (textBoxName) {

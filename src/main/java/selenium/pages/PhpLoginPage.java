@@ -1,10 +1,15 @@
 package selenium.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import selenium.pageObjects.PhpLoginPageObjects;
 
 public class PhpLoginPage extends PhpLoginPageObjects {
+
+    public PhpLoginPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     /**
      * login method calls the login method that starts a commom login/password/submit procedure.

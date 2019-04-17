@@ -1,10 +1,15 @@
 package selenium.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import selenium.pageObjects.CheckboxPageObjects;
 
 public class CheckboxPage extends CheckboxPageObjects {
+
+    public CheckboxPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public void validateSuccessMessage(String expectedMessage) {
         Assert.assertTrue("The success message was not as expected: " + expectedMessage, compareString(this.successMessageDisplay, expectedMessage));

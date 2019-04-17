@@ -2,6 +2,7 @@ package selenium.pageObjects;
 
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -9,9 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 import selenium.utils.DriverUtil;
 
 public class BootstrapDatePickerPageObjects extends DriverUtil {
-    public BootstrapDatePickerPageObjects() {
-        super();
-        PageFactory.initElements(driver, this);
+    public BootstrapDatePickerPageObjects(WebDriver webDriver) {
+        super(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
 
     @FindBy(xpath = "//div[@id='datepicker']//input[1]")

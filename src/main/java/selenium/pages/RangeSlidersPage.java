@@ -1,10 +1,15 @@
 package selenium.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import selenium.pageObjects.RangeSlidersPageObjects;
 
 public class RangeSlidersPage extends RangeSlidersPageObjects {
+
+    public RangeSlidersPage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public void moveSliderToValue(String sliderName, String value) {
         int valueToSet = Integer.valueOf(value);

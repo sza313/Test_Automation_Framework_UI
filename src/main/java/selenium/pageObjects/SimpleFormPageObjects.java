@@ -1,5 +1,6 @@
 package selenium.pageObjects;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -7,9 +8,9 @@ import org.openqa.selenium.support.PageFactory;
 import selenium.utils.DriverUtil;
 
 public class SimpleFormPageObjects extends DriverUtil {
-    public SimpleFormPageObjects() {
-        super();
-        PageFactory.initElements(driver, this);
+    public SimpleFormPageObjects(WebDriver webDriver) {
+        super(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
 
     @FindBy(xpath = "//input[@id='user-message']")

@@ -1,13 +1,22 @@
 package selenium.stepDefinitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import selenium.pages.SimpleFormPage;
+import selenium.parallel.context.CucumberTestContext;
 
 public class StepDef_SimpleFormPage {
+    private final static Logger LOG = LogManager.getLogger();
+    private SimpleFormPage simpleFormPage;
 
-    private SimpleFormPage simpleFormPage = new SimpleFormPage();
+    public StepDef_SimpleFormPage(CucumberTestContext testContext) {
+        simpleFormPage = new SimpleFormPage(testContext.getWebDriver());
+        LOG.info(getClass().getName() + " initialized.");
+    }
 
     @When("I write a '(.*)' to the '(.*)' textbox on the simple form page$")
     public void writeToSimpleFormTextBox(String text, String textBoxName) {

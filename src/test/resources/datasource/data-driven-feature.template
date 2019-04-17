@@ -1,0 +1,17 @@
+    @DataDriven
+    Scenario: generated scenario for csv line @csvLine
+        Given Open site with 'chrome'
+        And navigate to url 'https://www.seleniumeasy.com/test/input-form-demo.html'
+        When enter '@firstName' for first name
+        And enter '@lastName' for last name
+        And enter '@email' for email
+        And enter '@phone' for phone
+        And enter '@address' for address
+        And enter '@city' for city
+        And select '@state' for state
+        And enter '@zip' for zip
+        And enter '@domain' for domain
+        And select radiobutton '@hosting' for hosting
+        And enter '@project_description' for project description
+        And submit form
+        Then page is reloaded.

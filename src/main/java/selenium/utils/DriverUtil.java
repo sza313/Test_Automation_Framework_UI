@@ -13,15 +13,20 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DriverUtil {
 
-    public static WebDriver driver;
     public static Properties properties = new Properties();
+    public WebDriver driver;
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COULD_NOT_FIND_THE_REQUESTED_ELEMENT = "Could not find the requested element.";
+
+    public DriverUtil(WebDriver driver) {
+        this.driver = driver;
+    }
 
     /**
      * Clicks to a {@link WebElement}.
@@ -315,6 +320,12 @@ public class DriverUtil {
         }
     }
 
+    public boolean selectFromDropDown(WebElement element, String input) {
+        Select stateDropDown = new Select(element);
+        stateDropDown.selectByVisibleText(input);
+        return true;
+    }
+
     /**
      * Slides the handle of a range slider to a required value.
      * 
@@ -434,6 +445,23 @@ public class DriverUtil {
     protected boolean comparePageTitle(String expectedTitle) {
         return driver.getTitle()
                      .equals(expectedTitle);
+    }
+
+    protected boolean selectFromRadioButton(List<WebElement> webElements, String input) {
+        try {
+            if ("yes".equalsIgnoreCase(input)) {
+                webElements.get(0)
+                           .click();
+                ;
+            } else {
+                webElements.get(1)
+                           .click();
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
     }
 
     private Object executeScript(String script, Object... objects) {
