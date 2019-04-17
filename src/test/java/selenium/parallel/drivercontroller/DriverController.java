@@ -5,11 +5,8 @@ import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class DriverController {
@@ -21,7 +18,7 @@ public class DriverController {
 
     public void initializeWebDriver(String browserType) {
         LOG.info("Browser type is - " + browserType);
-        MutableCapabilities capabilities = getBrowserCapability(browserType);
+        DesiredCapabilities capabilities = getBrowserCapability(browserType);
         try {
             webDriver = new RemoteWebDriver(new URL("http://localhost:5050/wd/hub"), capabilities);
         } catch (MalformedURLException e) {
@@ -29,14 +26,14 @@ public class DriverController {
         }
     }
 
-    private MutableCapabilities getBrowserCapability(String browserType) {
-        MutableCapabilities capability = null;
+    private DesiredCapabilities getBrowserCapability(String browserType) {
+        DesiredCapabilities capability = null;
         if ("firefox".equals(browserType)) {
-            capability = new FirefoxOptions();
+            capability = DesiredCapabilities.firefox();
         } else if ("edge".equals(browserType)) {
-            capability = new EdgeOptions();
+            capability = DesiredCapabilities.edge();
         } else {
-            capability = new ChromeOptions();
+            capability = DesiredCapabilities.chrome();
         }
         return capability;
     }

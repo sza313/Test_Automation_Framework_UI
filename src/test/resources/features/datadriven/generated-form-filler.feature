@@ -1,6 +1,5 @@
 Feature: Form filler according to csv.
 
-@Sample
     @DataDriven
     Scenario: generated scenario for csv line 1
         Given Open site with 'chrome'

@@ -1,8 +1,9 @@
 package selenium.testRunners;
 
-import cucumber.api.cli.Main;
 import org.junit.Assert;
 import org.junit.Test;
+
+import cucumber.api.cli.Main;
 
 public class TestJunitParallel {
 
