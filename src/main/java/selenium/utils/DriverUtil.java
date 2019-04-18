@@ -9,12 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Optional;
 
 public class DriverUtil {
 
@@ -36,7 +35,7 @@ public class DriverUtil {
      */
     protected boolean clickToElement(WebElement element) {
         try {
-            LOGGER.info("Clicking to the following element. ID=" + getAttribute(element, "id"));
+            LOGGER.info("Clicking to the following element. NAME=" + getAttributeOrEmptyString(element, "name"));
             clickElement(element);
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -53,7 +52,7 @@ public class DriverUtil {
      */
     protected boolean clickToElementWithVisualization(WebElement element) {
         try {
-            LOGGER.info("Clicking to the following element with visualization. ID=" + getAttribute(element, "id"));
+            LOGGER.info("Clicking to the following element with visualization. NAME=" + getAttributeOrEmptyString(element, "name"));
             drawBorder(element);
             clickElement(element);
         } catch (NoSuchElementException e) {
@@ -71,7 +70,7 @@ public class DriverUtil {
      */
     protected boolean clickToElementWithJS(WebElement element) {
         try {
-            LOGGER.info("Clicking with javascript to the following element: ID=" + getAttribute(element, "id"));
+            LOGGER.info("Clicking with javascript to the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
             executeScript("arguments[0].click();", element);
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -123,7 +122,7 @@ public class DriverUtil {
      */
     protected boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
-            LOGGER.info("Writing text '" + text + "' into the following textbox: ID=" + getAttribute(textBox, "id"));
+            LOGGER.info("Writing text '" + text + "' into the following textbox: NAME=" + getAttributeOrEmptyString(textBox, "name"));
             scrollToElementWithJS(textBox);
             clearTextBox(textBox);
             textBox.sendKeys(text);
@@ -142,7 +141,7 @@ public class DriverUtil {
      */
     protected boolean clearTextBox(WebElement element) {
         try {
-            LOGGER.info("Clear the following element: ID=" + getAttribute(element, "id"));
+            LOGGER.info("Clear the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
             element.clear();
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -159,8 +158,8 @@ public class DriverUtil {
      */
     protected boolean clearFieldWithBackspace(WebElement textBox) {
         try {
-            LOGGER.info("Clearing data from the following textbox with backspace. ID=" + getAttribute(textBox, "id"));
-            String inputText = getAttribute(textBox, "value");
+            LOGGER.info("Clearing data from the following textbox with backspace. NAME=" + getAttributeOrEmptyString(textBox, "name"));
+            String inputText = getAttributeOrEmptyString(textBox, "value");
             for (int i = 0; i < inputText.length(); i++) {
                 textBox.sendKeys(Keys.BACK_SPACE);
             }
@@ -180,11 +179,11 @@ public class DriverUtil {
      */
     protected boolean compareString(WebElement elementWithText, String expectedText) {
         try {
-            LOGGER.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + getAttribute(elementWithText, "id"));
+            LOGGER.info("Comparing text '" + expectedText + "' with the text of the following element: NAME=" + getAttributeOrEmptyString(elementWithText, "name"));
             String actualText;
-            if (elementWithText.getText() == null || elementWithText.getText()
-                                                                    .isEmpty()) {
-                actualText = getAttribute(elementWithText, "value");
+            if (elementWithText.getText()
+                               .isEmpty()) {
+                actualText = getAttributeOrEmptyString(elementWithText, "value");
             } else {
                 actualText = elementWithText.getText();
             }
@@ -269,7 +268,7 @@ public class DriverUtil {
      */
     protected boolean validateFieldIsEmpty(WebElement textBox) {
         try {
-            LOGGER.info("Checking if the following element is empty. ID=" + getAttribute(textBox, "id"));
+            LOGGER.info("Checking if the following element is empty. NAME=" + getAttributeOrEmptyString(textBox, "name"));
             return textBox.getText()
                           .isEmpty();
         } catch (NoSuchElementException e) {
@@ -287,11 +286,11 @@ public class DriverUtil {
      * @return True, if the addition was correct
      */
     protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
-        int number1Int = Integer.parseInt(getAttribute(number1, "value"));
-        int number2Int = Integer.parseInt(getAttribute(number2, "value"));
+        int number1Int = Integer.parseInt(getAttributeOrEmptyString(number1, "value"));
+        int number2Int = Integer.parseInt(getAttributeOrEmptyString(number2, "value"));
         int displayValue = Integer.parseInt(sum.getText());
         try {
-            LOGGER.info("Checking the result of two numbers in the following WebElement. ID=" + getAttribute(sum, "id"));
+            LOGGER.info("Checking the result of two numbers in the following WebElement. NAME=" + getAttributeOrEmptyString(sum, "name"));
             int expectedSum = number1Int + number2Int;
             return expectedSum == displayValue;
         } catch (NoSuchElementException e) {
@@ -309,7 +308,7 @@ public class DriverUtil {
      */
     protected boolean setCheckboxValue(WebElement checkbox, boolean checkboxValueToSet) {
         try {
-            LOGGER.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: ID=" + getAttribute(checkbox, "id"));
+            LOGGER.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: NAME=" + getAttributeOrEmptyString(checkbox, "name"));
             if (checkboxValueToSet != checkbox.isSelected()) {
                 clickElement(checkbox);
             }
@@ -321,8 +320,13 @@ public class DriverUtil {
     }
 
     public boolean selectFromDropDown(WebElement element, String input) {
-        Select stateDropDown = new Select(element);
-        stateDropDown.selectByVisibleText(input);
+        try {
+            Select stateDropDown = new Select(element);
+            stateDropDown.selectByVisibleText(input);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
         return true;
     }
 
@@ -335,14 +339,15 @@ public class DriverUtil {
      */
     protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
         try {
-            int minValue = Integer.valueOf(getAttribute(rangeSlider, "min"));
-            int maxValue = Integer.valueOf(getAttribute(rangeSlider, "max"));
-            LOGGER.info(String.format("Setting to '%d' the value of the following range slider: ID=%s, MIN=%s, MAX=%s", valueToSet, getAttribute(rangeSlider, "id"), minValue, maxValue));
+            int minValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "min"));
+            int maxValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "max"));
+            LOGGER.info(String.format("Setting to '%d' the value of the following range slider: NAME=%s, MIN=%s, MAX=%s", valueToSet, getAttributeOrEmptyString(rangeSlider, "name"), minValue,
+                                      maxValue));
             if (valueToSet < minValue || valueToSet > maxValue) {
                 LOGGER.error(String.format("The requested value is out of range. Min: %d, Max: %d, Expected: %d", minValue, maxValue, valueToSet));
                 return false;
             } else {
-                int initialValue = Integer.valueOf(getAttribute(rangeSlider, "value"));
+                int initialValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "value"));
                 int difference = Math.abs(initialValue - valueToSet);
                 if (initialValue < valueToSet) {
                     for (int i = 0; i < difference; i++) {
@@ -354,7 +359,7 @@ public class DriverUtil {
                     }
                 }
             }
-            return Integer.valueOf(getAttribute(rangeSlider, "value")) == valueToSet;
+            return Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "value")) == valueToSet;
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
@@ -369,32 +374,11 @@ public class DriverUtil {
      */
     public boolean drawBorder(WebElement element) {
         try {
-            LOGGER.info("Drawing border around the following element. ID=" + getAttribute(element, "id"));
+            LOGGER.info("Drawing border around the following element. NAME=" + getAttributeOrEmptyString(element, "name"));
             executeScript("arguments [0].style.border='solid red'", element);
-            return getAttribute(element, "style").contains("solid red");
+            return getAttributeOrEmptyString(element, "style").contains("solid red");
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
-            return false;
-        }
-    }
-
-    /**
-     * Waits for the page to load.
-     * 
-     * @return True, if the page loaded before time out
-     */
-    protected boolean waitForPageToLoad() {
-        try {
-            LOGGER.info("Waiting for the page to load.");
-            WebDriverWait wait = new WebDriverWait(driver, Integer.valueOf(properties.getProperty("timeout")));
-            return wait.until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver driver) {
-                    return executeScript("return document.readyState").equals("complete");
-                }
-            });
-        } catch (TimeoutException e) {
-            LOGGER.error("Page was not loaded in the expected time.", e);
             return false;
         }
     }
@@ -407,7 +391,7 @@ public class DriverUtil {
      */
     protected boolean scrollToElementWithJS(WebElement element) {
         try {
-            LOGGER.info("Scrolling to the following element: ID=" + getAttribute(element, "id"));
+            LOGGER.info("Scrolling to the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
             executeScript("arguments[0].scrollIntoView();", element);
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -427,7 +411,7 @@ public class DriverUtil {
     protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
         try {
             scrollToElementWithJS(element);
-            LOGGER.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px");
+            LOGGER.info("Scrolling with offset: X=" + xOffset + "px, Y=" + yOffset + "px");
             executeScript("window.scrollBy(arguments[0],arguments[1]);", xOffset, yOffset);
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -464,8 +448,8 @@ public class DriverUtil {
         return true;
     }
 
-    private Object executeScript(String script, Object... objects) {
-        return ((JavascriptExecutor) driver).executeScript(script, objects);
+    private String executeScript(String script, Object... objects) {
+        return (String) ((JavascriptExecutor) driver).executeScript(script, objects);
     }
 
     private void clickElement(WebElement element) {
@@ -473,13 +457,11 @@ public class DriverUtil {
         element.click();
     }
 
-    private String getAttribute(WebElement elementWithText, String attribute) {
-        String attributeValue = elementWithText.getAttribute(attribute);
-        if (attributeValue == null) {
-            String message = String.format("'%s' attribute does not exist for element: '%s'", attribute, elementWithText);
-            LOGGER.info(message);
-            attributeValue = "NO_SUCH_ATTRIBUTE";
+    private String getAttributeOrEmptyString(WebElement elementWithText, String attribute) {
+        Optional<String> attributeValue = Optional.of(elementWithText.getAttribute(attribute));
+        if (!attributeValue.isPresent()) {
+            LOGGER.error(String.format("'%s' attribute does not exist for element: '%s'", attribute, elementWithText));
         }
-        return attributeValue;
+        return attributeValue.or("");
     }
 }
