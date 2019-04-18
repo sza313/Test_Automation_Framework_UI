@@ -9,9 +9,12 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Optional;
 
@@ -379,6 +382,27 @@ public class DriverUtil {
             return getAttributeOrEmptyString(element, "style").contains("solid red");
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+    }
+
+    /**
+     * Waits for the page to load.
+     * 
+     * @return True, if the page loaded before time out
+     */
+    protected boolean waitForPageToLoad() {
+        try {
+            LOGGER.info("Waiting for the page to load.");
+            WebDriverWait wait = new WebDriverWait(driver, Integer.valueOf(properties.getProperty("timeout")));
+            return wait.until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver driver) {
+                    return executeScript("return document.readyState").equals("complete");
+                }
+            });
+        } catch (TimeoutException e) {
+            LOGGER.error("Page was not loaded in the expected time.", e);
             return false;
         }
     }
