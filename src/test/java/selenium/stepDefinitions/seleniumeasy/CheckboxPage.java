@@ -1,19 +1,18 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import selenium.pages.CheckboxPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_CheckboxPage {
+public class CheckboxPage {
     private final static Logger LOG = LogManager.getLogger();
-    private CheckboxPage checkboxPage;
+    private selenium.pages.seleniumeasy.CheckboxPage checkboxPage;
 
-    public StepDef_CheckboxPage(CucumberTestContext testContext) {
-        checkboxPage = new CheckboxPage(testContext.getWebDriver());
+    public CheckboxPage(CucumberTestContext testContext) {
+        checkboxPage = new selenium.pages.seleniumeasy.CheckboxPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }
 

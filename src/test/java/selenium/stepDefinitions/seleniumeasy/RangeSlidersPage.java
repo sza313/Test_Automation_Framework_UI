@@ -1,19 +1,18 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import selenium.pages.RangeSlidersPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_RangeSlidersPage {
+public class RangeSlidersPage {
     private final static Logger LOG = LogManager.getLogger();
-    private RangeSlidersPage rangeSlidersPage;
+    private selenium.pages.seleniumeasy.RangeSlidersPage rangeSlidersPage;
 
-    public StepDef_RangeSlidersPage(CucumberTestContext testContext) {
-        rangeSlidersPage = new RangeSlidersPage(testContext.getWebDriver());
+    public RangeSlidersPage(CucumberTestContext testContext) {
+        rangeSlidersPage = new selenium.pages.seleniumeasy.RangeSlidersPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }
 

@@ -1,17 +1,17 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.phptravels;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.When;
-import selenium.pages.PhpLoginPage;
+import selenium.pages.phptravels.PhpLoginPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_PhpLoginPage {
+public class PhpTravelsLoginPage {
     private final static Logger LOG = LogManager.getLogger();
     private PhpLoginPage phpLoginPage;
 
-    public StepDef_PhpLoginPage(CucumberTestContext testContext) {
+    public PhpTravelsLoginPage(CucumberTestContext testContext) {
         phpLoginPage = new PhpLoginPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }

@@ -1,11 +1,11 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.FormFillerPageObjects;
+import selenium.pageObjects.seleniumeasy.FormFillerPageObjects;
 
 public class FormFillerPage extends FormFillerPageObjects {
     private final static Logger LOG = LogManager.getLogger();

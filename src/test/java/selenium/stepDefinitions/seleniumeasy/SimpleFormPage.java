@@ -1,4 +1,4 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,15 +6,14 @@ import org.apache.logging.log4j.Logger;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import selenium.pages.SimpleFormPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_SimpleFormPage {
+public class SimpleFormPage {
     private final static Logger LOG = LogManager.getLogger();
-    private SimpleFormPage simpleFormPage;
+    private selenium.pages.seleniumeasy.SimpleFormPage simpleFormPage;
 
-    public StepDef_SimpleFormPage(CucumberTestContext testContext) {
-        simpleFormPage = new SimpleFormPage(testContext.getWebDriver());
+    public SimpleFormPage(CucumberTestContext testContext) {
+        simpleFormPage = new selenium.pages.seleniumeasy.SimpleFormPage(testContext.getWebDriver());
         LOG.info(getClass().getName() + " initialized.");
     }
 

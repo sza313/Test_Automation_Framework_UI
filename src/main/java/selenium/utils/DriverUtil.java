@@ -20,8 +20,8 @@ import com.google.common.base.Optional;
 
 public class DriverUtil {
 
-    public static Properties properties = new Properties();
-    public WebDriver driver;
+    private Properties properties = new Properties();
+    private WebDriver driver;
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COULD_NOT_FIND_THE_REQUESTED_ELEMENT = "Could not find the requested element.";
@@ -394,7 +394,7 @@ public class DriverUtil {
     protected boolean waitForPageToLoad() {
         try {
             LOGGER.info("Waiting for the page to load.");
-            WebDriverWait wait = new WebDriverWait(driver, Integer.valueOf(properties.getProperty("timeout")));
+            WebDriverWait wait = new WebDriverWait(driver, 120);
             return wait.until(new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver driver) {
@@ -487,5 +487,13 @@ public class DriverUtil {
             LOGGER.error(String.format("'%s' attribute does not exist for element: '%s'", attribute, elementWithText));
         }
         return attributeValue.or("");
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 }

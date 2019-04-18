@@ -1,9 +1,9 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.CheckboxPageObjects;
+import selenium.pageObjects.seleniumeasy.CheckboxPageObjects;
 
 public class CheckboxPage extends CheckboxPageObjects {
 

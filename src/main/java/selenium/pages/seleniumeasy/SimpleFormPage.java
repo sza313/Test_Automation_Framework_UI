@@ -1,9 +1,9 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.SimpleFormPageObjects;
+import selenium.pageObjects.seleniumeasy.SimpleFormPageObjects;
 
 public class SimpleFormPage extends SimpleFormPageObjects {
 

@@ -1,19 +1,18 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import selenium.pages.BootstrapDatePickerPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_BootstrapDatePickerPage {
+public class BootstrapDatePickerPage {
     private final static Logger LOG = LogManager.getLogger();
-    private BootstrapDatePickerPage bootstrapDatePickerPage;
+    private selenium.pages.seleniumeasy.BootstrapDatePickerPage bootstrapDatePickerPage;
 
-    public StepDef_BootstrapDatePickerPage(CucumberTestContext testContext) {
-        bootstrapDatePickerPage = new BootstrapDatePickerPage(testContext.getWebDriver());
+    public BootstrapDatePickerPage(CucumberTestContext testContext) {
+        bootstrapDatePickerPage = new selenium.pages.seleniumeasy.BootstrapDatePickerPage(testContext.getWebDriver());
         LOG.info("initilized.");
     }
 

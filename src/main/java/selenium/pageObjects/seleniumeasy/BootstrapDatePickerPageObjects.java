@@ -1,4 +1,4 @@
-package selenium.pageObjects;
+package selenium.pageObjects.seleniumeasy;
 
 import java.util.List;
 

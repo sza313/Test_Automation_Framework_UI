@@ -1,13 +1,13 @@
-package selenium.pages;
+package selenium.pages.phptravels;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.PhpTravelPageObjects;
+import selenium.pageObjects.phptravels.PhpTravelPageObjects;
 
-public class PhpTravelPage extends PhpTravelPageObjects {
+public class PhpTravelsPage extends PhpTravelPageObjects {
 
-    public PhpTravelPage(WebDriver webDriver) {
+    public PhpTravelsPage(WebDriver webDriver) {
         super(webDriver);
     }
 

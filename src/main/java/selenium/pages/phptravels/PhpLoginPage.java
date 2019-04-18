@@ -1,9 +1,9 @@
-package selenium.pages;
+package selenium.pages.phptravels;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.PhpLoginPageObjects;
+import selenium.pageObjects.phptravels.PhpLoginPageObjects;
 
 public class PhpLoginPage extends PhpLoginPageObjects {
 
@@ -17,9 +17,9 @@ public class PhpLoginPage extends PhpLoginPageObjects {
      * @return with a boolean to get the navigation status
      */
     public void enterLoginCredentialAndClickLogin() {
-        String username = properties.getProperty("Email_php");
+        String username = getProperties().getProperty("Email_php");
         Assert.assertTrue("Could not write into the email field.", writeIntoTextBox(this.inputEmail, username));
-        String password = properties.getProperty("Password_php");
+        String password = getProperties().getProperty("Password_php");
         Assert.assertTrue("Could not write into the password field.", writeIntoTextBox(this.inputPassword, password));
 
         Assert.assertTrue("The login process was not successful", clickToElement(this.loginItem));

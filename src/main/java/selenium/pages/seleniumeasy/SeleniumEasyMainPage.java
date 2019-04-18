@@ -1,13 +1,13 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.MainPageObjects;
+import selenium.pageObjects.seleniumeasy.MainPageObjects;
 
-public class MainPage extends MainPageObjects {
+public class SeleniumEasyMainPage extends MainPageObjects {
 
-    public MainPage(WebDriver webDriver) {
+    public SeleniumEasyMainPage(WebDriver webDriver) {
         super(webDriver);
     }
 
@@ -148,17 +148,4 @@ public class MainPage extends MainPageObjects {
         Assert.assertTrue("This test is doomed to fail!", false);
     }
 
-    public void openSite() {
-        String url;
-        if (System.getProperty("url") != null) {
-            url = System.getProperty("url");
-        } else if (properties.getProperty("url") != null) {
-            url = properties.getProperty("url");
-        } else {
-            url = "https://www.seleniumeasy.com/test/";
-        }
-        driver.get(url);
-        Assert.assertTrue(String.format("Site: '%s' did not open", url), driver.getCurrentUrl()
-                                                                               .startsWith(url));
-    }
 }

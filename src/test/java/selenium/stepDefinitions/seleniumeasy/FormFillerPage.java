@@ -1,19 +1,18 @@
-package selenium.stepDefinitions;
+package selenium.stepDefinitions.seleniumeasy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import selenium.pages.FormFillerPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class StepDef_FormFillerPage {
+public class FormFillerPage {
     private final static Logger LOG = LogManager.getLogger();
-    private FormFillerPage formFillerPage;
+    private selenium.pages.seleniumeasy.FormFillerPage formFillerPage;
 
-    public StepDef_FormFillerPage(CucumberTestContext testContext) {
-        formFillerPage = new FormFillerPage(testContext.getWebDriver());
+    public FormFillerPage(CucumberTestContext testContext) {
+        formFillerPage = new selenium.pages.seleniumeasy.FormFillerPage(testContext.getWebDriver());
         LOG.info(" initialized.");
     }
 

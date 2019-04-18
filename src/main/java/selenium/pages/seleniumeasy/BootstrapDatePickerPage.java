@@ -1,4 +1,4 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -12,7 +12,7 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.time.format.TextStyle.SHORT;
 import static java.util.Locale.getDefault;
 
-import selenium.pageObjects.BootstrapDatePickerPageObjects;
+import selenium.pageObjects.seleniumeasy.BootstrapDatePickerPageObjects;
 
 public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
 

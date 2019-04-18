@@ -1,9 +1,9 @@
-package selenium.pages;
+package selenium.pages.seleniumeasy;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import selenium.pageObjects.RangeSlidersPageObjects;
+import selenium.pageObjects.seleniumeasy.RangeSlidersPageObjects;
 
 public class RangeSlidersPage extends RangeSlidersPageObjects {
 

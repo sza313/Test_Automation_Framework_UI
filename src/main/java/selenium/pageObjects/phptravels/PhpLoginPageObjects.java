@@ -1,4 +1,4 @@
-package selenium.pageObjects;
+package selenium.pageObjects.phptravels;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
