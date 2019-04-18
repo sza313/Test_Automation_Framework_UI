@@ -4,12 +4,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
 import selenium.utils.DriverUtil;
 
 public class SimpleFormPageObjects extends DriverUtil {
-    public SimpleFormPageObjects(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver,this);
+    public SimpleFormPageObjects(WebDriver webDriver) {
+        super(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
 
     @FindBy(xpath = "//input[@id='user-message']")
@@ -33,6 +34,6 @@ public class SimpleFormPageObjects extends DriverUtil {
     @FindBy(xpath = "//button[contains(text(),'Get Total')]")
     protected WebElement getTotalButton;
 
-    @FindBy(id="displayvalue")
+    @FindBy(id = "displayvalue")
     protected WebElement displaySum;
 }

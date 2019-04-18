@@ -1,21 +1,28 @@
 package selenium.stepDefinitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cucumber.api.java.en.When;
-import org.junit.Assert;
 import selenium.pages.PhpTravelPage;
-import selenium.utils.DriverUtil;
+import selenium.parallel.context.CucumberTestContext;
 
+public class StepDef_PhpTravelPage {
+    private final static Logger LOG = LogManager.getLogger();
+    private PhpTravelPage phpTravelPage;
 
-public class StepDef_PhpTravelPage extends DriverUtil {
-    private PhpTravelPage phpTravelPage = new PhpTravelPage(driver);
+    public StepDef_PhpTravelPage(CucumberTestContext testContext) {
+        phpTravelPage = new PhpTravelPage(testContext.getWebDriver());
+        LOG.info("initialized.");
+    }
 
     @When("Click to '(.*)' menu item on PhpTravels$")
     public void clickToMenuItem(String menuName) {
-        Assert.assertTrue("Could not click to " + menuName + " menu", phpTravelPage.clickToMenuItem(menuName));
+        phpTravelPage.clickToMenuItem(menuName);
     }
 
     @When("Click to '(.*)' submenu item on PhpTravels$")
     public void clickToSubmenuItem(String submenuName) {
-        Assert.assertTrue("Could not click to " + submenuName + " menu", phpTravelPage.clickToSubmenuItem(submenuName));
+        phpTravelPage.clickToSubmenuItem(submenuName);
     }
 }

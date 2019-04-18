@@ -1,28 +1,28 @@
 package selenium.pageObjects;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import selenium.utils.DriverUtil;
-
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import selenium.utils.DriverUtil;
+
 public class BootstrapDatePickerPageObjects extends DriverUtil {
-    public BootstrapDatePickerPageObjects(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
+    public BootstrapDatePickerPageObjects(WebDriver webDriver) {
+        super(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
 
     @FindBy(xpath = "//div[@id='datepicker']//input[1]")
     protected WebElement startDateInputField;
 
-    @FindAll({
-            @FindBy(xpath = "//div[@class='datepicker-days']//td[@class='day']"),
-            @FindBy(xpath = "//div[@class='datepicker-days']//td[@class='disabled disabled-date day']")
-    })
+    @FindBy(xpath = "//div[@class='datepicker-days']//td[contains(@class, 'day')]")
     protected List<WebElement> dayList;
+
+    @FindBy(xpath = "//div[@class='datepicker-days']//tbody")
+    protected WebElement daysTable;
 
     @FindBy(xpath = "//div[@class='datepicker-days']//th[@class='datepicker-switch']")
     protected WebElement monthSwitcher;
@@ -33,8 +33,14 @@ public class BootstrapDatePickerPageObjects extends DriverUtil {
     @FindBy(xpath = "//div[@class='datepicker-months']//td/span[contains(@class,'month')]")
     protected List<WebElement> monthList;
 
+    @FindBy(xpath = "//div[@class='datepicker-months']//tbody")
+    protected WebElement monthsTable;
+
     @FindBy(xpath = "//div[@class='datepicker-years']//td/span[contains(@class,'year')]")
     protected List<WebElement> yearList;
+
+    @FindBy(xpath = "//div[@class='datepicker-years']//tbody")
+    protected WebElement yearsTable;
 
     @FindBy(xpath = "//div[@class='datepicker-years']//th[@class='prev']")
     protected WebElement previousDecadeArrow;

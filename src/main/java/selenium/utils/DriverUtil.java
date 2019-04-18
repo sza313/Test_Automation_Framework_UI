@@ -1,585 +1,491 @@
 package selenium.utils;
 
-import org.junit.Assert;
-import org.openqa.selenium.*;
+import java.util.List;
+import java.util.Properties;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.base.Optional;
 
 public class DriverUtil {
-    protected static WebDriver driver;
-    protected static Properties properties = new Properties();
+
+    public static Properties properties = new Properties();
+    public WebDriver driver;
+
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final String COULD_NOT_FIND_THE_REQUESTED_ELEMENT = "Could not find the requested element.";
 
     public DriverUtil(WebDriver driver) {
-        DriverUtil.driver = driver;
-    }
-
-    public DriverUtil() {
-    }
-
-  /**
-     * createNewDriver calls two method to open a browser
-     * <p>
-     * Params: Do not have any input params.
-     */
-    protected void createNewDriver() {
-        readPropertiesFile();
-        chooseBrowser();
+        this.driver = driver;
     }
 
     /**
-     * chooseBrowser method creates a new webdriver, get data from system argument or config file to get the required browser type.
-     * <p>
-     * Params: Do not have any input params.
-     */
-    private void chooseBrowser() {
-
-        String browser;
-
-        //Firstly check the system argument browser value and if it is empty than reads from the config file
-        if (System.getProperty("browser") != null) {
-            browser = System.getProperty("browser");
-        } else {
-            browser = properties.getProperty("browser");
-        }
-
-        //Select the correct browser type, chrome is the default one
-        switch (browser) {
-            case "firefox":
-                System.setProperty("webdriver.gecko.driver", "./src/main/resources/geckodriver.exe");
-                driver = new FirefoxDriver();
-                Log.info("Firefox driver is opening.");
-                break;
-            case "chrome":
-                System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
-                driver = new ChromeDriver();
-                Log.info("Chrome browser is opening.");
-                break;
-            //TODO: debug this (won't find dropdown element)
-            case "IE":
-                System.setProperty("webdriver.ie.driver", "./src/main/resources/IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
-                Log.info("IE driver is opening.");
-                break;
-            default:
-                System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
-                driver = new ChromeDriver();
-                Log.info("Chrome browser is opening by default.");
-                break;
-        }
-        driverConfig();
-    }
-
-    /**driverConfig set up driver related configs
+     * Clicks to a {@link WebElement}.
      *
-     * Params: Do not have any input params. You can set the timeout in the Config.properties file.
-     */
-    private void driverConfig() {
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(Long.parseLong(properties.getProperty("timeout")), TimeUnit.SECONDS);
-    }
-
-     /**
-     * readPropertiesFile opens the Config.properties file and save the values
-     * <p>
-     * Params: Do not have any input params.
-     */
-    private void readPropertiesFile() {
-        try {
-            InputStream input = new FileInputStream("./config/Config.properties");
-            properties.load(input);
-        } catch (Exception e) {
-            Log.error("Config.properties file not found!");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * cliclToElement method clicks to a webelement
-     *
-     * @param element: Data came from the Page files, it identifies the target
-     * @return with a boolean to get the status of the click
+     * @param element the {@link WebElement} to click
+     * @return True, if the click was successful
      */
     protected boolean clickToElement(WebElement element) {
         try {
-            Log.info("Clicking to the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            element.click();
+            LOGGER.info("Clicking to the following element. NAME=" + getAttributeOrEmptyString(element, "name"));
+            clickElement(element);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element to click.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
     /**
-     * Writes a string into an input field. String can be specified by the tester.
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     * String text: text to be entered to the textbox
+     * Draws a red border around the clicked {@link WebElement}.
+     * 
+     * @param element the {@link WebElement} to click
+     * @return True, if the click was successful
+     */
+    protected boolean clickToElementWithVisualization(WebElement element) {
+        try {
+            LOGGER.info("Clicking to the following element with visualization. NAME=" + getAttributeOrEmptyString(element, "name"));
+            drawBorder(element);
+            clickElement(element);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Clicks to a {@link WebElement} using JavaScript.
+     * 
+     * @param element the {@link WebElement} to click
+     * @return True, if the click was successful
+     */
+    protected boolean clickToElementWithJS(WebElement element) {
+        try {
+            LOGGER.info("Clicking with javascript to the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
+            executeScript("arguments[0].click();", element);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Clicks all {@link WebElement}s in a list
+     *
+     * @param elements the list of {@link WebElement}s to click
+     * @return True, if the clicks were successful
+     */
+    protected boolean clickToMultipleElements(List<WebElement> elements) {
+        try {
+            LOGGER.info("Clicking to multiple elements: ");
+            elements.forEach(this::clickToElement);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Draws a red border around the clicked {@link WebElement}s.
+     * 
+     * @param elements the {@link WebElement}s to click
+     * @return True, if the click was successful
+     */
+    protected boolean clickToMultipleElementsWithVisualization(List<WebElement> elements) {
+        try {
+            LOGGER.info("Clicking with visualization to multiple elements: ");
+            elements.forEach(this::clickToElementWithVisualization);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Writes a string into text box {@link WebElement}.
+     * 
+     * @param textBox the text box {@link WebElement}
+     * @param text the string to insert
+     * @return True, if the insertion of text was successful
      */
     protected boolean writeIntoTextBox(WebElement textBox, String text) {
         try {
-            Log.info("Writing text '" + text + "' into the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
+            LOGGER.info("Writing text '" + text + "' into the following textbox: NAME=" + getAttributeOrEmptyString(textBox, "name"));
+            scrollToElementWithJS(textBox);
+            clearTextBox(textBox);
             textBox.sendKeys(text);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox to write.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
-        return text.equals(textBox.getAttribute("value"));
+        return compareString(textBox, text);
     }
 
     /**
-     * Clear the input field.
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
+     * Clear the input of a {@link WebElement} using Selenium's clear() method.
+     * 
+     * @param element {@link WebElement} to clear
+     * @return True, if the clearance was successful
      */
-    protected boolean clearTextBox(WebElement textBox) {
+    protected boolean clearTextBox(WebElement element) {
         try {
-            Log.info("Clear the following textbox: ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-            textBox.clear();
+            LOGGER.info("Clear the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
+            element.clear();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox to clear.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
     /**
-     * Compares a string to the text of a webelement. Returns true if the two strings are the same.
-     * Params:
-     * WebElement elementWithText: unique ID or path to a webelement that has text
-     * String expectedText: the string to be compared to the text of the webelement
+     * Clear the input of a {@link WebElement} using BackSpace keys.
+     * 
+     * @param textBox {@link WebElement} to clear
+     * @return True, if the clearance was successful
+     */
+    protected boolean clearFieldWithBackspace(WebElement textBox) {
+        try {
+            LOGGER.info("Clearing data from the following textbox with backspace. NAME=" + getAttributeOrEmptyString(textBox, "name"));
+            String inputText = getAttributeOrEmptyString(textBox, "value");
+            for (int i = 0; i < inputText.length(); i++) {
+                textBox.sendKeys(Keys.BACK_SPACE);
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Compares a string to the text of a {@link WebElement}.
+     * 
+     * @param elementWithText {@link WebElement} to compare the text to
+     * @param expectedText expected text
+     * @return True, if the texts are equal
      */
     protected boolean compareString(WebElement elementWithText, String expectedText) {
         try {
-            Log.info("Comparing text '" + expectedText + "' with the text of the following element: ID=" + elementWithText.getAttribute("id") + " , CLASS=" + elementWithText.getAttribute("class") + " , TEXT=" + elementWithText.getText());
+            LOGGER.info("Comparing text '" + expectedText + "' with the text of the following element: NAME=" + getAttributeOrEmptyString(elementWithText, "name"));
             String actualText;
-            if (elementWithText.getText() == null || elementWithText.getText().isEmpty()) {
-                actualText = elementWithText.getAttribute("value");
+            if (elementWithText.getText()
+                               .isEmpty()) {
+                actualText = getAttributeOrEmptyString(elementWithText, "value");
             } else {
                 actualText = elementWithText.getText();
             }
             return actualText.equals(expectedText);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
     }
 
     /**
-     * writeRandomAlphabeticString method is writing a random alphabetic string into a textbox
-     * Number of characters can be specified by the user.
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     * int length: number of characters to be entered
+     * Write random alphabetic string into text box {@link WebElement}.
+     * 
+     * @param textBox {@link WebElement} to write text into
+     * @param length length of the random string to generate
+     * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomAlphabeticString(WebElement textBox, int length) {
-        String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
-        try {
-            Log.info("Writing random alphabetic string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-
-            textBox.sendKeys(randomAlphabeticString);
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return randomAlphabeticString.equals(textBox.getAttribute("value"));
+        String randomAlphabeticString = createRandomAlphabeticString(length);
+        return writeIntoTextBox(textBox, randomAlphabeticString);
     }
 
     /**
-     * writeRandomNumericString method is writing a random numeric string into a textbox
-     * Number of characters can be specified by the user.
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     * int length: number of characters to be entered
+     * Write random numeric string into text box {@link WebElement}.
+     * 
+     * @param textBox {@link WebElement} to write text into
+     * @param length length of the random string to generate
+     * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomNumericString(WebElement textBox, int length) {
-        String randomNumericString = RandomStringUtils.randomNumeric(length);
-        try {
-            Log.info("Writing random numeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-            textBox.sendKeys(randomNumericString);
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return randomNumericString.equals(textBox.getAttribute("value"));
+        String randomNumericString = createRandomNumericString(length);
+        return writeIntoTextBox(textBox, randomNumericString);
     }
 
     /**
-     * writeRandomAlphanumericString method is writing a random alphanumberic string into a textbox
-     * Number of characters can be specified by the user.
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     * int length: number of characters to be entered
+     * Write random alphanumeric string into text box {@link WebElement}.
+     * 
+     * @param textBox {@link WebElement} to write text into
+     * @param length length of the random string to generate
+     * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomAlphanumericString(WebElement textBox, int length) {
-        String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
-        try {
-            Log.info("Writing random alphanumeric string into the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-            textBox.sendKeys(randomAlphanumericString);
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return randomAlphanumericString.equals(textBox.getAttribute("value"));
+        String randomAlphanumericString = createRandomAlphanumericString(length);
+        return writeIntoTextBox(textBox, randomAlphanumericString);
     }
 
     /**
-     * createRandomAlphabeticString method is generating a random alphabetic string.
-     * Number of characters can be specified by the user.
-     * Params:
-     * int length: number of characters to be entered
+     * Create random alphabetic string of given length.
+     * 
+     * @param length length of the string to generate
+     * @return Generated string
      */
     protected String createRandomAlphabeticString(int length) {
-        String randomAlphabeticString = RandomStringUtils.randomAlphabetic(length);
-        return randomAlphabeticString;
+        return RandomStringUtils.randomAlphabetic(length);
     }
 
     /**
-     * createRandomNumericString method is generating a random numeric string.
-     * Number of characters can be specified by the user.
-     * Params:
-     * int length: number of characters to be entered
+     * Create random numeric string of given length.
+     * 
+     * @param length length of the string to generate
+     * @return Generated string
      */
     protected String createRandomNumericString(int length) {
-        String randomNumericString = RandomStringUtils.randomNumeric(length);
-        return randomNumericString;
+        return RandomStringUtils.randomNumeric(length);
     }
 
     /**
-     * createRandomAlphanumericString method is generating a random alphanumeric string.
-     * Number of characters can be specified by the user.
-     * Params:
-     * int length: number of characters to be entered
+     * Create random alphanumeric string of given length.
+     * 
+     * @param length length of the string to generate
+     * @return Generated string
      */
     protected String createRandomAlphanumericString(int length) {
-        String randomAlphanumericString = RandomStringUtils.randomAlphanumeric(length);
-        return randomAlphanumericString;
+        return RandomStringUtils.randomAlphanumeric(length);
     }
 
     /**
-     * clearField method is clearing a textbox field by pushing the backspace button
-     * until the field is empty
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     */
-    protected boolean clearFieldWithBackspace(WebElement textBox) {
-        try {
-            Log.info("Clearing data from the following textbox with backspace. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " NAME=" + textBox.getAttribute("name"));
-            String inputText = textBox.getAttribute("value");
-            for (int i = 0; i < inputText.length(); i++) {
-                textBox.sendKeys(Keys.BACK_SPACE);
-            }
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * clearDataFromField method is deleting the data from a field
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
-     */
-    protected boolean clearDataFromField(WebElement textBox) {
-        try {
-            Log.info("Clearing data from the following textbox. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-            textBox.clear();
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * validateFieldIsEmpty method is checking if the certain textbox is empty
-     * Params:
-     * WebElement textBox: unique ID or path to the textbox
+     * Checks if the certain text box {@link WebElement} is empty.
+     * 
+     * @param textBox {@link WebElement} to check
+     * @return True, if the {@link WebElement} is empty
      */
     protected boolean validateFieldIsEmpty(WebElement textBox) {
         try {
-            Log.info("Checking if the following element is empty. ID=" + textBox.getAttribute("id") + " , CLASS=" + textBox.getAttribute("class") + " , NAME=" + textBox.getAttribute("name"));
-            textBox.getText().isEmpty();
+            LOGGER.info("Checking if the following element is empty. NAME=" + getAttributeOrEmptyString(textBox, "name"));
+            return textBox.getText()
+                          .isEmpty();
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested textbox.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+    }
+
+    /**
+     * Checks whether the sum of two numbers entered in text boxes are correctly calculated on a page.
+     * 
+     * @param number1 first number's {@link WebElement}
+     * @param number2 second number's {@link WebElement}
+     * @param sum sum's {@link WebElement}
+     * @return True, if the addition was correct
+     */
+    protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
+        int number1Int = Integer.parseInt(getAttributeOrEmptyString(number1, "value"));
+        int number2Int = Integer.parseInt(getAttributeOrEmptyString(number2, "value"));
+        int displayValue = Integer.parseInt(sum.getText());
+        try {
+            LOGGER.info("Checking the result of two numbers in the following WebElement. NAME=" + getAttributeOrEmptyString(sum, "name"));
+            int expectedSum = number1Int + number2Int;
+            return expectedSum == displayValue;
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+    }
+
+    /**
+     * Sets the value of a checkbox to a required one.
+     * 
+     * @param checkbox the checkbox {@link WebElement} to set
+     * @param checkboxValueToSet boolean value to set in the checkbox
+     * @return result of comparison of actual and expected values
+     */
+    protected boolean setCheckboxValue(WebElement checkbox, boolean checkboxValueToSet) {
+        try {
+            LOGGER.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: NAME=" + getAttributeOrEmptyString(checkbox, "name"));
+            if (checkboxValueToSet != checkbox.isSelected()) {
+                clickElement(checkbox);
+            }
+            return checkboxValueToSet == checkbox.isSelected();
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
+            return false;
+        }
+    }
+
+    public boolean selectFromDropDown(WebElement element, String input) {
+        try {
+            Select stateDropDown = new Select(element);
+            stateDropDown.selectByVisibleText(input);
+        } catch (NoSuchElementException e) {
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
     /**
-     * validateIfSumIsCorrect method is checking if the sum of two numbers entered in textboxes
-     * are correctly calculated on a page
-     * Params:
-     * WebElement number1: unique ID or path to the textbox of the first number
-     * WebElement number2: unique ID or path to the textbox of the second number
-     * WebElement sum: unique ID or path to the element on page displaying the sum of the numbers
-     */
-    protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
-        int number1Int = Integer.parseInt(number1.getAttribute("value"));
-        int number2Int = Integer.parseInt(number2.getAttribute("value"));
-        int displayValue = Integer.parseInt(sum.getText());
-        try {
-            Log.info("Checking the result of two numbers in the following WebElement. ID=" + sum.getAttribute("id") + " , CLASS=" + sum.getAttribute("class") + " , NAME=" + sum.getAttribute("name"));
-            int expectedSum = number1Int + number2Int;
-            return expectedSum == displayValue;
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested WebElement.");
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Sets the value of a checkbox to a required one. The value can be specified by the tester.
-     * Params:
-     * WebElement checkbox: unique ID or path to the checkbox
-     * boolean checkboxValueToSet: the value we want to set the checkbox to
-     */
-    protected boolean setCheckboxValue(WebElement checkbox, boolean checkboxValueToSet) {
-        try {
-            Log.info("Setting to " + checkboxValueToSet + " the value of the following checkbox: ID=" + checkbox.getAttribute("id") + " , CLASS=" + checkbox.getAttribute("class") + " , VALUE=" + checkbox.getAttribute("value"));
-            if (checkboxValueToSet != checkbox.isSelected()) {
-                checkbox.click();
-            }
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested checkbox.");
-            e.printStackTrace();
-            return false;
-        }
-        return checkboxValueToSet == checkbox.isSelected();
-    }
-
-    /**
-     * Slides the handle of a range slider to a required value. The value can be specified by the tester.
-     * Params:
-     * WebElement rangeSlider: unique ID or path to the range slider
-     * int valueToSet: the value we want to slide the handle to
+     * Slides the handle of a range slider to a required value.
+     * 
+     * @param rangeSlider range slider {@link WebElement}
+     * @param valueToSet value to set on slider
+     * @return True, if the value could have been set
      */
     protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
         try {
-            Log.info("Setting to " + valueToSet + " the value of the following range slider: ID=" + rangeSlider.getAttribute("id") + " , CLASS=" + rangeSlider.getAttribute("class") + " , NAME=" + rangeSlider.getAttribute("name") + " , MIN=" + rangeSlider.getAttribute("min") + " , MAX=" + rangeSlider.getAttribute("max"));
-            int minValue = Integer.valueOf(rangeSlider.getAttribute("min"));
-            int maxValue = Integer.valueOf(rangeSlider.getAttribute("max"));
+            int minValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "min"));
+            int maxValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "max"));
+            LOGGER.info(String.format("Setting to '%d' the value of the following range slider: NAME=%s, MIN=%s, MAX=%s", valueToSet, getAttributeOrEmptyString(rangeSlider, "name"), minValue,
+                                      maxValue));
             if (valueToSet < minValue || valueToSet > maxValue) {
-                throw new IllegalArgumentException();
+                LOGGER.error(String.format("The requested value is out of range. Min: %d, Max: %d, Expected: %d", minValue, maxValue, valueToSet));
+                return false;
             } else {
-                int initialValue = Integer.valueOf(rangeSlider.getAttribute("value"));
+                int initialValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "value"));
+                int difference = Math.abs(initialValue - valueToSet);
                 if (initialValue < valueToSet) {
-                    for (int i = 0; i < valueToSet - initialValue; i++) {
+                    for (int i = 0; i < difference; i++) {
                         rangeSlider.sendKeys(Keys.ARROW_RIGHT);
                     }
-                } else {
-                    for (int i = 0; i < initialValue - valueToSet; i++) {
+                } else if (valueToSet < initialValue) {
+                    for (int i = 0; i < difference; i++) {
                         rangeSlider.sendKeys(Keys.ARROW_LEFT);
                     }
                 }
             }
+            return Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "value")) == valueToSet;
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested range slider.");
-            e.printStackTrace();
-            return false;
-        } catch (IllegalArgumentException ex) {
-            Log.error("The requested value is out of range.");
-            ex.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
-        return Integer.valueOf(rangeSlider.getAttribute("value")) == valueToSet;
-    }
-  
-    // Draws a red border around the found element.
-    //Params:
-    //WebElement element:unique identifier of the element
-    public boolean drawBorder(WebElement element) {
-        Log.info("Drawing border around the following element. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + " TEXT=" + element.getText());
-        if (driver instanceof JavascriptExecutor) {
-            ((JavascriptExecutor) driver).executeScript("arguments [0].style.border='solid red'", element);
-        }
-        return element.getAttribute("style").contains("solid red");
     }
 
     /**
-     * Draws a red border around the clicked element.
-     * Params:
-     * Webelement element: unique ID or path to the element
+     * Draws a red border around the found element.
+     * 
+     * @param element {@link WebElement} to draw the red border around
+     * @return True, if the element has been successfully bordered
      */
-    protected boolean clickToElementWithVisualization(WebElement element) {
+    public boolean drawBorder(WebElement element) {
         try {
-            Log.info("Clicking to the following element with visualization. ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", NAME=" + element.getAttribute("name"));
-            drawBorder(element);
-            element.click();
+            LOGGER.info("Drawing border around the following element. NAME=" + getAttributeOrEmptyString(element, "name"));
+            executeScript("arguments [0].style.border='solid red'", element);
+            return getAttributeOrEmptyString(element, "style").contains("solid red");
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
-        return true;
     }
 
     /**
-     * Waits for page to load/reload.
+     * Waits for the page to load.
+     * 
+     * @return True, if the page loaded before time out
      */
     protected boolean waitForPageToLoad() {
         try {
-            Log.info("Waiting for the page to load.");
-            WebDriverWait wait = new WebDriverWait(driver, Integer.parseInt(properties.getProperty("timeout")));
-            wait.until(new ExpectedCondition<Boolean>() {
+            LOGGER.info("Waiting for the page to load.");
+            WebDriverWait wait = new WebDriverWait(driver, Integer.valueOf(properties.getProperty("timeout")));
+            return wait.until(new ExpectedCondition<Boolean>() {
+                @Override
                 public Boolean apply(WebDriver driver) {
-                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                    return executeScript("return document.readyState").equals("complete");
                 }
             });
-            return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
         } catch (TimeoutException e) {
-            Log.error("Could not wait for the page to load.");
-            e.printStackTrace();
+            LOGGER.error("Page was not loaded in the expected time.", e);
             return false;
         }
     }
 
     /**
-     * Clicks to a webelement with javascript.
-     * Params:
-     * Webelemnt element: unique ID or path to the element
-     */
-    protected boolean clickToElementWithJS(WebElement element) {
-        try {
-            Log.info("Clicking with javascript to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Scrolls to a webelement.
-     * Params:
-     * Webelemnt element: unique ID or path to the element
+     * Scrolls to element with JavaScript.
+     * 
+     * @param element {@link WebElement} to scroll to
+     * @return True, if the scrolling was successful.
      */
     protected boolean scrollToElementWithJS(WebElement element) {
         try {
-            Log.info("Scrolling to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            ((JavascriptExecutor) driver).executeScript("arguments [0].scrollIntoView();", element);
+            LOGGER.info("Scrolling to the following element: NAME=" + getAttributeOrEmptyString(element, "name"));
+            executeScript("arguments[0].scrollIntoView();", element);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
     /**
-     * Scrolls to a webelement with an offset along the x and y axes. The degree of offset can be specified by the tester.
-     * Params:
-     * Webelemnt element: unique ID or path to the element
-     * int xOffset: degree of offset along the x axis in pixels. Positive values will scroll to the right, while negative values scroll to the left.
-     * int yOffset: degree of offset along the y axis in pixels. Positive values will scroll down, while negative values scroll up.
+     * Scrolls to element with JavaScript with offset.
+     * 
+     * @param element {@link WebElement} to scroll to
+     * @param xOffset offset on the x axis
+     * @param yOffset offset on the y axis
+     * @return True, if the scrolling was successful.
      */
     protected boolean scrollToElementWithOffset(WebElement element, int xOffset, int yOffset) {
         try {
-            Log.info("Scrolling with offset: X=" + xOffset + "px Y=" + yOffset + "px to the following element: ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();" + "window.scrollBy(arguments[1],arguments[2]);", element, xOffset, yOffset);
+            scrollToElementWithJS(element);
+            LOGGER.info("Scrolling with offset: X=" + xOffset + "px, Y=" + yOffset + "px");
+            executeScript("window.scrollBy(arguments[0],arguments[1]);", xOffset, yOffset);
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
     /**
-     * Clicks to any number of webelements.
-     * Params:
-     * WebElement... elements: unique ID or path to the elements to be clicked
+     * Compares the page title with the expected text.
+     * 
+     * @param expectedTitle expexted title
+     * @return True, if the title equals the expected text.
      */
-    protected boolean clickToMultipleElements(WebElement... elements) {
+    protected boolean comparePageTitle(String expectedTitle) {
+        return driver.getTitle()
+                     .equals(expectedTitle);
+    }
+
+    protected boolean selectFromRadioButton(List<WebElement> webElements, String input) {
         try {
-            Log.info("Clicking to the following elements: ");
-            for (WebElement element : elements) {
-                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-                element.click();
+            if ("yes".equalsIgnoreCase(input)) {
+                webElements.get(0)
+                           .click();
+                ;
+            } else {
+                webElements.get(1)
+                           .click();
             }
         } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
+            LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
         }
         return true;
     }
 
-    /**
-     * Draws a red border around and clicks to any number of webelements .
-     * Params:
-     * WebElement... elements: unique ID or path to the elements to be clicked
-     */
-    protected boolean clickToMultipleElementsWithVisualization(WebElement... elements) {
-        try {
-            Log.info("Clicking with visualization to the following elements: ");
-            for (WebElement element : elements) {
-                Log.info("ID=" + element.getAttribute("id") + " , CLASS=" + element.getAttribute("class") + ", TEXT=" + element.getText());
-                drawBorder(element);
-                element.click();
-            }
-        } catch (NoSuchElementException e) {
-            Log.error("Could not find the requested element.");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * waitForPageLoaded method waits until the new page completely loaded.
-     * @return with a boolean to get the navigation status
-     */
-    protected boolean waitForPageLoaded() {
-        ExpectedCondition<Boolean> expectation =(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
-                }
-            });
-        try {
-            Integer timeout = Integer.valueOf(properties.getProperty("timeout"));
-            WebDriverWait wait = new WebDriverWait(driver,timeout);
-            wait.until(expectation);
-            return true;
-        } catch (Throwable error) {
-            Assert.fail("Could not wait until the maximum timout: "+ properties.getProperty("timeout"));
-            error.printStackTrace();
-            return false;
-        }
-
+    private String executeScript(String script, Object... objects) {
+        return (String) ((JavascriptExecutor) driver).executeScript(script, objects);
     }
 
+    private void clickElement(WebElement element) {
+        scrollToElementWithJS(element);
+        element.click();
+    }
+
+    private String getAttributeOrEmptyString(WebElement elementWithText, String attribute) {
+        Optional<String> attributeValue = Optional.of(elementWithText.getAttribute(attribute));
+        if (!attributeValue.isPresent()) {
+            LOGGER.error(String.format("'%s' attribute does not exist for element: '%s'", attribute, elementWithText));
+        }
+        return attributeValue.or("");
+    }
 }

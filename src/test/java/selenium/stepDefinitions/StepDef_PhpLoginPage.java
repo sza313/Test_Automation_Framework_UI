@@ -1,21 +1,29 @@
 package selenium.stepDefinitions;
 
-import cucumber.api.java.en.When;
-import org.junit.Assert;
-import selenium.pages.PhpLoginPage;
-import selenium.utils.DriverUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class StepDef_PhpLoginPage extends DriverUtil {
-    private PhpLoginPage phpLoginPage = new PhpLoginPage(driver);
+import cucumber.api.java.en.When;
+import selenium.pages.PhpLoginPage;
+import selenium.parallel.context.CucumberTestContext;
+
+public class StepDef_PhpLoginPage {
+    private final static Logger LOG = LogManager.getLogger();
+    private PhpLoginPage phpLoginPage;
+
+    public StepDef_PhpLoginPage(CucumberTestContext testContext) {
+        phpLoginPage = new PhpLoginPage(testContext.getWebDriver());
+        LOG.info("initialized.");
+    }
 
     @When("Login to the PhpTravels page$")
-    public void loginToPhpTravelPage() throws Throwable{
-        Assert.assertTrue("The login process was not successful",phpLoginPage.login());
+    public void loginToPhpTravelPage() {
+        phpLoginPage.enterLoginCredentialAndClickLogin();
     }
 
     @When("Wait for My Account page is loaded$")
-    public void waitForPageLoading() throws Throwable{
-        Assert.assertTrue("The My Account page is not loaded " , phpLoginPage.validatePageLoading());
+    public void waitForPageLoading() {
+        phpLoginPage.validatePageLoading();
     }
 
 }

@@ -1,97 +1,101 @@
 package selenium.pages;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.time.format.TextStyle.SHORT;
+import static java.util.Locale.getDefault;
+
 import selenium.pageObjects.BootstrapDatePickerPageObjects;
-import selenium.utils.Log;
 
 public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
-    public BootstrapDatePickerPage(WebDriver driver) {
-        super(driver);
+
+    private static final String MONTH_YEAR_PATTERN = "MMMM uuuu";
+    private static final String DAY_MONTH_YEAR_PATTERN = "d MMM uuuu";
+    private static final String MONTH_OR_YEAR = "//span[text() = '%s']";
+    private static final String DAY = "//td[text() = '%s']";
+
+    public BootstrapDatePickerPage(WebDriver webDriver) {
+        super(webDriver);
     }
 
-    public boolean validateBootstrapDatePickerPageTitle() {
-        return driver.getTitle().equals("Selenium Easy - Best Demo website for Bootstrap Date picker");
+    public void validateBootstrapDatePickerPageTitle(String title) {
+        Assert.assertTrue("Page title is not as expected.", comparePageTitle(title));
     }
 
-
-    public boolean clickOnSelectDate(String datePickerName) {
+    public void clickOnSelectDate(String datePickerName) {
         switch (datePickerName) {
-            case "Start_Date":
-                Assert.assertTrue("Could not click to " + datePickerName + " input field.", clickToElement(this.startDateInputField));
-                return true;
-            default:
-                Assert.fail("Could not find the requested item: " + datePickerName + " input field.");
-                return false;
+        case "Start_Date":
+            Assert.assertTrue("Could not click to " + datePickerName + " input field.", clickToElement(this.startDateInputField));
+            break;
+        default:
+            Assert.fail("Could not find the requested item: " + datePickerName + " input field.");
         }
     }
 
-
-    public boolean validateCorrectDateAppears(String dateString) {
-        return dateString.equals(startDateInputField.getAttribute("value"));
+    public void validateCorrectDateAppears(String dateString) {
+        Assert.assertTrue("The correct date '" + dateString + "' did not appear", dateString.equals(startDateInputField.getAttribute("value")));
     }
 
+    public void selectStartDateFromDropdown(String dateString) {
+        LocalDate dateToSet = LocalDate.parse(dateString, ofPattern(DAY_MONTH_YEAR_PATTERN));
+        int dayToSet = dateToSet.getDayOfMonth();
+        String monthToSet = dateToSet.getMonth()
+                                     .getDisplayName(SHORT, getDefault());
+        int yearToSet = dateToSet.getYear();
 
-    public boolean selectStartDateFromDropdown(String dateString) {
-        String dayToSet = dateString.split(" ")[0];
-        String monthToSet = dateString.split(" ")[1];
-        int yearToSet = Integer.parseInt(dateString.split(" ")[2]);
-
-        String currentlySetMonth = monthSwitcher.getText().split(" ")[0];
-        int currentlySetYear = Integer.parseInt(monthSwitcher.getText().split(" ")[1]);
-        int currentDecade = currentlySetYear / 10 * 10;
+        YearMonth currentlySetYearMonth = YearMonth.parse(monthSwitcher.getText(), ofPattern(MONTH_YEAR_PATTERN));
+        int currentlySetYear = currentlySetYearMonth.getYear();
+        String currentlySetMonth = currentlySetYearMonth.getMonth()
+                                                        .getDisplayName(SHORT, getDefault());
         if (currentlySetYear != yearToSet) {
-            clickToElement(monthSwitcher);
-            clickToElementWithJS(yearSwitcher);
-
-            int decadeDifference = Math.abs((yearToSet - currentDecade) / 10);
-            if (currentDecade + 10 < yearToSet) {
-                for (int i = 0; i < decadeDifference; i++) {
-                    clickToElement(nextDecadeArrow);
-                }
-            }
-            if (currentDecade > yearToSet) {
-                for (int i = 0; i < decadeDifference + 1; i++) {
-                    clickToElement(previousDecadeArrow);
-                }
-            }
-
-            for (WebElement year : this.yearList) {
-                if (Integer.parseInt(year.getText()) == (yearToSet)) {
-                    clickToElement(year);
-                    break;
-                }
-            }
+            Assert.assertTrue("Clicking the month switcher was unsuccessful", clickToElement(monthSwitcher));
+            Assert.assertTrue("Clicking the year switcher was unsuccessful", clickToElement(yearSwitcher));
+            selectYear(currentlySetYear, yearToSet);
+            selectMonth(monthToSet);
+        } else if (!currentlySetMonth.equals(monthToSet)) {
+            Assert.assertTrue("Clicking the month switcher was unsuccessful", clickToElement(monthSwitcher));
             selectMonth(monthToSet);
         }
-        if (!currentlySetMonth.startsWith(monthToSet) && currentlySetYear == yearToSet) {
-            clickToElement(monthSwitcher);
-            selectMonth(monthToSet);
-        }
-
-        for (WebElement day : this.dayList) {
-            if (day.getText().equals(dayToSet)) {
-                if (day.getAttribute("class").equals("disabled disabled-date day")) {
-                    Log.error("The requested day is disabled.");
-                    return false;
-                }
-                clickToElement(day);
-                break;
-            }
-        }
-        clickToElement(textElement_To);
-        return true;
+        selectDay(dayToSet);
     }
 
-    public void selectMonth(String monthToSet) {
-        for (WebElement month : this.monthList) {
-            if (month.getText().startsWith(monthToSet)) {
-                clickToElement(month);
-                break;
+    private void selectYear(int currentlySetYear, int yearToSet) {
+        int currentDecade = currentlySetYear / 10;
+        int decadeToSet = yearToSet / 10;
+
+        int decadeDifference = Math.abs(decadeToSet - currentDecade);
+        if (currentDecade < decadeToSet) {
+            for (int i = 0; i < decadeDifference; i++) {
+                Assert.assertTrue("Clicking the next decade arrow was unsuccessful", clickToElement(nextDecadeArrow));
+            }
+        } else if (currentDecade > decadeToSet) {
+            for (int i = 0; i < decadeDifference; i++) {
+                Assert.assertTrue("Selecting the previous decade arrow was unsuccessful", clickToElement(previousDecadeArrow));
             }
         }
+        WebElement year = yearsTable.findElement(By.xpath(String.format(MONTH_OR_YEAR, yearToSet)));
+        Assert.assertTrue("Selecting the year was unsuccessful", clickToElement(year));
+    }
+
+    private void selectMonth(String monthToSet) {
+        WebElement month = monthsTable.findElement(By.xpath(String.format(MONTH_OR_YEAR, monthToSet)));
+        Assert.assertTrue("Selecting the month was unsuccessful", clickToElement(month));
+    }
+
+    private void selectDay(int dayToSet) {
+        WebElement day = daysTable.findElement(By.xpath(String.format(DAY, dayToSet)));
+        if (day.getAttribute("class")
+               .equals("disabled disabled-date day")) {
+            Assert.fail("The requested day is disabled.");
+        }
+        Assert.assertTrue("Selecting the day was unsuccessful", clickToElement(day));
+        Assert.assertTrue("Closing date selection was unsuccessful", clickToElement(textElement_To));
     }
 }
