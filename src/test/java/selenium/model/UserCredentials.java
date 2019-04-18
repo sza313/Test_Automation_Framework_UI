@@ -138,4 +138,19 @@ public class UserCredentials {
     public String getProjectDescription() {
         return projectDescription;
     }
+
+    @Override
+    public String toString() {
+        return "|" + firstName + '|' +
+                lastName + '|' +
+                email + '|' +
+                phone + '|' +
+                address + '|' +
+                city + '|' +
+                state + '|' +
+                zip + '|' +
+                domain + '|' +
+                hosting + '|' +
+                projectDescription + '|';
+    }
 }

@@ -17,22 +17,22 @@ public class StepDef_FormFillerPage {
         LOG.info(" initialized.");
     }
 
-    @When("enter {string} for first name")
+    @When("enter {word} for first name")
     public void enterFirstName(String input) {
         formFillerPage.enterFirstName(input);
     }
 
-    @When("enter {string} for last name")
+    @When("enter {word} for last name")
     public void enterLastName(String input) {
         formFillerPage.enterLastName(input);
     }
 
-    @When("enter {string} for email")
+    @When("enter {word} for email")
     public void enterEmail(String input) {
         formFillerPage.enterEmail(input);
     }
 
-    @When("enter {string} for phone")
+    @When("enter {word} for phone")
     public void enterPhone(String input) {
         formFillerPage.enterPhoneNumber(input);
     }
@@ -52,17 +52,17 @@ public class StepDef_FormFillerPage {
         formFillerPage.enterState(input);
     }
 
-    @When("enter {string} for zip")
+    @When("enter {word} for zip")
     public void enterZip(String input) {
         formFillerPage.enterZip(input);
     }
 
-    @When("enter {string} for domain")
+    @When("enter {word} for domain")
     public void enterDomain(String input) {
         formFillerPage.enterDomain(input);
     }
 
-    @When("select radiobutton {string} for hosting")
+    @When("select radiobutton {word} for hosting")
     public void selectHostingRadioButton(String input) {
         formFillerPage.selectRadioButton(input);
     }
