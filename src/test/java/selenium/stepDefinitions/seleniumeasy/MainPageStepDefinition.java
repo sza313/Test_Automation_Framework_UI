@@ -1,12 +1,11 @@
 package selenium.stepDefinitions.seleniumeasy;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import selenium.pages.seleniumeasy.SeleniumEasyMainPage;
 import selenium.parallel.context.CucumberTestContext;
 import selenium.parallel.drivercontroller.DriverController;
@@ -34,14 +33,14 @@ public class MainPageStepDefinition {
     @And("navigate to url {string}")
     public void navigateToUrl(String url) {
         driverController.getWebDriver()
-                        .get(url);
+                .get(url);
     }
 
     @Given("Open site")
     public void openBrowser() {
         this.openSiteWithBrowser("");
         driverController.getWebDriver()
-                        .get("https://www.seleniumeasy.com/test/");
+                .get("https://www.seleniumeasy.com/test/");
     }
 
     @Given("This step will fail")

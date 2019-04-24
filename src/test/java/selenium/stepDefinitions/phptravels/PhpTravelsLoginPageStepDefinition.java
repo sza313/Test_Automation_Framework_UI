@@ -1,9 +1,8 @@
 package selenium.stepDefinitions.phptravels;
 
+import cucumber.api.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import cucumber.api.java.en.When;
 import selenium.pages.phptravels.PhpLoginPage;
 import selenium.parallel.context.CucumberTestContext;
 

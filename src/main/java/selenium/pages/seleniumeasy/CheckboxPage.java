@@ -2,7 +2,6 @@ package selenium.pages.seleniumeasy;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-
 import selenium.pageObjects.seleniumeasy.CheckboxPageObjects;
 
 public class CheckboxPage extends CheckboxPageObjects {
@@ -18,11 +17,11 @@ public class CheckboxPage extends CheckboxPageObjects {
     public void clickCheckbox(String checkboxName, String checkboxValueToSet) {
         boolean toCheck = Boolean.valueOf(checkboxValueToSet);
         switch (checkboxName) {
-        case "Single_Checkbox_Demo":
-            Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.singleCheckbox, toCheck));
-            break;
-        default:
-            Assert.fail("Could not find the requested item: " + checkboxName + ".");
+            case "Single_Checkbox_Demo":
+                Assert.assertTrue("Could not set the value of the following checkbox: " + checkboxName, setCheckboxValue(this.singleCheckbox, toCheck));
+                break;
+            default:
+                Assert.fail("Could not find the requested item: " + checkboxName + ".");
         }
     }
 

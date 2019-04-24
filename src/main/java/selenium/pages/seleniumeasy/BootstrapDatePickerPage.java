@@ -1,18 +1,17 @@
 package selenium.pages.seleniumeasy;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import selenium.pageObjects.seleniumeasy.BootstrapDatePickerPageObjects;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.time.format.TextStyle.SHORT;
 import static java.util.Locale.getDefault;
-
-import selenium.pageObjects.seleniumeasy.BootstrapDatePickerPageObjects;
 
 public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
 
@@ -31,11 +30,11 @@ public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
 
     public void clickOnSelectDate(String datePickerName) {
         switch (datePickerName) {
-        case "Start_Date":
-            Assert.assertTrue("Could not click to " + datePickerName + " input field.", clickToElement(this.startDateInputField));
-            break;
-        default:
-            Assert.fail("Could not find the requested item: " + datePickerName + " input field.");
+            case "Start_Date":
+                Assert.assertTrue("Could not click to " + datePickerName + " input field.", clickToElement(this.startDateInputField));
+                break;
+            default:
+                Assert.fail("Could not find the requested item: " + datePickerName + " input field.");
         }
     }
 
@@ -47,13 +46,13 @@ public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
         LocalDate dateToSet = LocalDate.parse(dateString, ofPattern(DAY_MONTH_YEAR_PATTERN));
         int dayToSet = dateToSet.getDayOfMonth();
         String monthToSet = dateToSet.getMonth()
-                                     .getDisplayName(SHORT, getDefault());
+                .getDisplayName(SHORT, getDefault());
         int yearToSet = dateToSet.getYear();
 
         YearMonth currentlySetYearMonth = YearMonth.parse(monthSwitcher.getText(), ofPattern(MONTH_YEAR_PATTERN));
         int currentlySetYear = currentlySetYearMonth.getYear();
         String currentlySetMonth = currentlySetYearMonth.getMonth()
-                                                        .getDisplayName(SHORT, getDefault());
+                .getDisplayName(SHORT, getDefault());
         if (currentlySetYear != yearToSet) {
             Assert.assertTrue("Clicking the month switcher was unsuccessful", clickToElement(monthSwitcher));
             Assert.assertTrue("Clicking the year switcher was unsuccessful", clickToElement(yearSwitcher));
@@ -92,7 +91,7 @@ public class BootstrapDatePickerPage extends BootstrapDatePickerPageObjects {
     private void selectDay(int dayToSet) {
         WebElement day = daysTable.findElement(By.xpath(String.format(DAY, dayToSet)));
         if (day.getAttribute("class")
-               .equals("disabled disabled-date day")) {
+                .equals("disabled disabled-date day")) {
             Assert.fail("The requested day is disabled.");
         }
         Assert.assertTrue("Selecting the day was unsuccessful", clickToElement(day));

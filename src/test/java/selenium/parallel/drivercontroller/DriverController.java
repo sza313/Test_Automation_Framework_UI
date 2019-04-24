@@ -1,13 +1,13 @@
 package selenium.parallel.drivercontroller;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DriverController {
     private final static Logger LOG = LogManager.getLogger();

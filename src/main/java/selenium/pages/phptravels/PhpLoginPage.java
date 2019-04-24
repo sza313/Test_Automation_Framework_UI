@@ -2,7 +2,6 @@ package selenium.pages.phptravels;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-
 import selenium.pageObjects.phptravels.PhpLoginPageObjects;
 
 public class PhpLoginPage extends PhpLoginPageObjects {
@@ -13,7 +12,7 @@ public class PhpLoginPage extends PhpLoginPageObjects {
 
     /**
      * login method calls the login method that starts a commom login/password/submit procedure.
-     * 
+     *
      * @return with a boolean to get the navigation status
      */
     public void enterLoginCredentialAndClickLogin() {
@@ -27,7 +26,7 @@ public class PhpLoginPage extends PhpLoginPageObjects {
 
     /**
      * validatePageLoading method calls the waitForPageLoaded method for waiting the new page loading.
-     * 
+     *
      * @return with a boolean to get the navigation status
      */
     public void validatePageLoading() {

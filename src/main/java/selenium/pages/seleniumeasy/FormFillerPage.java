@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-
 import selenium.pageObjects.seleniumeasy.FormFillerPageObjects;
 
 public class FormFillerPage extends FormFillerPageObjects {
@@ -65,7 +64,7 @@ public class FormFillerPage extends FormFillerPageObjects {
 
     public void validatePageIsReloaded() {
         Assert.assertTrue("Page is not relaoaded.", getFirstNameTextField().getText()
-                                                                           .isEmpty());
+                .isEmpty());
     }
 
 }

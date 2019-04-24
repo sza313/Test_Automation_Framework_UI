@@ -1,15 +1,14 @@
 package selenium.pageObjects.seleniumeasy;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import selenium.utils.DriverUtil;
+
+import java.util.List;
 
 public class FormFillerPageObjects extends DriverUtil {
     private final static Logger LOG = LogManager.getLogger();

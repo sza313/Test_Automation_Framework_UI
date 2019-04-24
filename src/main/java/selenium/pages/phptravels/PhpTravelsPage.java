@@ -2,7 +2,6 @@ package selenium.pages.phptravels;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-
 import selenium.pageObjects.phptravels.PhpTravelPageObjects;
 
 public class PhpTravelsPage extends PhpTravelPageObjects {
@@ -19,11 +18,11 @@ public class PhpTravelsPage extends PhpTravelPageObjects {
      */
     public void clickToMenuItem(String menuName) {
         switch (menuName) {
-        case "MY ACCOUNT":
-            Assert.assertTrue("Could not click to " + menuName, clickToElement(this.myAccountItem));
-            break;
-        default:
-            Assert.fail("Could not find the requested item: " + menuName);
+            case "MY ACCOUNT":
+                Assert.assertTrue("Could not click to " + menuName, clickToElement(this.myAccountItem));
+                break;
+            default:
+                Assert.fail("Could not find the requested item: " + menuName);
         }
     }
 
@@ -35,14 +34,14 @@ public class PhpTravelsPage extends PhpTravelPageObjects {
      */
     public void clickToSubmenuItem(String submenuName) {
         switch (submenuName) {
-        case "Login":
-            Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.loginSubmenuItem));
-            break;
-        case "Sign Up":
-            Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.signUpSubmenuItem));
-            break;
-        default:
-            Assert.fail("Could not find the requested item: " + submenuName);
+            case "Login":
+                Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.loginSubmenuItem));
+                break;
+            case "Sign Up":
+                Assert.assertTrue("Could not click to " + submenuName, clickToElement(this.signUpSubmenuItem));
+                break;
+            default:
+                Assert.fail("Could not find the requested item: " + submenuName);
         }
     }
 
