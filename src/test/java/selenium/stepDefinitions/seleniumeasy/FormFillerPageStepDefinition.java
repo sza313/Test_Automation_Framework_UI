@@ -5,14 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import selenium.pages.seleniumeasy.FormFillerPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class FormFillerPage {
+public class FormFillerPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
-    private selenium.pages.seleniumeasy.FormFillerPage formFillerPage;
+    private FormFillerPage formFillerPage;
 
-    public FormFillerPage(CucumberTestContext testContext) {
-        formFillerPage = new selenium.pages.seleniumeasy.FormFillerPage(testContext.getWebDriver());
+    public FormFillerPageStepDefinition(CucumberTestContext testContext) {
+        formFillerPage = new FormFillerPage(testContext.getWebDriver());
         LOG.info(" initialized.");
     }
 

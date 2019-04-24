@@ -5,14 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import selenium.pages.seleniumeasy.BootstrapDatePickerPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class BootstrapDatePickerPage {
+public class BootstrapDatePickerPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
-    private selenium.pages.seleniumeasy.BootstrapDatePickerPage bootstrapDatePickerPage;
+    private BootstrapDatePickerPage bootstrapDatePickerPage;
 
-    public BootstrapDatePickerPage(CucumberTestContext testContext) {
-        bootstrapDatePickerPage = new selenium.pages.seleniumeasy.BootstrapDatePickerPage(testContext.getWebDriver());
+    public BootstrapDatePickerPageStepDefinition(CucumberTestContext testContext) {
+        bootstrapDatePickerPage = new BootstrapDatePickerPage(testContext.getWebDriver());
         LOG.info("initilized.");
     }
 

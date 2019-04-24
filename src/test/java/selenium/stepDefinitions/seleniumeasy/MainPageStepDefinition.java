@@ -11,13 +11,13 @@ import selenium.pages.seleniumeasy.SeleniumEasyMainPage;
 import selenium.parallel.context.CucumberTestContext;
 import selenium.parallel.drivercontroller.DriverController;
 
-public class MainPage {
+public class MainPageStepDefinition {
     private final Logger LOG = LogManager.getLogger(getClass());
     private SeleniumEasyMainPage seleniumEasyMainPage;
     private DriverController driverController;
     private CucumberTestContext testContext;
 
-    public MainPage(CucumberTestContext testContext) {
+    public MainPageStepDefinition(CucumberTestContext testContext) {
         this.testContext = testContext;
         LOG.info("initialized.");
     }

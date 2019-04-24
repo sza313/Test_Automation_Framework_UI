@@ -6,14 +6,15 @@ import org.apache.logging.log4j.Logger;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import selenium.pages.seleniumeasy.SimpleFormPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class SimpleFormPage {
+public class SimpleFormPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
-    private selenium.pages.seleniumeasy.SimpleFormPage simpleFormPage;
+    private SimpleFormPage simpleFormPage;
 
-    public SimpleFormPage(CucumberTestContext testContext) {
-        simpleFormPage = new selenium.pages.seleniumeasy.SimpleFormPage(testContext.getWebDriver());
+    public SimpleFormPageStepDefinition(CucumberTestContext testContext) {
+        simpleFormPage = new SimpleFormPage(testContext.getWebDriver());
         LOG.info(getClass().getName() + " initialized.");
     }
 

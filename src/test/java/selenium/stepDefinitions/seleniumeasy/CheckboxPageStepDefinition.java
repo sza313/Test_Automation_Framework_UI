@@ -5,14 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import selenium.pages.seleniumeasy.CheckboxPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class CheckboxPage {
+public class CheckboxPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
-    private selenium.pages.seleniumeasy.CheckboxPage checkboxPage;
+    private CheckboxPage checkboxPage;
 
-    public CheckboxPage(CucumberTestContext testContext) {
-        checkboxPage = new selenium.pages.seleniumeasy.CheckboxPage(testContext.getWebDriver());
+    public CheckboxPageStepDefinition(CucumberTestContext testContext) {
+        checkboxPage = new CheckboxPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }
 

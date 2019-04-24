@@ -6,11 +6,12 @@ import org.apache.logging.log4j.Logger;
 import cucumber.api.java.en.When;
 import selenium.parallel.context.CucumberTestContext;
 
-public class PhpTravelsPage {
+@Deprecated
+public class PhpTravelsPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
     private selenium.pages.phptravels.PhpTravelsPage phpTravelPage;
 
-    public PhpTravelsPage(CucumberTestContext testContext) {
+    public PhpTravelsPageStepDefinition(CucumberTestContext testContext) {
         phpTravelPage = new selenium.pages.phptravels.PhpTravelsPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }

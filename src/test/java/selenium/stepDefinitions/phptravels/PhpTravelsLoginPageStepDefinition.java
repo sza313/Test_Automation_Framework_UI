@@ -7,11 +7,12 @@ import cucumber.api.java.en.When;
 import selenium.pages.phptravels.PhpLoginPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class PhpTravelsLoginPage {
+@Deprecated
+public class PhpTravelsLoginPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
     private PhpLoginPage phpLoginPage;
 
-    public PhpTravelsLoginPage(CucumberTestContext testContext) {
+    public PhpTravelsLoginPageStepDefinition(CucumberTestContext testContext) {
         phpLoginPage = new PhpLoginPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }

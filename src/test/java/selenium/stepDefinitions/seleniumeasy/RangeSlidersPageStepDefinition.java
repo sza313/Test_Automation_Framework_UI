@@ -5,14 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import selenium.pages.seleniumeasy.RangeSlidersPage;
 import selenium.parallel.context.CucumberTestContext;
 
-public class RangeSlidersPage {
+public class RangeSlidersPageStepDefinition {
     private final static Logger LOG = LogManager.getLogger();
-    private selenium.pages.seleniumeasy.RangeSlidersPage rangeSlidersPage;
+    private RangeSlidersPage rangeSlidersPage;
 
-    public RangeSlidersPage(CucumberTestContext testContext) {
-        rangeSlidersPage = new selenium.pages.seleniumeasy.RangeSlidersPage(testContext.getWebDriver());
+    public RangeSlidersPageStepDefinition(CucumberTestContext testContext) {
+        rangeSlidersPage = new RangeSlidersPage(testContext.getWebDriver());
         LOG.info("initialized.");
     }
 
