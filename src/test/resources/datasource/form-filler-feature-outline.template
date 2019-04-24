@@ -1,0 +1,21 @@
+Feature: Generated feature file for data-driven scnearios - Form Filler on seleniumeasy.com
+
+    @DataDriven
+    Scenario Outline: generated scenario for Form filler
+        Given Open site with 'chrome'
+        And navigate to url 'https://www.seleniumeasy.com/test/input-form-demo.html'
+        When enter <firstname> for first name
+        And enter <lastname> for last name
+        And enter <email> for email
+        And enter <phone> for phone
+        And enter '<address>' for address
+        And enter '<city>' for city
+        And select '<state>' for state
+        And enter <zip> for zip
+        And enter <domain> for domain
+        And select radiobutton <hosting> for hosting
+        And enter '<project-description>' for project description
+        And submit form
+        Then page is reloaded.
+		Examples:
+			| firstname | lastname | email | phone | address | city | state | zip | domain | hosting | project-description |

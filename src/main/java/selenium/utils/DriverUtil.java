@@ -1,27 +1,21 @@
 package selenium.utils;
 
-import java.util.List;
-import java.util.Properties;
-
+import com.google.common.base.Optional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Optional;
+import java.util.List;
+import java.util.Properties;
 
 public class DriverUtil {
 
-    public static Properties properties = new Properties();
-    public WebDriver driver;
+    private Properties properties = new Properties();
+    private WebDriver driver;
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COULD_NOT_FIND_THE_REQUESTED_ELEMENT = "Could not find the requested element.";
@@ -49,7 +43,7 @@ public class DriverUtil {
 
     /**
      * Draws a red border around the clicked {@link WebElement}.
-     * 
+     *
      * @param element the {@link WebElement} to click
      * @return True, if the click was successful
      */
@@ -67,7 +61,7 @@ public class DriverUtil {
 
     /**
      * Clicks to a {@link WebElement} using JavaScript.
-     * 
+     *
      * @param element the {@link WebElement} to click
      * @return True, if the click was successful
      */
@@ -101,7 +95,7 @@ public class DriverUtil {
 
     /**
      * Draws a red border around the clicked {@link WebElement}s.
-     * 
+     *
      * @param elements the {@link WebElement}s to click
      * @return True, if the click was successful
      */
@@ -118,9 +112,9 @@ public class DriverUtil {
 
     /**
      * Writes a string into text box {@link WebElement}.
-     * 
+     *
      * @param textBox the text box {@link WebElement}
-     * @param text the string to insert
+     * @param text    the string to insert
      * @return True, if the insertion of text was successful
      */
     protected boolean writeIntoTextBox(WebElement textBox, String text) {
@@ -138,7 +132,7 @@ public class DriverUtil {
 
     /**
      * Clear the input of a {@link WebElement} using Selenium's clear() method.
-     * 
+     *
      * @param element {@link WebElement} to clear
      * @return True, if the clearance was successful
      */
@@ -155,7 +149,7 @@ public class DriverUtil {
 
     /**
      * Clear the input of a {@link WebElement} using BackSpace keys.
-     * 
+     *
      * @param textBox {@link WebElement} to clear
      * @return True, if the clearance was successful
      */
@@ -175,9 +169,9 @@ public class DriverUtil {
 
     /**
      * Compares a string to the text of a {@link WebElement}.
-     * 
+     *
      * @param elementWithText {@link WebElement} to compare the text to
-     * @param expectedText expected text
+     * @param expectedText    expected text
      * @return True, if the texts are equal
      */
     protected boolean compareString(WebElement elementWithText, String expectedText) {
@@ -185,7 +179,7 @@ public class DriverUtil {
             LOGGER.info("Comparing text '" + expectedText + "' with the text of the following element: NAME=" + getAttributeOrEmptyString(elementWithText, "name"));
             String actualText;
             if (elementWithText.getText()
-                               .isEmpty()) {
+                    .isEmpty()) {
                 actualText = getAttributeOrEmptyString(elementWithText, "value");
             } else {
                 actualText = elementWithText.getText();
@@ -199,9 +193,9 @@ public class DriverUtil {
 
     /**
      * Write random alphabetic string into text box {@link WebElement}.
-     * 
+     *
      * @param textBox {@link WebElement} to write text into
-     * @param length length of the random string to generate
+     * @param length  length of the random string to generate
      * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomAlphabeticString(WebElement textBox, int length) {
@@ -211,9 +205,9 @@ public class DriverUtil {
 
     /**
      * Write random numeric string into text box {@link WebElement}.
-     * 
+     *
      * @param textBox {@link WebElement} to write text into
-     * @param length length of the random string to generate
+     * @param length  length of the random string to generate
      * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomNumericString(WebElement textBox, int length) {
@@ -223,9 +217,9 @@ public class DriverUtil {
 
     /**
      * Write random alphanumeric string into text box {@link WebElement}.
-     * 
+     *
      * @param textBox {@link WebElement} to write text into
-     * @param length length of the random string to generate
+     * @param length  length of the random string to generate
      * @return True if the text is successfully written into the {@link WebElement}
      */
     public boolean writeRandomAlphanumericString(WebElement textBox, int length) {
@@ -235,7 +229,7 @@ public class DriverUtil {
 
     /**
      * Create random alphabetic string of given length.
-     * 
+     *
      * @param length length of the string to generate
      * @return Generated string
      */
@@ -245,7 +239,7 @@ public class DriverUtil {
 
     /**
      * Create random numeric string of given length.
-     * 
+     *
      * @param length length of the string to generate
      * @return Generated string
      */
@@ -255,7 +249,7 @@ public class DriverUtil {
 
     /**
      * Create random alphanumeric string of given length.
-     * 
+     *
      * @param length length of the string to generate
      * @return Generated string
      */
@@ -265,7 +259,7 @@ public class DriverUtil {
 
     /**
      * Checks if the certain text box {@link WebElement} is empty.
-     * 
+     *
      * @param textBox {@link WebElement} to check
      * @return True, if the {@link WebElement} is empty
      */
@@ -273,7 +267,7 @@ public class DriverUtil {
         try {
             LOGGER.info("Checking if the following element is empty. NAME=" + getAttributeOrEmptyString(textBox, "name"));
             return textBox.getText()
-                          .isEmpty();
+                    .isEmpty();
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
             return false;
@@ -282,10 +276,10 @@ public class DriverUtil {
 
     /**
      * Checks whether the sum of two numbers entered in text boxes are correctly calculated on a page.
-     * 
+     *
      * @param number1 first number's {@link WebElement}
      * @param number2 second number's {@link WebElement}
-     * @param sum sum's {@link WebElement}
+     * @param sum     sum's {@link WebElement}
      * @return True, if the addition was correct
      */
     protected boolean validateIfSumIsCorrect(WebElement number1, WebElement number2, WebElement sum) {
@@ -304,8 +298,8 @@ public class DriverUtil {
 
     /**
      * Sets the value of a checkbox to a required one.
-     * 
-     * @param checkbox the checkbox {@link WebElement} to set
+     *
+     * @param checkbox           the checkbox {@link WebElement} to set
      * @param checkboxValueToSet boolean value to set in the checkbox
      * @return result of comparison of actual and expected values
      */
@@ -335,9 +329,9 @@ public class DriverUtil {
 
     /**
      * Slides the handle of a range slider to a required value.
-     * 
+     *
      * @param rangeSlider range slider {@link WebElement}
-     * @param valueToSet value to set on slider
+     * @param valueToSet  value to set on slider
      * @return True, if the value could have been set
      */
     protected boolean moveRangeSliderToValue(WebElement rangeSlider, int valueToSet) {
@@ -345,7 +339,7 @@ public class DriverUtil {
             int minValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "min"));
             int maxValue = Integer.valueOf(getAttributeOrEmptyString(rangeSlider, "max"));
             LOGGER.info(String.format("Setting to '%d' the value of the following range slider: NAME=%s, MIN=%s, MAX=%s", valueToSet, getAttributeOrEmptyString(rangeSlider, "name"), minValue,
-                                      maxValue));
+                    maxValue));
             if (valueToSet < minValue || valueToSet > maxValue) {
                 LOGGER.error(String.format("The requested value is out of range. Min: %d, Max: %d, Expected: %d", minValue, maxValue, valueToSet));
                 return false;
@@ -371,7 +365,7 @@ public class DriverUtil {
 
     /**
      * Draws a red border around the found element.
-     * 
+     *
      * @param element {@link WebElement} to draw the red border around
      * @return True, if the element has been successfully bordered
      */
@@ -388,13 +382,13 @@ public class DriverUtil {
 
     /**
      * Waits for the page to load.
-     * 
+     *
      * @return True, if the page loaded before time out
      */
     protected boolean waitForPageToLoad() {
         try {
             LOGGER.info("Waiting for the page to load.");
-            WebDriverWait wait = new WebDriverWait(driver, Integer.valueOf(properties.getProperty("timeout")));
+            WebDriverWait wait = new WebDriverWait(driver, 120);
             return wait.until(new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver driver) {
@@ -409,7 +403,7 @@ public class DriverUtil {
 
     /**
      * Scrolls to element with JavaScript.
-     * 
+     *
      * @param element {@link WebElement} to scroll to
      * @return True, if the scrolling was successful.
      */
@@ -426,7 +420,7 @@ public class DriverUtil {
 
     /**
      * Scrolls to element with JavaScript with offset.
-     * 
+     *
      * @param element {@link WebElement} to scroll to
      * @param xOffset offset on the x axis
      * @param yOffset offset on the y axis
@@ -446,24 +440,24 @@ public class DriverUtil {
 
     /**
      * Compares the page title with the expected text.
-     * 
+     *
      * @param expectedTitle expexted title
      * @return True, if the title equals the expected text.
      */
     protected boolean comparePageTitle(String expectedTitle) {
         return driver.getTitle()
-                     .equals(expectedTitle);
+                .equals(expectedTitle);
     }
 
     protected boolean selectFromRadioButton(List<WebElement> webElements, String input) {
         try {
             if ("yes".equalsIgnoreCase(input)) {
                 webElements.get(0)
-                           .click();
+                        .click();
                 ;
             } else {
                 webElements.get(1)
-                           .click();
+                        .click();
             }
         } catch (NoSuchElementException e) {
             LOGGER.error(COULD_NOT_FIND_THE_REQUESTED_ELEMENT, e);
@@ -487,5 +481,13 @@ public class DriverUtil {
             LOGGER.error(String.format("'%s' attribute does not exist for element: '%s'", attribute, elementWithText));
         }
         return attributeValue.or("");
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 }
